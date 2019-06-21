@@ -1,8 +1,8 @@
-# circlhackweek
+# CirclHackweek
 a discord bot for circl (a hacknet clone, concept by [@taydev](https://github.com/taydev/circl)) in nodejs
 
-## our team
-mrjvs
-binaryoverload
-jameshawkinss
-deadlyfirex
+## Our team
+mrjvs (jvs)
+BinaryOverload (Binary)
+Jameshawkinss (James)
+DeadlyFirex (Deadly)
