@@ -1,2 +1,2 @@
 # circlhackweek
-a discord bot for circl (a hacknet clone, concept by @taydev) in nodejs
+a discord bot for circl (a hacknet clone, concept by [@taydev](https://github.com/taydev/circl)) in nodejs
