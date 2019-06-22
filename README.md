@@ -6,3 +6,4 @@ A Discord bot for Circl (a Hacknet clone, concept by [@taydev](https://github.co
  - [BinaryOverload](https://github.com/BinaryOverload)
  - [JamesHawkinss](https://github.com/JamesHawkinss)
  - [DeadlyFirex](https://github.com/DeadlyFirex)
+ - [ults](https://github.com/taydev)
