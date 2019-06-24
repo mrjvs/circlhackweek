@@ -1,10 +1,17 @@
 const db = require("../db.js");
+const utils = require("../utils.js");
 const constants = require("../constants.js");
 const randomString = require("randomstring");
 
 module.exports = async function (message, args) {
     let userId = message.author.username.replace("[^\w]", "") + message.author.discriminator.replace("0", "");
     let channel = await message.author.createDM();
+
+    let exists = await db.userModel.find({userId: userId});
+    if (exists.length !== 0) {
+        message.channel.send(utils.sendError("You already have an account, you cannot create another one."));
+        return;
+    }
 
     let password = randomString.generate({
         length: 7,
@@ -26,24 +33,21 @@ module.exports = async function (message, args) {
 
     newUser.save(function (err, user) {
         if (err) {
-            channel.send({
-                embed: {
-                    description: "We failed to save your user data! ;(",
-                    color: constants.embed_colors.error
-                }
-            })
+            channel.send(utils.sendError("We failed to save your user data! ;("));
         }
     });
 
     // Display information about the user: username + password
     // Display information about what to do next
-    message.channel.send({
-        embed: {
-            color: constants.embed_colors.info,
-            title: "Thanks for signing up!",
-            description: "We've sent you a DM with more information."
-        }
-    });
+    if (message.channel.type !== "dm") {
+        message.channel.send({
+            embed: {
+                color: constants.embed_colors.info,
+                title: "Thanks for signing up!",
+                description: "We've sent you a DM with more information."
+            }
+        });
+    }
     
     channel.send({
         embed: {

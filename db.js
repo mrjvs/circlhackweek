@@ -2,7 +2,7 @@ const Mongoose = require('mongoose');
 let connection;
 
 async function init(connectionString) {
-    Mongoose.connect(connectionString, {useNewUrlParser: true});
+    Mongoose.connect(connectionString, {useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false});
     connection = Mongoose.connection;
     connection.on('error', function (err) {
         console.log("connnection error:" + err);
