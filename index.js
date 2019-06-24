@@ -1,9 +1,11 @@
 // libs
 const Discord = require('discord.js');
 const client = new Discord.Client();
+const randomString = require("randomstring");
 
 // local imports
 const signupCommand = require('./commands/signup.js')
+const stateMachine = require('../statemachine.js');
 
 // config
 const config = require('./config.json');
@@ -18,10 +20,11 @@ client.on('message', (message) => {
 
     // signup command is the only command allowed outside of DM's
     if (message.content.startsWith(config.prefix + 'signup')) {
-        return signupCommand(message);
+        let args = message.content.split(" ");
+        args.shift();
+        return signupCommand(message, args);
     }
 
-    // only allow these commands to run in DM's
     if (message.content.startsWith(config.prefix) && message.channel.type == 'dm') {
         
     }

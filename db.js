@@ -34,9 +34,18 @@ const ServerSchema = new Mongoose.Schema({
 
 const serverModel = Mongoose.model("server", ServerSchema);
 
+const userSchema = new Mongoose.Schema({
+    userId: String,
+    serverIp: String
+});
+
+const userModel = Mongoose.model("user", userSchema);
+
 module.exports = {
     init,
     connection,
     ServerSchema,
-    serverModel
+    serverModel,
+    userSchema,
+    userModel
 }
