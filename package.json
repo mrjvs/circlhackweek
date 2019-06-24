@@ -1,0 +1,24 @@
+{
+  "name": "circlhackweek",
+  "version": "1.0.0",
+  "description": "A Discord bot for circl (a game-bot similar to Hacknet, concept by [@taydev](https://github.com/taydev/circl)) in [Node.js](https://nodejs.org/en/). This is our entry into the Discord Community Hack Week competition.",
+  "main": "index.js",
+  "dependencies": {
+    "discord.js": "^11.5.1",
+    "mongoose": "^5.6.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "run": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrjvs/circlhackweek.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mrjvs/circlhackweek/issues"
+  },
+  "homepage": "https://github.com/mrjvs/circlhackweek#readme"
+}
