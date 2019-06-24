@@ -1,14 +1,15 @@
 // libs
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const randomString = require("randomstring");
-
-// local imports
-const signupCommand = require('./commands/signup.js')
-const stateMachine = require('../statemachine.js');
 
 // config
 const config = require('./config.json');
+
+// local imports
+const db = require('./db.js');
+db.init(config.connectionString);
+const signupCommand = require('./commands/signup.js')
+const stateMachine = require('./statemachine.js');
 
 client.on('ready', () => {
     console.log('Welcome to Circl!');

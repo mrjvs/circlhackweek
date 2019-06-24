@@ -41,5 +41,5 @@ class StateMachine {
 }
 
 // make and export instance
-const INS = StateMachine();
+const INS = new StateMachine();
 module.exports = INS;

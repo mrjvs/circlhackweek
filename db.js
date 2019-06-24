@@ -2,9 +2,14 @@ const Mongoose = require('mongoose');
 let connection;
 
 async function init(connectionString) {
-    connection = Mongoose.connect(connectionString, {useNewUrlParser: true});
-    connection.on('error', console.error.bind(console, 'connection error:'));
-    await connection.once('open');
+    Mongoose.connect(connectionString, {useNewUrlParser: true});
+    connection = Mongoose.connection;
+    connection.on('error', function (err) {
+        console.log("connnection error:" + err);
+    });
+    connection.once('open', function () {
+        // yay?
+    });
     return true;
 }
 
@@ -34,9 +39,41 @@ const ServerSchema = new Mongoose.Schema({
 
 const serverModel = Mongoose.model("server", ServerSchema);
 
+ServerSchema.statics.blacklistedIps = [
+    "127.0.0.1",
+    "0.0.0.0",
+    "255.255.255.0",
+    "192.168.1.1",
+    "192.168.1.255"
+];
+
+async function generateUniqueIp() {
+    let isUnique = false;
+    let newIp;
+    while (!isUnique) {
+        // generate new ip
+        newIp = (Math.floor(Math.random() * 255) + 1) + "." + 
+            (Math.floor(Math.random() * 255) + 0) + "." + 
+            (Math.floor(Math.random() * 255) + 0) + "." + 
+            (Math.floor(Math.random() * 255) + 0);
+
+        
+        // check if unique
+        const doc = await serverModel.find({ip: newIp});
+        isUnique = !doc || !this.blacklistedIps.includes(newIp);
+    }
+    return newIp;
+}
+
+ServerSchema.statics.generateUniqueIp = generateUniqueIp;
+
 const userSchema = new Mongoose.Schema({
-    userId: String,
-    serverIp: String
+    userId: {
+        unique: true,
+        type: String
+    },
+    serverIp: String,
+    password: String
 });
 
 const userModel = Mongoose.model("user", userSchema);
