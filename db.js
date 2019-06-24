@@ -1,19 +1,42 @@
-const mongoose = require('mongoose');
+const Mongoose = require('mongoose');
 let connection;
 
 async function init(connectionString) {
-    connection = mongoose.connect(connectionString, {useNewUrlParser: true});
+    connection = Mongoose.connect(connectionString, {useNewUrlParser: true});
     connection.on('error', console.error.bind(console, 'connection error:'));
     await connection.once('open');
     return true;
 }
 
+const ServerSchema = new Mongoose.Schema({
+    ip: {
+        unique: true,
+        type: String
+    },
+    linked: [
+        String
+    ],
+    ports: {
+        requiredAmount: Number,
+        portList: [{
+            portNumber: Number,
+            portType: String
+        }]
+    },
+    files: [{
+        // stored as js objects, more info in another flowchart
+    }],
+    credentials: {
+        username: String,
+        password: String // passwords in-game, not real passwords, not encrypted.
+    }
+});
 
-
-
+const serverModel = Mongoose.model("server", ServerSchema);
 
 module.exports = {
     init,
     connection,
-
+    ServerSchema,
+    serverModel
 }
