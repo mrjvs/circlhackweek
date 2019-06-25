@@ -40,22 +40,19 @@ module.exports = {
                 }
 
                 let pathToContents = (file.path + ".contents");
-                console.log(pathToContents)
-
                 let obj = server.get(pathToContents);
                 // remove everything in dir
                 for (let i = file.contents.length - 1; i >= 0; i--) {
                     if (file.contents[i].type === "file") {
                         // remove if file.
-                        console.log(JSON.stringify(obj, undefined, 2));
                         obj.splice(i, 1);
                     }
                 }
-                console.log(JSON.stringify(obj, undefined, 2));
+
+                const newServer = (await db.serverModel.find({ ip: connectedServer }))[0];
+                newServer.set(pathToContents, obj);
                 delete file.path;
-                server.set(pathToContents, obj);
-                server.save((err, server) => {
-                    console.log(JSON.stringify(server, undefined, 2))
+                newServer.save((err, server) => {
                     if (err) {
                         console.log(error);
                         return message.channel.send(utils.sendError("Could not save the server ☹"));
@@ -77,18 +74,15 @@ module.exports = {
 
                 let pathToContents = file.path.substring(0, file.path.lastIndexOf("."));
                 const fileIndex = file.path.slice(-1);
-
+                
                 let obj = server.get(pathToContents);
-                obj.splice(fileIndex, 1);
-
-                server.set(pathToContents, obj);
-                server.save((err, server) => {
-                    console.log(server.files[1].contents);
-                    if (err) {
-                        console.log(error);
-                        return message.channel.send(utils.sendError("Could not save the server ☹"));
-                    }
-                    return message.channel.send(utils.sendSuccess("Deleted file!"));
+                obj.splice(0, 1);
+                const newServer = (await db.serverModel.find({ ip: connectedServer }))[0];
+                newServer.set(pathToContents, obj);
+                delete file.path;
+                newServer.save().then((updatedstuff) => {
+                    console.log(updatedstuff);
+                    return message.channel.send(utils.sendInfo("did something!"));
                 });
             }
         }
