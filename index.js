@@ -12,6 +12,7 @@ const db = require('./db.js');
 db.init(config.connectionString);
 const signupCommand = require('./commands/signup.js')
 const stateMachine = require('./statemachine.js');
+const utils = require('./utils.js');
 
 // dynamic command loading
 const commands = [];
@@ -27,7 +28,7 @@ client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}.`);
 });
 
-client.on('message', (message) => {
+client.on('message', async (message) => {
     if (message.author.bot) return; // disallow bots from using commands
     if (!message.content.startsWith(config.prefix)) return; // doesnt start with prefix so its not a command
 
@@ -35,21 +36,33 @@ client.on('message', (message) => {
     const messageCommand = args.shift().substring(config.prefix.length); // remove prefix from text
 
     // check if text is a command
+    let command;
     for (let i in commands) {
-        // check if command is only for dm's
-        if (message.channel.type === 'dm' && commands[i].dmOnly || !commands[i].dmOnly) {
-            if (messageCommand === commands[i].name) {
-                commands[i].execute(message, args);
-            } else {
-                // check aliases
-                for (let aliasIndex in commands[i].aliases) {
-                    if (messageCommand === commands[i].aliases[aliasIndex]) {
-                        commands[i].execute(message, args);
-                    }
+        if (messageCommand === commands[i].name) {
+            command = commands[i];
+        } else {
+            // check aliases
+            for (let aliasIndex in commands[i].aliases) {
+                if (messageCommand === commands[i].aliases[aliasIndex]) {
+                    command = commands[i];
                 }
             }
         }
     }
+
+    if (command) {
+        const isSignedUp = await utils.isSignedUp(message.author.id);
+        if (!isSignedUp && command.signedUpOnly) {
+            return message.channel.send(utils.sendError("You need to be signed up to run this command!"));
+        }
+        // check if command is only for dm's
+        /*if (message.channel.type !== 'dm' && command.dmOnly) {
+            return message.channel.send(utils.sendError("This command can only be ran in DMs!"));
+        }*/ // dev purposes
+        console.log(`User ${message.author.username}#${message.author.discriminator} executed command ${messageCommand} with args ${args}`);
+        command.execute(message, args)
+    }
+
 });
 
 client.login(config.token);

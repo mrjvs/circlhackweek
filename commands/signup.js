@@ -1,19 +1,20 @@
 const db = require("../db.js");
 const utils = require("../utils.js");
 const constants = require("../constants.js");
+const quests = require('../quests.js');
 const randomString = require("randomstring");
-
 
 module.exports = {
     name: "signup",
     aliases: [],
     dmOnly: false,
-    execute: async function (message, args) {
-        let userId = message.author.username.replace("[^\w]", "") + message.author.discriminator.replace("0", "");
+    execute: async (message, args) => {
+        const username = message.author.username.replace("[^\w]", "") + message.author.discriminator.replace("0", "");
+        const userId = message.author.id;
         let channel = await message.author.createDM();
     
-        let exists = await db.userModel.find({userId: userId});
-        if (exists.length !== 0) {
+        let foundUsers = await db.userModel.find({userId: userId});
+        if (foundUsers.length !== 0) {
             message.channel.send(utils.sendError("You already have an account, you cannot create another one."));
             return;
         }
@@ -26,14 +27,24 @@ module.exports = {
         let uniqueIp = await db.ServerSchema.statics.generateUniqueIp();
     
         let newServer = new db.serverModel({
-            ip: uniqueIp
+            ip: uniqueIp,
+            files: quests.newUserFS,
+            credentials: {
+                user: username,
+                pass: password
+            }
         });
         newServer = await newServer.save();
         const serverIp = newServer.ip;
         const newUser = new db.userModel({
             userId,
-            password,
-            serverIp
+            serverIp,
+            keychain: {
+                local: {
+                    user: username,
+                    pass: password
+                }
+            }
         });
     
         newUser.save(function (err, user) {
@@ -76,7 +87,7 @@ module.exports = {
                 },
                 {
                     name: "Your User Information",
-                    value: `Username: \`${newUser.userId}\`\n Password: \`${newUser.password}\`\n Your IP: \`${newUser.serverIp}\``
+                    value: `Username: \`${newUser.username}\`\n Password: \`${newUser.password}\`\n Your IP: \`${newUser.serverIp}\``
                 }
                 ]
             }

@@ -27,7 +27,7 @@ class StateMachine {
     }
 
     // clear a user's states
-    clearUserStates() {
+    clearUserStates(userId) {
         if (!this.StateStorage[userId]) return;
         delete this.StateStorage[userId];
         return true;
