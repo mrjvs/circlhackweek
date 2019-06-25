@@ -24,7 +24,7 @@ module.exports = {
         let hasWildcard = false;
         // wildcard support
         if (pathInput.endsWith("*")) {
-            pathInput = pathInput.slice(0,-1);
+            pathInput = pathInput.slice(0, -1);
             hasWildcard = true;
         }
         const newPath = path.join(pathState, pathInput);
@@ -38,14 +38,24 @@ module.exports = {
                     // if wildcard and is file, path is invalid.
                     return message.channel.send(utils.sendError("Invalid path!"));
                 }
+
+                let pathToContents = (file.path + ".contents");
+                console.log(pathToContents)
+
+                let obj = server.get(pathToContents);
                 // remove everything in dir
-                for (let i = 0; i < file.contents.length; i++) {
+                for (let i = file.contents.length - 1; i >= 0; i--) {
                     if (file.contents[i].type === "file") {
                         // remove if file.
-                        server.set(file.path + ".contents." + i, undefined); // TODO rework the error, not set to null
+                        console.log(JSON.stringify(obj, undefined, 2));
+                        obj.splice(i, 1);
                     }
                 }
+                console.log(JSON.stringify(obj, undefined, 2));
+                delete file.path;
+                server.set(pathToContents, obj);
                 server.save((err, server) => {
+                    console.log(JSON.stringify(server, undefined, 2))
                     if (err) {
                         console.log(error);
                         return message.channel.send(utils.sendError("Could not save the server ☹"));
@@ -73,7 +83,7 @@ module.exports = {
 
                 server.set(pathToContents, obj);
                 server.save((err, server) => {
-                    console.log(JSON.stringify(server, undefined, 2));
+                    console.log(server.files[1].contents);
                     if (err) {
                         console.log(error);
                         return message.channel.send(utils.sendError("Could not save the server ☹"));

@@ -50,14 +50,12 @@ function explorePath(array, pathParts, parentPath) {
     } else if (filteredFiles[0].type === "file") {
         let index = array.indexOf(filteredFiles[0]);
         filteredFiles[0].path = parentPath + "." + index;
-        console.log(filteredFiles[0]);
         return filteredFiles[0];
     } else if (filteredFiles[0].type === "dir") {
         let index = array.indexOf(filteredFiles[0]);
         if (pathParts.length === 1) {
             // dir is final in file tree
             filteredFiles[0].path = parentPath + "." + index;
-            console.log(filteredFiles[0]);
             return filteredFiles[0];
         }
         return explorePath(filteredFiles[0].contents, pathParts.slice(1), parentPath + "." + index + ".contents");

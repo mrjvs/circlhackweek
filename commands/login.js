@@ -30,9 +30,9 @@ module.exports = {
                         pass: cred.pass
                     });
                     return message.channel.send(utils.sendSuccess(
-                        `Signed in using Keychain!
-                    Username: ${cred.user}
-                    Password: ${"\\*".repeat(cred.user.length)}`));
+                        `Signed in using keychain!
+                    Username: \`${cred.user}\`
+                    Password: \`${"*".repeat(cred.user.length)}\``));
                 }
             }
             message.channel.send(utils.sendError("Could not login using keychain! Use `$login <user> <pass>` instead!"))

@@ -37,7 +37,7 @@ module.exports = {
                 pass: password
             },
             ports: {
-                requiredAmount: 9,
+                requiredAmount: 1,
                 portList: [{
                     portNumber: 21,
                     portType: "ssh"

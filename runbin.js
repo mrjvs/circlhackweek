@@ -20,7 +20,7 @@ async function runFromBin(command, message, args) {
     
     const externalServer = (await db.serverModel.find({ip: connectedServer}))[0];
     // run code from file
-    exe.execute(utils, externalServer, message, args);
+    exe.execute(utils, user, externalServer, message, args);
 }
 
 module.exports = runFromBin;
