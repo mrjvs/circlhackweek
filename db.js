@@ -31,7 +31,7 @@ const ServerSchema = new Mongoose.Schema({
     files: Array,
     credentials: {
         user: String,
-        pass: String // passwords in-game, not real passwords, not encrypted.
+        pass: String // passwords in-game, not real passwords, not encrypted. doesn't protect any actual data.
     }
 });
 

@@ -57,8 +57,21 @@ module.exports = {
                     // only delete a single file, dir's cant be removed.
                     return message.channel.send(utils.sendError("Can only be run on files!"));
                 }
-                // remove file[null, file, file]
-                server.set(file.path, undefined); // TODO rework the error, not set to null
+
+                /*
+                    This removes an element from a mongoDB array
+                    in a very hacky and unmaintainable way,
+                    Don't mess with it, it works ❤
+                    "If it ain't broke, don't fix it!"
+                */
+
+                let pathToContents = file.path.substring(0, file.path.lastIndexOf("."));
+                const fileIndex = file.path.slice(-1);
+
+                let obj = server.get(pathToContents);
+                obj.splice(fileIndex, 1);
+
+                server.set(pathToContents, obj);
                 server.save((err, server) => {
                     console.log(JSON.stringify(server, undefined, 2));
                     if (err) {
