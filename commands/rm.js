@@ -48,7 +48,7 @@ module.exports = {
                         obj.splice(i, 1);
                     }
                 }
-
+                
                 const newServer = (await db.serverModel.find({ ip: connectedServer }))[0];
                 newServer.set(pathToContents, obj);
                 delete file.path;
