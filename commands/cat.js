@@ -26,11 +26,11 @@ module.exports = {
         const newPath = path.join(pathState, pathInput);
 
         const file = utils.explorePath(server.files, utils.splitPath(newPath), "files");
-        if (file === false) {
+        if (!file) {
             return message.channel.send(utils.sendError("Invalid path!"));
         } else if (file.type !== "file") {
             return message.channel.send(utils.sendError("Can only be run on files!"));
         }
-        return message.channel.send(utils.sendInfo("- " + file.name + " -\n" + "```" + file.contents + "```"))
+        return message.channel.send(utils.sendInfo("- " + file.name + " -\n" + "```" + file.contents + "```"));
     }
 }
