@@ -19,6 +19,11 @@ const newUserFS = [
                 type: "file",
                 name: "clock.exe",
                 contents: "RUN2"
+            },
+            {
+                type: "file",
+                name: "sqlinject.exe",
+                contents: "RUN3"
             }
         ]
     },

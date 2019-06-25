@@ -36,6 +36,9 @@ module.exports = {
         stateMachine.setState(message.author.id, "connectedServer", server.ip);
         stateMachine.setState(message.author.id, "path", "/");
 
+        // reset opened ports on new connect
+        stateMachine.clearState(message.author.id, "openedPorts");
+
 
         message.channel.send({
             embed: {

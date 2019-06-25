@@ -45,6 +45,10 @@ module.exports = {
                 {
                     portNumber: 80,
                     portType: "web"
+                },
+                {
+                    portNumber: 69,
+                    portType: "sql" 
                 }]
             },
             linked: []

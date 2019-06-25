@@ -57,9 +57,10 @@ module.exports = {
                     // only delete a single file, dir's cant be removed.
                     return message.channel.send(utils.sendError("Can only be run on files!"));
                 }
-                // remove file
+                // remove file[null, file, file]
                 server.set(file.path, undefined); // TODO rework the error, not set to null
                 server.save((err, server) => {
+                    console.log(JSON.stringify(server, undefined, 2));
                     if (err) {
                         console.log(error);
                         return message.channel.send(utils.sendError("Could not save the server ☹"));
