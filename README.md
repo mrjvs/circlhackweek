@@ -1,16 +1,12 @@
 # CirclHackweek 
 A Discord bot for circl (a game-bot similar to Hacknet, concept by [@taydev](https://github.com/taydev/circl)) in [Node.js](https://nodejs.org/en/). This is our entry into the Discord Community Hack Week competition.
 
-<<<<<<< HEAD
 ## Collaboration
 We've made everything in vscode live share. Every commit from mrjvs is actually from all of us. We don't like merge conflicts so the live share thing was the best option.
 
-## Our team
-=======
 Check out the official [Discord Hackweek server](https://discord.gg/hackweek) to find out more about the competition.
 
 ## Our Team
->>>>>>> 4a0d8f3f812c34495ae2e041db0d2ae86a135ce9
  - [mrjvs](https://github.com/mrjvs)
  - [BinaryOverload](https://github.com/BinaryOverload)
  - [JamesHawkinss](https://github.com/JamesHawkinss)
