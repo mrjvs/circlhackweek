@@ -28,9 +28,7 @@ const ServerSchema = new Mongoose.Schema({
             portType: String
         }]
     },
-    files: [
-        Object
-    ],
+    files: Array,
     credentials: {
         user: String,
         pass: String // passwords in-game, not real passwords, not encrypted.
@@ -73,7 +71,14 @@ const userSchema = new Mongoose.Schema({
         type: String
     },
     serverIp: String,
-    keychain: Object
+    keychain: Array
+    /*
+        {
+            ip:
+            user:
+            pass:
+        }
+    */
 });
 
 const userModel = Mongoose.model("user", userSchema);

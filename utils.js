@@ -1,6 +1,8 @@
 const constants = require("./constants.js");
 const db = require("./db.js");
 const Path = require('path');
+const scripts = require("./scripts");
+const stateMachine = require('./statemachine.js');
 
 function sendError(errorText) {
     return {
@@ -16,6 +18,15 @@ function sendInfo(infoText) {
         embed: {
             color: constants.embed_colors.info,
             description: infoText
+        }
+    }
+}
+
+function sendSuccess(successText) {
+    return {
+        embed: {
+            color: constants.embed_colors.success,
+            description: successText
         }
     }
 }
@@ -61,11 +72,30 @@ async function isSignedUp(userId) {
     return foundUsers.length === 1;
 }
 
+function hasAdminAccess(userId) {
+    const serverIp = stateMachine.getState(userId, "connectedServer");
+    if (!serverIp) return false;
+    const loginState = stateMachine.getState(userId, "loginState");
+    return loginState && loginState.serverIp === serverIp;
+}
+
+function getFileExecutable(file) {
+    const code = file.contents;
+    const scriptCode = scripts.filter(val => val.code === code);
+    if (scriptCode.length === 0) {
+        return;
+    }
+    return scriptCode[0];
+}
+
 module.exports = {
     sendError,
     sendInfo,
+    sendSuccess,
     explorePath,
     filterPath,
     isSignedUp,
-    splitPath
+    splitPath,
+    getFileExecutable,
+    hasAdminAccess
 }

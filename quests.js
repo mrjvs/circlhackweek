@@ -12,8 +12,13 @@ const newUserFS = [
         contents: [
             {
                 type: "file",
-                name: "portHack.exe",
-                contents: "1234567890" // ???
+                name: "porthack.exe",
+                contents: "RUN1"
+            },
+            {
+                type: "file",
+                name: "clock.exe",
+                contents: "RUN2"
             }
         ]
     },
@@ -31,8 +36,8 @@ const newUserFS = [
     {
         type: "dir",
         name: "sys",
-        contents: [{}]
-    } 
+        contents: []
+    }
 ]
 
 module.exports = {

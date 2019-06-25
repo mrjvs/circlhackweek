@@ -1,13 +1,13 @@
-const utils = require("../utils.js");
-const path = require('path');
-const stateMachine = require('../statemachine.js');
 const db = require("../db.js");
+const utils = require("../utils.js");
+const stateMachine = require('../statemachine.js');
+const path = require('path');
 
 module.exports = {
-    name: "ls",
-    aliases: [],
+    name: "exec",
+    aliases: ["sh"],
     dmOnly: true,
-    signedUpOnly: true,
+    signUpOnly: true,
     needsAdmin: true,
     needsConnection: true,
     execute: async (message, args) => {
@@ -26,19 +26,16 @@ module.exports = {
         if (file === false) {
             return message.channel.send(utils.sendError("Invalid path!"));
         }
-        if (file.type === "file") {
-            return message.channel.send(utils.sendError("Can only be run on directories!"));
+        if (file.type === "dir") {
+            return message.channel.send(utils.sendError("You cannot execute directories!"));
         }
 
-        // reply with dir contents
-        let out = "";
-        out += "* .\n"
-        out += "* ..\n";
-        for (let i = 0; i < file.contents.length; i++) {
-            out += "* " + file.contents[i].name + "\n";
+        const exe = utils.getFileExecutable(file);
+        if (!exe) {
+            return message.channel.send(utils.sendError("File is not an executable!"));
         }
-        message.channel.send(out);
         
+        // run code from file
+        exe.execute(utils, message, args);
     }
 }
-

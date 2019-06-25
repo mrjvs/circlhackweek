@@ -2,9 +2,11 @@ const utils = require("../utils.js");
 const path = require('path');
 const stateMachine = require('../statemachine.js');
 const db = require("../db.js");
+const constants = require("../constants.js");
+const quests = require("../quests.js")
 
 module.exports = {
-    name: "cd",
+    name: "cat",
     aliases: [],
     dmOnly: true,
     signedUpOnly: true,
@@ -14,21 +16,21 @@ module.exports = {
         const connectedServer = stateMachine.getState(message.author.id, "connectedServer");
         const pathState = stateMachine.getState(message.author.id, "path");
 
-        const server = (await db.serverModel.find({ip: connectedServer}))[0];
+        if (args.length !== 1) {
+            return message.channel.send(utils.sendError("You need to enter the file name!"));
+        }
 
-        // parse inputted path
-        const pathInput = args[0] ? args[0] : ".";
+        const server = (await db.serverModel.find({ ip: connectedServer }))[0];
+
+        const pathInput = args[0] 
         const newPath = path.join(pathState, pathInput);
 
-        // check if valid path
         const file = utils.explorePath(server.files, utils.splitPath(newPath));
         if (file === false) {
             return message.channel.send(utils.sendError("Invalid path!"));
+        } else if (file.type !== "file") {
+            return message.channel.send(utils.sendError("Can only be run on files!"));
         }
-
-        // set new path
-        stateMachine.setState(message.author.id, "path", newPath);
-        message.channel.send("cd: " + newPath);
+        return message.channel.send(utils.sendInfo("- " + file.name + " -\n" + "```" + file.contents + "```"))
     }
 }
-

@@ -8,24 +8,27 @@ module.exports = {
     name: "signup",
     aliases: [],
     dmOnly: false,
+    needsAdmin: false,
+    signedUpOnly: false,
+    needsConnection: false,
     execute: async (message, args) => {
         const username = message.author.username.replace("[^\w]", "") + message.author.discriminator.replace("0", "");
         const userId = message.author.id;
         let channel = await message.author.createDM();
-    
-        let foundUsers = await db.userModel.find({userId: userId});
+
+        let foundUsers = await db.userModel.find({ userId: userId });
         if (foundUsers.length !== 0) {
             message.channel.send(utils.sendError("You already have an account, you cannot create another one."));
             return;
         }
-    
+
         let password = randomString.generate({
             length: 7,
             charset: "alphanumeric"
         });
-    
+
         let uniqueIp = await db.ServerSchema.statics.generateUniqueIp();
-    
+
         let newServer = new db.serverModel({
             ip: uniqueIp,
             files: quests.newUserFS,
@@ -39,20 +42,20 @@ module.exports = {
         const newUser = new db.userModel({
             userId,
             serverIp,
-            keychain: {
-                local: {
-                    user: username,
-                    pass: password
-                }
-            }
+            keychain: [{
+                ip: serverIp,
+                user: username,
+                pass: password
+            }],
         });
-    
+
         newUser.save(function (err, user) {
             if (err) {
                 channel.send(utils.sendError("We failed to save your user data! ;("));
+                console.log(err);
             }
         });
-    
+
         // Display information about the user: username + password
         // Display information about what to do next
         if (message.channel.type !== "dm") {
@@ -64,7 +67,7 @@ module.exports = {
                 }
             });
         }
-        
+
         channel.send({
             embed: {
                 title: "Welcome to Circl!",
@@ -87,7 +90,7 @@ module.exports = {
                 },
                 {
                     name: "Your User Information",
-                    value: `Username: \`${newUser.username}\`\n Password: \`${newUser.password}\`\n Your IP: \`${newUser.serverIp}\``
+                    value: `Username: \`${username}\`\n Password: \`${password}\`\n Your IP: \`${newUser.serverIp}\``
                 }
                 ]
             }

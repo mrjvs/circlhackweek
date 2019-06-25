@@ -2,7 +2,6 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const fs = require('fs');
-const path = require('path');
 
 // config
 const config = require('./config.json');
@@ -10,9 +9,9 @@ const config = require('./config.json');
 // local imports
 const db = require('./db.js');
 db.init(config.connectionString);
-const signupCommand = require('./commands/signup.js')
-const stateMachine = require('./statemachine.js');
 const utils = require('./utils.js');
+const runBin = require('./runbin.js');
+const stateMachine = require('./statemachine.js');
 
 // dynamic command loading
 const commands = [];
@@ -32,7 +31,7 @@ client.on('message', async (message) => {
     if (message.author.bot) return; // disallow bots from using commands
     if (!message.content.startsWith(config.prefix)) return; // doesnt start with prefix so its not a command
 
-    const args = message.content.split(" ");
+    const args = message.content.split(/\s+/);
     const messageCommand = args.shift().substring(config.prefix.length); // remove prefix from text
 
     // check if text is a command
@@ -55,12 +54,25 @@ client.on('message', async (message) => {
         if (!isSignedUp && command.signedUpOnly) {
             return message.channel.send(utils.sendError("You need to be signed up to run this command!"));
         }
+
+        const isConnected = stateMachine.getState(message.author.id, "connectedServer");
+        if (!isConnected && command.needsConnection) {
+            return message.channel.send(utils.sendError("You need to be connected to a server to run this command!"));
+        }
+        
+        const hasAdminAccess = utils.hasAdminAccess(message.author.id);
+        if (!hasAdminAccess && command.needsAdmin) {
+            return message.channel.send(utils.sendError("You need to have admin on the server to run this command!"));
+        }
+        
         // check if command is only for dm's
         /*if (message.channel.type !== 'dm' && command.dmOnly) {
             return message.channel.send(utils.sendError("This command can only be ran in DMs!"));
         }*/ // dev purposes
         console.log(`User ${message.author.username}#${message.author.discriminator} executed command ${messageCommand} with args ${args}`);
         command.execute(message, args)
+    } else {
+        await runBin(messageCommand, message, args);
     }
 
 });

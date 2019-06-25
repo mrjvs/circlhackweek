@@ -1,12 +1,14 @@
 const utils = require("../utils.js");
 const db = require("../db.js");
 const stateMachine = require('../statemachine.js');
+const constants = require('../constants.js');
 
 module.exports = {
     name: "connect",
     aliases: [],
     dmOnly: true,
     signedUpOnly: true,
+    needsConnection: false,
     execute: async (message, args) => {
         if (args.length != 1) {
             return message.channel.send(utils.sendError("Please enter the IP of the server you would like to connect to!"));
@@ -37,13 +39,14 @@ module.exports = {
 
         message.channel.send({
             embed: {
-                title: "You have successfully connected to the server!",
+                title: "You have successfully connected to the server! Please login using `$login`!",
                 fields: [
                     {
                         name: "IP",
                         value: server.ip
                     }
-                ]
+                ],
+                color: constants.embed_colors.success
             }
         });
     }
