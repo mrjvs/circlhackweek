@@ -18,7 +18,7 @@ const commands = [];
 const dir = fs.readdirSync('./commands');
 for (let i in dir) {
     const com = require('./commands/' + dir[i]);
-    console.log(`Loaded command: ${com.name}.`);
+    console.log(`Loaded command: $${com.name}`);
     commands.push(com);
 }
 

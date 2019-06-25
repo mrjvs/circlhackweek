@@ -3,7 +3,7 @@ const stateMachine = require('../statemachine.js');
 
 module.exports = {
     name: "disconnect",
-    aliases: [],
+    aliases: ["dc"],
     dmOnly: true,
     signedUpOnly: true,
     needsConnection: true,

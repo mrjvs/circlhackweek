@@ -2,11 +2,9 @@ const utils = require("../utils.js");
 const path = require('path');
 const stateMachine = require('../statemachine.js');
 const db = require("../db.js");
-const constants = require("../constants.js");
-const quests = require("../quests.js")
 
 module.exports = {
-    name: "cat",
+    name: "nano",
     aliases: [],
     dmOnly: true,
     signedUpOnly: true,
@@ -16,8 +14,8 @@ module.exports = {
         const connectedServer = stateMachine.getState(message.author.id, "connectedServer");
         const pathState = stateMachine.getState(message.author.id, "path");
 
-        if (args.length !== 1) {
-            return message.channel.send(utils.sendError("You need to enter the file name!"));
+        if (args.length < 2) {
+            return message.channel.send(utils.sendError("Usage: `$nano <filename> <contents>`!"))
         }
 
         const server = (await db.serverModel.find({ ip: connectedServer }))[0];
@@ -26,11 +24,25 @@ module.exports = {
         const newPath = path.join(pathState, pathInput);
 
         const file = utils.explorePath(server.files, utils.splitPath(newPath), "files");
+
         if (file === false) {
-            return message.channel.send(utils.sendError("Invalid path!"));
+            return message.channel.send(utils.sendError("Cannot find that file!"));
         } else if (file.type !== "file") {
             return message.channel.send(utils.sendError("Can only be run on files!"));
         }
-        return message.channel.send(utils.sendInfo("- " + file.name + " -\n" + "```" + file.contents + "```"))
+
+        let newContents = args;
+        newContents.shift();
+        server.set(file.path + ".contents", newContents.join(" "))
+        server.save((err, server) => {
+            if (err) {
+                console.log(error);
+                return message.channel.send(utils.sendError("Could not save the server ☹"));
+            }
+        });
+
+        message.channel.send(utils.sendSuccess(`Changed the contents of file \`${newPath}\``));
+
     }
 }
+

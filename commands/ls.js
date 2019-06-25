@@ -22,7 +22,7 @@ module.exports = {
         const pathParts = utils.splitPath(finalPath);
 
         // get file
-        const file = utils.explorePath(server.files, pathParts);
+        const file = utils.explorePath(server.files, pathParts, "files");
         if (file === false) {
             return message.channel.send(utils.sendError("Invalid path!"));
         }

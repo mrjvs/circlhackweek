@@ -21,7 +21,7 @@ module.exports = {
         const newPath = path.join(pathState, pathInput);
 
         // check if valid path
-        const file = utils.explorePath(server.files, utils.splitPath(newPath));
+        const file = utils.explorePath(server.files, utils.splitPath(newPath), "files");
         if (file === false) {
             return message.channel.send(utils.sendError("Invalid path!"));
         }

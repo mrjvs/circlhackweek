@@ -3,7 +3,7 @@ const db = require('./db.js');
 const utils = require('./utils.js');
 
 async function runFromBin(command, message, args) {
-    const connectedServer = stateMachine.getState(message.author.id, "connectedServer");
+    const connectedServer = stateMachine.getState(message.author.id, "connectedServer"); //TODO move to personal server
     if (!connectedServer) return; // not connected to server
 
     const server = (await db.serverModel.find({ip: connectedServer}))[0];

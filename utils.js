@@ -31,12 +31,13 @@ function sendSuccess(successText) {
     }
 }
 
-function explorePath(array, pathParts) {
+function explorePath(array, pathParts, parentPath) {
     // root, doesnt have a dir object
     if (pathParts.length === 0) {
         return {
             type: "dir",
-            contents: array
+            contents: array,
+            path: parentPath
         };
     }
 
@@ -47,13 +48,19 @@ function explorePath(array, pathParts) {
         // no files/dirs with name, invalid path
         return false;
     } else if (filteredFiles[0].type === "file") {
+        let index = array.indexOf(filteredFiles[0]);
+        filteredFiles[0].path = parentPath + "." + index;
+        console.log(filteredFiles[0]);
         return filteredFiles[0];
     } else if (filteredFiles[0].type === "dir") {
+        let index = array.indexOf(filteredFiles[0]);
         if (pathParts.length === 1) {
             // dir is final in file tree
+            filteredFiles[0].path = parentPath + "." + index;
+            console.log(filteredFiles[0]);
             return filteredFiles[0];
         }
-        return explorePath(filteredFiles[0].contents, pathParts.slice(1));
+        return explorePath(filteredFiles[0].contents, pathParts.slice(1), parentPath + "." + index + ".contents");
     } else {
         return false; // what?
     }
@@ -68,7 +75,7 @@ function splitPath(path) {
 }
 
 async function isSignedUp(userId) {
-    const foundUsers = await db.userModel.find({userId});
+    const foundUsers = await db.userModel.find({ userId });
     return foundUsers.length === 1;
 }
 
