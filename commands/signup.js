@@ -35,7 +35,19 @@ module.exports = {
             credentials: {
                 user: username,
                 pass: password
-            }
+            },
+            ports: {
+                requiredAmount: 9,
+                portList: [{
+                    portNumber: 21,
+                    portType: "ssh"
+                },
+                {
+                    portNumber: 80,
+                    portType: "web"
+                }]
+            },
+            linked: []
         });
         newServer = await newServer.save();
         const serverIp = newServer.ip;
