@@ -13,7 +13,6 @@ module.exports = {
     execute: async (message, args) => {
         const connectedServer = stateMachine.getState(message.author.id, "connectedServer");
         const server = (await db.serverModel.find({ip: connectedServer}))[0];
-        // TODO add to user server list
 
         // reply with linked servers
         if (!server.linked) return message.channel.send("No nearby servers found.");

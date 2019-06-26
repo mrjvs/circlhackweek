@@ -17,8 +17,8 @@ module.exports = {
         let ipToFind = args[0];
 
         // local addresses
+        const user = await db.userModel.find({userId: message.author.id});
         if (args[0] === "127.0.0.1" || args[0] === "localhost") {
-            const user = await db.userModel.find({userId: message.author.id});
             ipToFind = user[0].serverIp;
         }
         
@@ -36,11 +36,13 @@ module.exports = {
         stateMachine.setState(message.author.id, "connectedServer", server.ip);
         stateMachine.setState(message.author.id, "path", "/");
 
-        // TODO add to user server list
-
         // reset opened ports on new connect
         stateMachine.clearState(message.author.id, "openedPorts");
 
+        // add server to serverlist if new
+        if (!user.serverList[server.ip]) {
+            user.serverList[server.ip] = server.name;
+        }
 
         message.channel.send({
             embed: {

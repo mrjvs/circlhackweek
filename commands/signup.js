@@ -27,10 +27,11 @@ module.exports = {
             charset: "alphanumeric"
         });
 
-        let uniqueIp = await db.ServerSchema.statics.generateUniqueIp();
+        let uniqueIp = await db.serverModel.generateUniqueIp();
 
         let newServer = new db.serverModel({
             ip: uniqueIp,
+            name: username + "'s server",
             files: quests.newUserFS,
             credentials: {
                 user: username,
@@ -53,8 +54,11 @@ module.exports = {
             },
             linked: []
         });
+
         newServer = await newServer.save();
         const serverIp = newServer.ip;
+        let serverList = [];
+        serverList[serverIp] = newServer.name;
         const newUser = new db.userModel({
             userId,
             serverIp,
@@ -63,6 +67,9 @@ module.exports = {
                 user: username,
                 pass: password
             }],
+            serverList: {
+
+            }
         });
 
         newUser.save(function (err, user) {

@@ -1,7 +1,7 @@
 const constants = require("./constants.js");
 const db = require("./db.js");
 const Path = require('path');
-var _ = require('lodash');
+const _ = require('lodash');
 const scripts = require("./scripts");
 const stateMachine = require('./statemachine.js');
 
@@ -65,16 +65,39 @@ function explorePath(array, pathParts, parentPath) {
     }
 }
 
-function parseShortenedFileSystem(fileSysObj) {
-    let newFileSys = [];
-    for (key in fileSysObj.keys()) {
-        let pathParts = splitPath(path);
-        
+function parseShortenedFileSystem(fileSysTemplate) {
+    let structure = {};
+    const paths = Object.keys(fileSysTemplate);
+    for (let key in paths) {
+        let pathParts = filterPath(paths[key].split("/"));
+        _.set(structure, pathParts, fileSysTemplate[paths[key]]);
     }
+    console.log(JSON.stringify(structure, undefined, 2));
+    return convertTreeToFs(structure);
+}
+
+function convertTreeToFs(obj) {
+    let finalSys = [];
+
+    for (let key in obj) {
+        if (!obj[key]) {
+            // empty dir
+            finalSys.push(createFileSysObject(key));
+        } else if (typeof obj[key] === "string") {
+            // file
+            finalSys.push(createFileSysObject(key, obj[key]))
+        } else {
+            // dir with contents
+            let newContents = [];
+            newContents = convertTreeToFs(obj[key]);
+            finalSys.push(createFileSysObject(key, newContents));
+        }
+    }
+    return finalSys;
 }
 
 function createFileSysObject(name, contents) {
-    if (typeof contents === "object") {
+    if (!contents || typeof contents === "object") {
         return {
             type: "dir",
             name,
@@ -85,6 +108,23 @@ function createFileSysObject(name, contents) {
             type: "file",
             name,
             contents
+        }
+    }
+}
+
+async function createQuestServer(questServerName, questServer) {
+    return {
+        ip: await db.serverModel.generateUniqueIp(),
+        name: questServerName,
+        files: parseShortenedFileSystem(questeServer),
+        ports: questServer.ports,
+        linked: questServer.linked ? questServer.linked : [],
+        credentials: {
+            user: questServer.user ? questServer.user : "root",
+            pass: randomString.generate({
+                length: 7,
+                charset: "alphanumeric"
+            })
         }
     }
 }
@@ -127,5 +167,9 @@ module.exports = {
     isSignedUp,
     splitPath,
     getFileExecutable,
-    hasAdminAccess
+    hasAdminAccess,
+    parseShortenedFileSystem,
+    createQuestServer,
+    createFileSysObject,
+    convertTreeToFs
 }

@@ -18,6 +18,7 @@ const ServerSchema = new Mongoose.Schema({
         unique: true,
         type: String
     },
+    name: String,
     linked: [
         String
     ],
@@ -70,6 +71,7 @@ const userSchema = new Mongoose.Schema({
         unique: true,
         type: String
     },
+    ServerList: Object,
     serverIp: String,
     keychain: Array
     /*

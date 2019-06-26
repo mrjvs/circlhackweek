@@ -11,8 +11,15 @@ module.exports = {
     needsAdmin: false,
     needsConnection: false,
     execute: async (message, args) => {
-        // TODO get from user server list
-        message.channel.send('oof, not working yet.');
+        const user = (await db.userModel.find({userId: message.author.id}))[0];
+        const serverList = user.serverList;
+        const ips = Object.keys(serverList);
+
+        // reply with servers
+        let out = "Server list:\n";
+        for (let i = 0; i < ips.length; i++) {
+            out += `**${ips[i]}** - ${serverList[ips[i]]}\n`;
+        }
+        message.channel.send(out);
     }
 }
-
