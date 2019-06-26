@@ -6,6 +6,8 @@ const db = require("../db.js");
 module.exports = {
     name: "nano",
     aliases: [],
+    description: "Edits the contents of a file",
+    sendInHelp: true,
     dmOnly: true,
     signedUpOnly: true,
     needsAdmin: true,
@@ -15,7 +17,7 @@ module.exports = {
         const pathState = stateMachine.getState(message.author.id, "path");
 
         if (args.length < 2) {
-            return message.channel.send(utils.sendError("Usage: `$nano <filename> <contents>`!"))
+            return message.channel.send(utils.sendError("description: `$nano <filename> <contents>`!"))
         }
 
         const server = (await db.serverModel.find({ ip: connectedServer }))[0];

@@ -31,6 +31,11 @@ const newUserFS = [
                 type: "file",
                 name: "sshcrack.exe",
                 contents: constants.exe_codes.ssh
+            },
+            {
+                type: "file",
+                name: "illegal_hack.exe",
+                contents: constants.exe_codes.randomhack
             }
         ]
     },

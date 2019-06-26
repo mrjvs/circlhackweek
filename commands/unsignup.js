@@ -4,6 +4,8 @@ const utils = require("../utils.js");
 module.exports = {
     name: "unsignup",
     aliases: [],
+    description: "Wipes your user from the database",
+    sendInHelp: false,
     dmOnly: false,
     needsAdmin: false,
     signedUpOnly: true,

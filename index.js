@@ -70,7 +70,10 @@ client.on('message', async (message) => {
             return message.channel.send(utils.sendError("This command can only be ran in DMs!"));
         }*/ // dev purposes
         console.log(`User ${message.author.username}#${message.author.discriminator} executed command ${messageCommand} with args ${args}`);
-        command.execute(message, args)
+        
+        // hardcoded help command so it has the command list
+        if (command.name === "help") command.execute(message, args, commands);
+        else command.execute(message, args);
     } else {
         await runBin(messageCommand, message, args);
     }

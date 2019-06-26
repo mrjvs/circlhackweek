@@ -8,6 +8,8 @@ const questUtils = require('../questUtils.js');
 module.exports = {
     name: "signup",
     aliases: [],
+    description: "Signs you up",
+    sendInHelp: false,
     dmOnly: false,
     needsAdmin: false,
     signedUpOnly: false,

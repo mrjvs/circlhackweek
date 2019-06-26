@@ -5,6 +5,8 @@ const stateMachine = require('../statemachine.js');
 module.exports = {
     name: "login",
     aliases: [],
+    description: "Logs you in a server",
+    sendInHelp: true,
     dmOnly: true,
     signedUpOnly: true,
     needsAdmin: false,

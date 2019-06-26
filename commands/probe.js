@@ -4,6 +4,8 @@ const db = require("../db.js");
 module.exports = {
     name: "probe",
     aliases: ["nmap"],
+    description: "Looks up ports on a server   ",
+    sendInHelp: true,
     dmOnly: true,
     signedUpOnly: true,
     needsAdmin: false,

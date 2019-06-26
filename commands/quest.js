@@ -5,6 +5,8 @@ const db = require('../db.js')
 module.exports = {
     name: "quest",
     aliases: [],
+    description: "Command to manage quests",
+    sendInHelp: true,
     dmOnly: true,
     signedUpOnly: true,
     needsAdmin: false,

@@ -6,6 +6,8 @@ const constants = require('../constants.js');
 module.exports = {
     name: "connect",
     aliases: [],
+    description: "Connects you to a server",
+    sendInHelp: true,
     dmOnly: true,
     signedUpOnly: true,
     needsConnection: false,

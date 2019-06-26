@@ -6,6 +6,8 @@ const db = require("../db.js");
 module.exports = {
     name: "cat",
     aliases: [],
+    description: "Shows the contents of a file",
+    showInHelp: true,
     dmOnly: true,
     signedUpOnly: true,
     needsAdmin: true,

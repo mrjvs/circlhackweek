@@ -6,6 +6,8 @@ const db = require("../db.js");
 module.exports = {
     name: "cd",
     aliases: [],
+    description: "Changes to a different directory",
+    showInHelp: true,
     dmOnly: true,
     signedUpOnly: true,
     needsAdmin: true,

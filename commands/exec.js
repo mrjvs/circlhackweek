@@ -6,6 +6,8 @@ const path = require('path');
 module.exports = {
     name: "exec",
     aliases: ["sh"],
+    description: "Executes a program",
+    sendInHelp: true,
     dmOnly: true,
     signUpOnly: true,
     needsAdmin: true,
@@ -35,7 +37,9 @@ module.exports = {
             return message.channel.send(utils.sendError("File is not an executable!"));
         }
         
+        const user = (await db.serverModel.find({userId: message.author.id}))[0];
+
         // run code from file
-        exe.execute(utils, message, args);
+        exe.execute(utils, user, server, message, args);
     }
 }

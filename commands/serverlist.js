@@ -3,6 +3,8 @@ const db = require("../db.js");
 module.exports = {
     name: "serverlist",
     aliases: ["servers"],
+    description: "Lists all server you connected to",
+    sendInHelp: true,
     dmOnly: true,
     signedUpOnly: true,
     needsAdmin: false,

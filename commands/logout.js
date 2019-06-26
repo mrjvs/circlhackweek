@@ -4,6 +4,8 @@ const stateMachine = require('../statemachine.js');
 module.exports = {
     name: "logout",
     aliases: [],
+    description: "Logs you off a server",
+    sendInHelp: true,
     dmOnly: true,
     signedUpOnly: true,
     needsConnection: true,

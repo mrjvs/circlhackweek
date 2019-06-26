@@ -4,6 +4,8 @@ const db = require("../db.js");
 module.exports = {
     name: "scan",
     aliases: ["linked"],
+    description: "Scans linked servers of a server",
+    sendInHelp: true,
     dmOnly: true,
     signedUpOnly: true,
     needsAdmin: true,

@@ -6,6 +6,8 @@ const path = require('path');
 module.exports = {
     name: "rm",
     aliases: ["remove"],
+    description: "Removes a file",
+    sendInHelp: true,
     dmOnly: true,
     signUpOnly: true,
     needsAdmin: true,
@@ -81,7 +83,7 @@ module.exports = {
                 newServer.set(pathToContents, obj);
                 delete file.path;
                 newServer.save().then((updatedstuff) => {
-                    return message.channel.send(utils.sendInfo("did something!"));
+                    return message.channel.send(utils.sendInfo("Opertion done successfully!"));
                 });
             }
         }
