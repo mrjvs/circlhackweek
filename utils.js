@@ -5,6 +5,7 @@ const _ = require('lodash');
 const scripts = require("./scripts");
 const stateMachine = require('./statemachine.js');
 const randomString = require("randomstring");
+const config = require("./config.json");
 
 function sendError(errorText) {
     return {
@@ -173,6 +174,9 @@ function getFileExecutable(file) {
     return scriptCode[0];
 }
 
+function convertTokenToUrl(token) {
+    return `http://${config.host}/${token}/`;
+}
 module.exports = {
     sendError,
     sendInfo,
@@ -187,5 +191,6 @@ module.exports = {
     createQuestServer,
     createFileSysObject,
     convertTreeToFs,
-    hasFileContent
+    hasFileContent,
+    convertTokenToUrl
 }

@@ -110,7 +110,7 @@ const questServers = {
             "/home": false,
             "/sys": false,
             "/log/removed_file.txt": "user has deleted file.",
-            "/public/test/index.html": 
+            "/public/index.html": 
             `
             <style>body,html {background: black; padding: 1em; margin: 0;color: white}</style>
             <h1>Welcome to DogMart™</h1>

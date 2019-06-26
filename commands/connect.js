@@ -52,15 +52,22 @@ module.exports = {
             await user.save();
         }
 
+        let fields = [{
+            name: "IP",
+            value: server.ip
+        }];
+
+        if (server.serverType === "web") {
+            fields.push({
+                name: "WebServer",
+                value: utils.convertTokenToUrl(server.token)
+            });
+        }
+
         message.channel.send({
             embed: {
                 title: "You have successfully connected to the server! Please login using `$login`!",
-                fields: [
-                    {
-                        name: "IP",
-                        value: server.ip
-                    }
-                ],
+                fields,
                 color: constants.embed_colors.success
             }
         });
