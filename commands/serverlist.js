@@ -13,12 +13,11 @@ module.exports = {
     execute: async (message, args) => {
         const user = (await db.userModel.find({userId: message.author.id}))[0];
         const serverList = user.serverList;
-        const ips = Object.keys(serverList);
 
         // reply with servers
         let out = "Server list:\n";
-        for (let i = 0; i < ips.length; i++) {
-            out += `**${ips[i]}** - ${serverList[ips[i]]}\n`;
+        for (let i = 0; i < serverList.length; i++) {
+            out += `**${serverList[i].ip}** - ${serverList[i].name}\n`;
         }
         message.channel.send(out);
     }

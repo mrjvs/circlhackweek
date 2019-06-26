@@ -17,9 +17,9 @@ module.exports = {
         let ipToFind = args[0];
 
         // local addresses
-        const user = await db.userModel.find({userId: message.author.id});
+        const user = (await db.userModel.find({userId: message.author.id}))[0];
         if (args[0] === "127.0.0.1" || args[0] === "localhost") {
-            ipToFind = user[0].serverIp;
+            ipToFind = user.serverIp;
         }
         
         if (!ipToFind.match("[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}")) {
@@ -40,8 +40,13 @@ module.exports = {
         stateMachine.clearState(message.author.id, "openedPorts");
 
         // add server to serverlist if new
-        if (!user.serverList[server.ip]) {
-            user.serverList[server.ip] = server.name;
+        const filteredServerList = user.serverList.filter(val => val.ip === server.ip);
+        if (filteredServerList.length === 0) {
+            user.serverList.push({
+                ip: server.ip,
+                name: server.name
+            });
+            await user.save();
         }
 
         message.channel.send({

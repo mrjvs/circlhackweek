@@ -94,6 +94,7 @@ const questList = [
 
 const questServers = {
     "tutorial1": {
+        name: "Tutorial 1",
         fileSystem: {
             "/bin": false,
             "/home": false,
@@ -108,6 +109,7 @@ const questServers = {
         }
     },
     "tutorial2": {
+        name: "Tutorial 2",
         fileSystem: {
             "/bin": false,
             "/home/haha.txt": "Thought you could find the hack here? You're wrong. get rekt.",
@@ -126,6 +128,7 @@ const questServers = {
         ]
     },
     "tutorial3": {
+        name: "Tutorial 3",
         fileSystem: {
             "/bin/illegal_hack.exe": "RUN4",
             "/home": false,
@@ -137,10 +140,7 @@ const questServers = {
             portList: [
                 { portNumber: 21, portType: "ssh" }
             ]
-        },
-        linked: [
-            "tutorial3"
-        ]
+        }
     }
 }
 

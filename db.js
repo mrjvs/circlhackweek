@@ -13,7 +13,7 @@ async function init(connectionString) {
     return true;
 }
 
-const ServerSchema = new Mongoose.Schema({
+const serverSchema = new Mongoose.Schema({
     ip: {
         unique: true,
         type: String
@@ -36,9 +36,9 @@ const ServerSchema = new Mongoose.Schema({
     }
 });
 
-const serverModel = Mongoose.model("server", ServerSchema);
+const serverModel = Mongoose.model("server", serverSchema);
 
-ServerSchema.statics.blacklistedIps = [
+serverSchema.statics.blacklistedIps = [
     "127.0.0.1",
     "0.0.0.0",
     "255.255.255.0",
@@ -64,17 +64,20 @@ async function generateUniqueIp() {
     return newIp;
 }
 
-ServerSchema.statics.generateUniqueIp = generateUniqueIp;
+serverSchema.statics.generateUniqueIp = generateUniqueIp;
 
 const userSchema = new Mongoose.Schema({
     userId: {
         unique: true,
         type: String
     },
-    ServerList: Object,
+    serverList: Array,
     serverIp: String,
+    questServerList: Object,
+    activeQuest: Number,
     keychain: Array
     /*
+        Keychain object
         {
             ip:
             user:
@@ -88,7 +91,7 @@ const userModel = Mongoose.model("user", userSchema);
 module.exports = {
     init,
     connection,
-    ServerSchema,
+    serverSchema,
     serverModel,
     userSchema,
     userModel

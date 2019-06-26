@@ -3,6 +3,7 @@ const utils = require("../utils.js");
 const constants = require("../constants.js");
 const quests = require('../quests.js');
 const randomString = require("randomstring");
+const questUtils = require('../questUtils.js');
 
 module.exports = {
     name: "signup",
@@ -12,23 +13,26 @@ module.exports = {
     signedUpOnly: false,
     needsConnection: false,
     execute: async (message, args) => {
+        // make server admin username
         const username = message.author.username.replace("[^\w]", "") + message.author.discriminator.replace("0", "");
         const userId = message.author.id;
         let channel = await message.author.createDM();
 
+        // account check
         let foundUsers = await db.userModel.find({ userId: userId });
         if (foundUsers.length !== 0) {
             message.channel.send(utils.sendError("You already have an account, you cannot create another one."));
             return;
         }
 
+        // make server admin password
         let password = randomString.generate({
             length: 7,
             charset: "alphanumeric"
         });
 
-        let uniqueIp = await db.serverModel.generateUniqueIp();
-
+        // user local server
+        let uniqueIp = await db.serverSchema.statics.generateUniqueIp();
         let newServer = new db.serverModel({
             ip: uniqueIp,
             name: username + "'s server",
@@ -38,7 +42,7 @@ module.exports = {
                 pass: password
             },
             ports: {
-                requiredAmount: 1,
+                requiredAmount: 5,
                 portList: [{
                     portNumber: 21,
                     portType: "ssh"
@@ -56,9 +60,25 @@ module.exports = {
         });
 
         newServer = await newServer.save();
+        
+        // generate user specific quest servers
+        const questServers = quests.questServers;
+        let questIps = {};
+        for (let key in questServers) {
+            const questServerStructure = await utils.createQuestServer(questServers[key]);
+            console.log(JSON.stringify(questServerStructure, undefined, 2));
+            const questServer = new db.serverModel(questServerStructure);
+            await questServer.save();
+            questIps[key] = questServer.ip;
+        }
+
+        // save user to db
         const serverIp = newServer.ip;
         let serverList = [];
-        serverList[serverIp] = newServer.name;
+        serverList.push({
+            ip: serverIp,
+            name: newServer.name
+        });
         const newUser = new db.userModel({
             userId,
             serverIp,
@@ -67,17 +87,15 @@ module.exports = {
                 user: username,
                 pass: password
             }],
-            serverList: {
-
-            }
+            serverList,
+            questServerList: questIps
         });
 
-        newUser.save(function (err, user) {
-            if (err) {
-                channel.send(utils.sendError("We failed to save your user data! ;("));
-                console.log(err);
-            }
-        });
+        try {
+            await newUser.save();
+        } catch (err) {
+            channel.send(utils.sendError("We failed to save your user data! ;("));
+        }
 
         // Display information about the user: username + password
         // Display information about what to do next
@@ -91,6 +109,7 @@ module.exports = {
             });
         }
 
+        // send DM
         channel.send({
             embed: {
                 title: "Welcome to Circl!",
@@ -118,5 +137,8 @@ module.exports = {
                 ]
             }
         });
+
+        // start quest 0
+        await questUtils.startQuest(userId, 0, channel);
     }
 }

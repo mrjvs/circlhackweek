@@ -4,6 +4,7 @@ const Path = require('path');
 const _ = require('lodash');
 const scripts = require("./scripts");
 const stateMachine = require('./statemachine.js');
+const randomString = require("randomstring");
 
 function sendError(errorText) {
     return {
@@ -67,12 +68,11 @@ function explorePath(array, pathParts, parentPath) {
 
 function parseShortenedFileSystem(fileSysTemplate) {
     let structure = {};
-    const paths = Object.keys(fileSysTemplate);
-    for (let key in paths) {
-        let pathParts = filterPath(paths[key].split("/"));
-        _.set(structure, pathParts, fileSysTemplate[paths[key]]);
+    for (let key in fileSysTemplate) {
+        let pathParts = filterPath(key.split("/"));
+        if (_.get(structure, pathParts) && !fileSysTemplate[key]) continue;
+        _.set(structure, pathParts, fileSysTemplate[key]);
     }
-    console.log(JSON.stringify(structure, undefined, 2));
     return convertTreeToFs(structure);
 }
 
@@ -112,13 +112,14 @@ function createFileSysObject(name, contents) {
     }
 }
 
-async function createQuestServer(questServerName, questServer) {
+async function createQuestServer(questServer) {
+    const ip = await db.serverSchema.statics.generateUniqueIp();
     return {
-        ip: await db.serverModel.generateUniqueIp(),
-        name: questServerName,
-        files: parseShortenedFileSystem(questeServer),
+        ip,
+        name: questServer.name,
+        files: parseShortenedFileSystem(questServer.fileSystem),
         ports: questServer.ports,
-        linked: questServer.linked ? questServer.linked : [],
+        linked: questServer.linked ? questServer.linked : [], // <-- ip
         credentials: {
             user: questServer.user ? questServer.user : "root",
             pass: randomString.generate({
