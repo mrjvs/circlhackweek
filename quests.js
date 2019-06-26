@@ -71,7 +71,8 @@ const questList = [
             text: 'Hey thanks, I left that there on accident. I was sloppy',
             condition: {
                 type: "delete",
-                value: "user has deleted file."
+                value: "user has deleted file.",
+                server: "tutorial1"
             },
             next: {
                 type: "quest",
@@ -88,7 +89,7 @@ const questList = [
             text: 'Hey thanks, That file was a illegal hack.',
             condition: {
                 type: "delete",
-                value: "user has deleted file.",
+                value: constants.exe_codes.randomhack,
                 server: "tutorial3"
             }
         }

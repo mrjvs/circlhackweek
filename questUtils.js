@@ -43,10 +43,10 @@ async function endQuest(userId, quest, channel) {
     channel.send(`**COMPLETED QUEST:**\n\n${endText}`);
 
     // give reward
-    if (quest.next) {
-        if (quest.next.type === "quest") {
+    if (quest.end.next) {
+        if (quest.end.next.type === "quest") {
             // start new quest
-            return await startQuest(userId, quest.next.value, channel);
+            return await startQuest(userId, quest.end.next.value, channel);
         }
     }
 }

@@ -1,5 +1,6 @@
 const questUtils = require('../questUtils.js');
 const utils = require('../utils.js');
+const db = require('../db.js')
 
 module.exports = {
     name: "quest",
@@ -10,7 +11,12 @@ module.exports = {
     needsConnection: false,
     execute: async (message, args) => {
         if (!args[0]) {
-            return message.channel.send(utils.sendError("No arguments given!"));
+            const user = (await db.userModel.find({ userId: message.author.id }))[0];
+            if (typeof user.activeQuest === "undefined") {
+                return message.channel.send(utils.sendError("No active quest!"));
+            } else {
+                return message.channel.send(utils.sendSuccess("Your current quest number is " + user.activeQuest));
+            }
         }
         if (args[0] === "submit") {
             return questUtils.checkQuestGoal(message.author.id, message.channel);

@@ -72,7 +72,7 @@ function hasFileContent(content, obj) {
             // found file with content
             return true;
         } else if (obj[i].type === "dir") {
-            return hasFileContent(content, obj[i].contents);
+            if (hasFileContent(content, obj[i].contents)) return true;
         }
     }
     // no file found
