@@ -76,7 +76,7 @@ module.exports = {
                 const fileIndex = file.path.slice(-1);
                 
                 let obj = server.get(pathToContents);
-                obj.splice(0, 1);
+                obj.splice(fileIndex, 1);
                 const newServer = (await db.serverModel.find({ ip: connectedServer }))[0];
                 newServer.set(pathToContents, obj);
                 delete file.path;
