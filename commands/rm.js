@@ -81,7 +81,6 @@ module.exports = {
                 newServer.set(pathToContents, obj);
                 delete file.path;
                 newServer.save().then((updatedstuff) => {
-                    console.log(updatedstuff);
                     return message.channel.send(utils.sendInfo("did something!"));
                 });
             }

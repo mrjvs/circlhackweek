@@ -36,6 +36,8 @@ module.exports = {
         stateMachine.setState(message.author.id, "connectedServer", server.ip);
         stateMachine.setState(message.author.id, "path", "/");
 
+        // TODO add to user server list
+
         // reset opened ports on new connect
         stateMachine.clearState(message.author.id, "openedPorts");
 

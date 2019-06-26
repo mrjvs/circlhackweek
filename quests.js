@@ -43,8 +43,109 @@ const newUserFS = [
         name: "sys",
         contents: []
     }
+];
+
+/*
+* file system notation:
+* {
+*   `/bin/porthack.exe`: "RUN1", // dir is automatically built
+*   `/sys`: false, // false means its an empty dir
+*   `/home/welcome_to_circl.txt`: "Hi :)"
+* }
+*/
+
+const questList = [
+    { // quest 0
+        start: {
+            text: 'Hey welcome to circl server system. Please delete a log of a server. see linked server',
+            linkedServerKey: "tutorial1",
+        },
+        end: {
+            text: 'Hey thanks, I left that there on accident. I was sloppy',
+            condition: {
+                type: "delete",
+                value: "user has deleted file."
+            },
+            next: {
+                type: "quest",
+                value: 1
+            }
+        }
+    },
+    { // quest 1
+        start: {
+            text: 'Could you also delete a file named "illegalhack.exe", its somewhere on those servers.',
+            linkedServerKey: "tutorial2",
+        },
+        end: {
+            text: 'Hey thanks, That file was a illegal hack.',
+            condition: {
+                type: "delete",
+                value: "user has deleted file.",
+                server: "tutorial3"
+            },
+            next: {
+                type: "quest",
+                value: 2
+            }
+        }
+    }
 ]
 
+const questServers = {
+    "tutorial1": {
+        fileSystem: {
+            "/bin": false,
+            "/home": false,
+            "/sys": false,
+            "/log/removed_file.txt": "user has deleted file."
+        },
+        ports: {
+            requiredAmount: 1,
+            portList: [
+                { portNumber: 21, portType: "ssh" }
+            ]
+        }
+    },
+    "tutorial2": {
+        fileSystem: {
+            "/bin": false,
+            "/home/haha.txt": "Thought you could find the hack here? You're wrong. get rekt.",
+            "/home/secret/nope.txt": "Not here either. maybe trying to scan the server.",
+            "/sys": false,
+            "/log": false,
+        },
+        ports: {
+            requiredAmount: 1,
+            portList: [
+                { portNumber: 21, portType: "ssh" }
+            ]
+        },
+        linked: [
+            "tutorial3"
+        ]
+    },
+    "tutorial3": {
+        fileSystem: {
+            "/bin/illegal_hack.exe": "RUN4",
+            "/home": false,
+            "/sys": false,
+            "/log": false,
+        },
+        ports: {
+            requiredAmount: 1,
+            portList: [
+                { portNumber: 21, portType: "ssh" }
+            ]
+        },
+        linked: [
+            "tutorial3"
+        ]
+    }
+}
+
 module.exports = {
-    newUserFS
+    newUserFS,
+    questList,
+    questServers
 }

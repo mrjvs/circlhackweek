@@ -1,6 +1,7 @@
 const constants = require("./constants.js");
 const db = require("./db.js");
 const Path = require('path');
+var _ = require('lodash');
 const scripts = require("./scripts");
 const stateMachine = require('./statemachine.js');
 
@@ -61,6 +62,30 @@ function explorePath(array, pathParts, parentPath) {
         return explorePath(filteredFiles[0].contents, pathParts.slice(1), parentPath + "." + index + ".contents");
     } else {
         return false; // what?
+    }
+}
+
+function parseShortenedFileSystem(fileSysObj) {
+    let newFileSys = [];
+    for (key in fileSysObj.keys()) {
+        let pathParts = splitPath(path);
+        
+    }
+}
+
+function createFileSysObject(name, contents) {
+    if (typeof contents === "object") {
+        return {
+            type: "dir",
+            name,
+            contents
+        }
+    } else {
+        return {
+            type: "file",
+            name,
+            contents
+        }
     }
 }
 

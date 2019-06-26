@@ -56,5 +56,12 @@ module.exports = [
         execute: (utils, user, server, message, args) => {
             return message.channel.send(utils.sendInfo("Running the almighty `clock.exe`"));
         }
+    },
+    {
+        code: "RUN4",
+        name: "illegal_hack",
+        execute: (utils, user, server, message, args) => {
+            return message.channel.send(utils.sendInfo("Permission denied: `ip not in whitelist`"));
+        }
     }
 ];
