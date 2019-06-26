@@ -53,7 +53,7 @@ module.exports = {
                 },
                 {
                     portNumber: 69,
-                    portType: "sql" 
+                    portType: "sql"
                 }]
             },
             linked: []
@@ -66,7 +66,6 @@ module.exports = {
         let questIps = {};
         for (let key in questServers) {
             const questServerStructure = await utils.createQuestServer(questServers[key]);
-            console.log(JSON.stringify(questServerStructure, undefined, 2));
             const questServer = new db.serverModel(questServerStructure);
             await questServer.save();
             questIps[key] = questServer.ip;

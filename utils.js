@@ -82,7 +82,7 @@ function convertTreeToFs(obj) {
     for (let key in obj) {
         if (!obj[key]) {
             // empty dir
-            finalSys.push(createFileSysObject(key));
+            finalSys.push(createFileSysObject(key, []));
         } else if (typeof obj[key] === "string") {
             // file
             finalSys.push(createFileSysObject(key, obj[key]))

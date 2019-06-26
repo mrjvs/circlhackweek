@@ -1,10 +1,10 @@
 // virtual executable files
 const stateMachine = require('./statemachine.js');
+const constants = require('./constants.js');
 
 module.exports = [
     {
-        code: "RUN1", // TODO change to binary text
-        name: "porthack",
+        code: constants.exe_codes.porthack, // porthack
         execute: (utils, user, server, message, args) => {
             const openedPorts = stateMachine.getState(message.author.id, 'openedPorts');
             if (openedPorts && openedPorts.length < server.ports.requiredAmount || !openedPorts) return message.channel.send(utils.sendError("Not enough ports are open to run porthack!"));
@@ -33,8 +33,7 @@ module.exports = [
         }
     },
     {
-        code: "RUN3", // TODO change to binary text
-        name: "sqlinject",
+        code: constants.exe_codes.sql, // sql crack
         execute: (utils, user, server, message, args) => {
             if (!args[0]) return message.channel.send(utils.sendError("Needs port number to run!"));
             const ports = server.ports.portList.filter(port => port.portNumber == args[0]);
@@ -51,17 +50,32 @@ module.exports = [
         }
     },
     {
-        code: "RUN2",
-        name: "clock",
+        code: constants.exe_codes.clock, // clock
         execute: (utils, user, server, message, args) => {
             return message.channel.send(utils.sendInfo("Running the almighty `clock.exe`"));
         }
     },
     {
-        code: "RUN4",
-        name: "illegal_hack",
+        code: constants.exe_codes.randomhack, // illegal hack
         execute: (utils, user, server, message, args) => {
             return message.channel.send(utils.sendInfo("Permission denied: `ip not in whitelist`"));
+        }
+    },
+    {
+        code: constants.exe_codes.ssh, // ssh crack
+        execute: (utils, user, server, message, args) => {
+            if (!args[0]) return message.channel.send(utils.sendError("Needs port number to run!"));
+            const ports = server.ports.portList.filter(port => port.portNumber == args[0]);
+            if (ports.length === 0) return message.channel.send(utils.sendError("Port not available!"));
+            if (ports[0].portType !== "ssh") return message.channel.send(utils.sendError("Port doesnt have ssh attached!"));
+            
+            // open port
+            let openedPorts = stateMachine.getState(message.author.id, 'openedPorts');
+            if (!openedPorts) openedPorts = [];
+            openedPorts.push(ports[0]);
+            stateMachine.setState(message.author.id, 'openedPorts', openedPorts);
+            // TODO add timeout until its opened.
+            return message.channel.send(utils.sendSuccess("Port has been opened!"));
         }
     }
 ];

@@ -1,3 +1,5 @@
+const constants = require('./constants.js');
+
 const newUserFS = [
     {
         type: "dir",
@@ -13,17 +15,22 @@ const newUserFS = [
             {
                 type: "file",
                 name: "porthack.exe",
-                contents: "RUN1"
+                contents: constants.exe_codes.porthack
             },
             {
                 type: "file",
                 name: "clock.exe",
-                contents: "RUN2"
+                contents: constants.exe_codes.clock
             },
             {
                 type: "file",
                 name: "sqlinject.exe",
-                contents: "RUN3"
+                contents: constants.exe_codes.sql
+            },
+            {
+                type: "file",
+                name: "sshcrack.exe",
+                contents: constants.exe_codes.ssh
             }
         ]
     },
@@ -130,7 +137,7 @@ const questServers = {
     "tutorial3": {
         name: "Tutorial 3",
         fileSystem: {
-            "/bin/illegal_hack.exe": "RUN4",
+            "/bin/illegal_hack.exe": constants.exe_codes.randomhack,
             "/home": false,
             "/sys": false,
             "/log": false,
