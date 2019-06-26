@@ -21,7 +21,6 @@ module.exports = {
         const userServer = (await db.serverModel.find({ip: user.serverIp}))[0];
 
         // parse source path
-        // TODO check if no args[0]
         if (!args[0]) {
             return message.channel.send(utils.sendError("Please specify the file to download."));
         }
@@ -59,6 +58,26 @@ module.exports = {
         if (destinationFile === false) {
             return message.channel.send(utils.sendError("Invalid destination path!"));
         }
+        if (destinationFile.type === "file") {
+            return message.channel.send(utils.sendError("Destination needs to be a folder!"));
+        }
+
+        // check duplicate name
+        const filteredDestinationFile = destinationFile.contents.filter(file => file.name === sourceFile.name);
+        if (filteredDestinationFile.length !== 0) {
+            return message.channel.send(utils.sendError("File already exists in destination."));
+        }
+
+        // copy source into destination
+        const newUserServer = (await db.serverModel.find({ip: user.serverIp}))[0];
+        delete sourceFile.path;
+        destinationFile.contents.push(sourceFile);
+        newUserServer.set(destinationFile.path + ".contents", destinationFile.contents);
+        delete destinationFile.path;
+        await newUserServer.save();
+
+        // success
+        return message.channel.send(utils.sendSuccess(`File copied to ${destinationPath}`));
         if (destinationFile.type === "file") {
             return message.channel.send(utils.sendError("Destination needs to be a folder!"));
         }
