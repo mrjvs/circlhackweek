@@ -7,7 +7,7 @@ module.exports = {
     name: "nano",
     aliases: [],
     description: "Edits the contents of a file",
-    sendInHelp: true,
+    showInHelp: true,
     dmOnly: true,
     signedUpOnly: true,
     needsAdmin: true,

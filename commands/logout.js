@@ -5,7 +5,7 @@ module.exports = {
     name: "logout",
     aliases: [],
     description: "Logs you off a server",
-    sendInHelp: true,
+    showInHelp: true,
     dmOnly: true,
     signedUpOnly: true,
     needsConnection: true,

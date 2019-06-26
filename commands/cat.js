@@ -7,6 +7,7 @@ module.exports = {
     name: "cat",
     aliases: [],
     description: "Shows the contents of a file",
+    usage: "<file_name>",
     showInHelp: true,
     dmOnly: true,
     signedUpOnly: true,

@@ -5,7 +5,7 @@ module.exports = {
     name: "disconnect",
     aliases: ["dc"],
     description: "Disconnects you off a server",
-    sendInHelp: true,
+    showInHelp: true,
     dmOnly: true,
     signedUpOnly: true,
     needsConnection: true,

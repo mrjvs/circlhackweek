@@ -5,7 +5,7 @@ module.exports = {
     name: "scan",
     aliases: ["linked"],
     description: "Scans linked servers of a server",
-    sendInHelp: true,
+    showInHelp: true,
     dmOnly: true,
     signedUpOnly: true,
     needsAdmin: true,

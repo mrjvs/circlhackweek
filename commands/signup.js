@@ -9,7 +9,7 @@ module.exports = {
     name: "signup",
     aliases: [],
     description: "Signs you up",
-    sendInHelp: false,
+    showInHelp: false,
     dmOnly: false,
     needsAdmin: false,
     signedUpOnly: false,

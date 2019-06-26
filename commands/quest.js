@@ -6,7 +6,7 @@ module.exports = {
     name: "quest",
     aliases: [],
     description: "Command to manage quests",
-    sendInHelp: true,
+    showInHelp: true,
     dmOnly: true,
     signedUpOnly: true,
     needsAdmin: false,

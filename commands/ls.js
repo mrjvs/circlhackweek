@@ -7,7 +7,7 @@ module.exports = {
     name: "ls",
     aliases: [],
     description: "Lists the files inside any directory",
-    sendInHelp: true,
+    showInHelp: true,
     dmOnly: true,
     signedUpOnly: true,
     needsAdmin: true,

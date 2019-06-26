@@ -4,7 +4,7 @@ module.exports = {
     name: "serverlist",
     aliases: ["servers"],
     description: "Lists all server you connected to",
-    sendInHelp: true,
+    showInHelp: true,
     dmOnly: true,
     signedUpOnly: true,
     needsAdmin: false,

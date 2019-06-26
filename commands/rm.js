@@ -7,7 +7,7 @@ module.exports = {
     name: "rm",
     aliases: ["remove"],
     description: "Removes a file",
-    sendInHelp: true,
+    showInHelp: true,
     dmOnly: true,
     signUpOnly: true,
     needsAdmin: true,

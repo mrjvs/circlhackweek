@@ -7,6 +7,7 @@ module.exports = {
     name: "cd",
     aliases: [],
     description: "Changes to a different directory",
+    usage: "<new_directory>",
     showInHelp: true,
     dmOnly: true,
     signedUpOnly: true,
