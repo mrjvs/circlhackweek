@@ -1,0 +1,6 @@
+{
+    "token": "TOKENHERE",
+    "connectionString": "mongodb://localhost:27017/circl",
+    "prefix": "$",
+    "webviewPort": 80
+}

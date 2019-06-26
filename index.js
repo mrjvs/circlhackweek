@@ -2,6 +2,8 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const fs = require('fs');
+const express = require("express");
+const webview = express();
 
 // config
 const config = require('./config.json');
@@ -80,4 +82,9 @@ client.on('message', async (message) => {
 
 });
 
+webview.get(':servertoken:/*', (req, res) => {
+    console.log(req.params.servertoken);
+});
+
+webview.listen(config.port || 8080, () => console.log(`Circl web-view running on port ${config.port || 8080}`))
 client.login(config.token);
