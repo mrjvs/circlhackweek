@@ -66,6 +66,19 @@ function explorePath(array, pathParts, parentPath) {
     }
 }
 
+function hasFileContent(content, obj) {
+    for (let i in obj) {
+        if (obj[i].type === "file" && obj[i].contents === content) {
+            // found file with content
+            return true;
+        } else if (obj[i].type === "dir") {
+            return hasFileContent(content, obj[i].contents);
+        }
+    }
+    // no file found
+    return false;
+}
+
 function parseShortenedFileSystem(fileSysTemplate) {
     let structure = {};
     for (let key in fileSysTemplate) {
@@ -172,5 +185,6 @@ module.exports = {
     parseShortenedFileSystem,
     createQuestServer,
     createFileSysObject,
-    convertTreeToFs
+    convertTreeToFs,
+    hasFileContent
 }

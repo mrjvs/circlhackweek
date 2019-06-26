@@ -2,8 +2,6 @@ const utils = require("../utils.js");
 const path = require('path');
 const stateMachine = require('../statemachine.js');
 const db = require("../db.js");
-const constants = require("../constants.js");
-const quests = require("../quests.js")
 
 module.exports = {
     name: "cat",

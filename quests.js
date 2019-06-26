@@ -90,10 +90,6 @@ const questList = [
                 type: "delete",
                 value: "user has deleted file.",
                 server: "tutorial3"
-            },
-            next: {
-                type: "quest",
-                value: 2
             }
         }
     }

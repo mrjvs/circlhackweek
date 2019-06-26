@@ -1,8 +1,5 @@
 const db = require("../db.js");
 const utils = require("../utils.js");
-const constants = require("../constants.js");
-const quests = require('../quests.js');
-const randomString = require("randomstring");
 
 module.exports = {
     name: "unsignup",
