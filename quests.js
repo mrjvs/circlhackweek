@@ -104,11 +104,23 @@ const questList = [
 const questServers = {
     "tutorial1": {
         name: "Tutorial 1",
+        type: 'web',
         fileSystem: {
             "/bin": false,
             "/home": false,
             "/sys": false,
-            "/log/removed_file.txt": "user has deleted file."
+            "/log/removed_file.txt": "user has deleted file.",
+            "/public/test/index.html": 
+            `
+            <style>body,html {background: black; padding: 1em; margin: 0;color: white}</style>
+            <h1>Welcome to DogMart™</h1>
+            We sell these types of dogs:
+            <ul>
+                <li>Poodle</li>
+                <li>Labradoor</li>
+                <li>Golder Ritrivar</li>
+            </ul>
+            `
         },
         ports: {
             requiredAmount: 1,

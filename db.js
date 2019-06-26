@@ -1,4 +1,5 @@
 const Mongoose = require('mongoose');
+const uuid = require("uuid/v4");
 let connection;
 
 async function init(connectionString) {
@@ -17,6 +18,15 @@ const serverSchema = new Mongoose.Schema({
     ip: {
         unique: true,
         type: String
+    },
+    token: {
+        type: String,
+        unique: true,
+        default: () => uuid()
+    },
+    serverType: {
+        type: String,
+        default: "normal"
     },
     name: String,
     linked: [

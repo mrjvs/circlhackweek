@@ -132,6 +132,7 @@ async function createQuestServer(questServer) {
         name: questServer.name,
         files: parseShortenedFileSystem(questServer.fileSystem),
         ports: questServer.ports,
+        serverType: questServer.type,
         linked: questServer.linked ? questServer.linked : [], // <-- ip
         credentials: {
             user: questServer.user ? questServer.user : "root",

@@ -4,6 +4,7 @@ const client = new Discord.Client();
 const fs = require('fs');
 const express = require("express");
 const webview = express();
+const path = require('path');
 
 // config
 const config = require('./config.json');
@@ -59,12 +60,12 @@ client.on('message', async (message) => {
 
         const isConnected = stateMachine.getState(message.author.id, "connectedServer");
         if (!isConnected && command.needsConnection) {
-            return message.channel.send(utils.sendError("You need to be connected to a server to run this command!"));
+            return message.channel.send(utils.sendError("You need to be connected to a server to run this command! \n To connect to a server, type `$connect (address)`"));
         }
         
         const hasAdminAccess = utils.hasAdminAccess(message.author.id);
         if (!hasAdminAccess && command.needsAdmin) {
-            return message.channel.send(utils.sendError("You need to have admin on the server to run this command!"));
+            return message.channel.send(utils.sendError("You need to have admin permissions on the server to run this command!"));
         }
         
         // check if command is only for dm's
@@ -82,8 +83,49 @@ client.on('message', async (message) => {
 
 });
 
-webview.get(':servertoken:/*', (req, res) => {
-    console.log(req.params.servertoken);
+webview.get(['/:servertoken', '/:servertoken*'] , async (req, res) => {
+    console.log("url: " + req.path);
+    console.log("servertoken: " + req.params.servertoken);
+    console.log(req.params);
+
+    const server = await db.serverModel.find({ token: req.params.servertoken, serverType: "web" });
+    if (server.length === 0) {
+        // server token doesnt exist or is not a web server
+        return res.status(404).send("<h1>404</h1><br>Cannot locate server.");
+    }
+
+    let webPath = req.params[0];
+    if (!webPath) webPath = "/";
+
+    let pathParts = utils.filterPath(webPath.split("/"));
+    pathParts.unshift("public");
+    
+    // get file
+    const file = utils.explorePath(server[0].files, pathParts, "files");
+
+    // 404
+    if (file === false) return res.status(404).send(`<h1>404</h1><br>Cannot locate file ${webPath}.`);
+    // list dirs
+    if (file.type === "dir") {
+        // send index.html of dir
+        let indexFiles = file.contents.filter(loopFile => loopFile.name === "index.html");
+        if (indexFiles.length > 0) return res.send(indexFiles[0].contents);
+
+        // list files in dir
+        let html = `<h1>${file.name}</h1><br>`;
+        for (let i = 0; i < file.contents.length; i++) {
+            let loopFile = file.contents[i];
+            if (loopFile.type === "dir") {
+                html += "- DIR " + loopFile.name + "<br>";
+            } else {
+                html += "- " + loopFile.name + "<br>";
+            }
+        }
+        return res.send(html);
+    }
+
+    // send file contents
+    return res.send(file.contents);
 });
 
 webview.listen(config.port || 8080, () => console.log(`Circl web-view running on port ${config.port || 8080}`))
