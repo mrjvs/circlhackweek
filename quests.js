@@ -68,6 +68,7 @@ const newUserFS = [
 
 const questList = [
     { // quest 0
+        name: "First steps",
         start: {
             text: 'Hey welcome to circl server system. Please delete a log of a server. see linked server',
             linkedServerKey: "tutorial1",
@@ -86,6 +87,7 @@ const questList = [
         }
     },
     { // quest 1
+        name: "illegal hack",
         start: {
             text: 'Could you also delete a file named "illegalhack.exe", its somewhere on those servers.',
             linkedServerKey: "tutorial2",

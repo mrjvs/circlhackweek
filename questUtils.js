@@ -15,17 +15,15 @@ async function startQuest(userId, questId, channel) {
     await user.save();
 
     // send info
+
+    const fields = attachedServer ? [{name: "Attached server", value: attachedServer}] : undefined;
+    if (attachedServer)
     return channel.send({
         embed: {
             color: constants.embed_colors.info,
-            title: "Quest " + questId,
+            title: `Quest ${user.activeQuest} - ${quests.questList[user.activeQuest].name}`,
             description: startText,
-            fields: [
-                {
-                    name: "Attached server",
-                    value: attachedServer
-                }
-            ] 
+            fields
         }
     });
 }
@@ -38,11 +36,11 @@ async function checkQuestGoal(userId, channel) {
     const endCondition = quests.questList[user.activeQuest].end.condition;
 
     if (endCondition.type === "progress") {
-        return await endQuest(user.userId, quests.questList[user.activeQuest], channel);
+        return await endQuest(user, quests.questList[user.activeQuest], channel);
     } else if (endCondition.type === "delete") {
         const server = (await db.serverModel.find({ip: user.questServerList[endCondition.server]}))[0];
         if (!utils.hasFileContent(endCondition.value, server.files)) {
-            return await endQuest(user.userId, quests.questList[user.activeQuest], channel);
+            return await endQuest(user, quests.questList[user.activeQuest], channel);
         }
     }
 
@@ -50,7 +48,14 @@ async function checkQuestGoal(userId, channel) {
     return channel.send(utils.sendError("Quest not completed"));
 }
 
-async function endQuest(userId, quest, channel) {
+async function endQuest(user, quest, channel) {
+
+    // save completed quest
+    user.completedQuests.push(user.activeQuest);
+    user.activeQuest = undefined;
+    await user.save();
+
+
     // send text
     const endText = quest.end.text;
     channel.send({
@@ -65,7 +70,7 @@ async function endQuest(userId, quest, channel) {
     if (quest.end.next) {
         if (quest.end.next.type === "quest") {
             // start new quest
-            return await startQuest(userId, quest.end.next.value, channel);
+            return await startQuest(user.userId, quest.end.next.value, channel);
         }
     }
 }

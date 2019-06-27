@@ -90,7 +90,8 @@ module.exports = {
                 pass: password
             }],
             serverList,
-            questServerList: questIps
+            questServerList: questIps,
+            completedQuests: []
         });
 
         try {

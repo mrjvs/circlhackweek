@@ -96,7 +96,7 @@ client.on('message', async (message) => {
                 }
             });
         }*/ // dev purposes
-        console.log(`User ${message.author.username}#${message.author.discriminator} executed command ${messageCommand} with args ${args}`);
+        console.log(`User ${message.author.username}#${message.author.discriminator} executed command $${messageCommand} with args ${args.toString()}`);
 
         // hardcoded help command so it has the command list
         if (command.name === "help") command.execute(message, args, commands);

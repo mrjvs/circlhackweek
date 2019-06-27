@@ -1,5 +1,6 @@
 const db = require("../db.js");
 const utils = require("../utils.js");
+const achievements = require("../achievements.js");
 const stateMachine = require('../statemachine.js');
 const path = require('path');
 const constants = require('../constants.js');
@@ -62,6 +63,7 @@ module.exports = {
                         console.log(error);
                         return message.channel.send(utils.sendError("Could not save the server! ☹"));
                     }
+                    achievements.unlockAchievement(message, "rm-all");
                     return message.channel.send(utils.sendSuccess(newPath + ": Files in directory removed"));
                 });
             } else {

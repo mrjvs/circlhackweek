@@ -85,6 +85,8 @@ const userSchema = new Mongoose.Schema({
     serverIp: String,
     questServerList: Object,
     activeQuest: Number,
+    completedQuests: [Number],
+    achievements: [String],
     keychain: Array
     /*
         Keychain object
