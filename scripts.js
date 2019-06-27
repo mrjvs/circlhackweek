@@ -2,6 +2,7 @@
 const stateMachine = require('./statemachine.js');
 const constants = require('./constants.js');
 const embedUtils = require('./utils/embedutils.js');
+const utils = require('./utils/utils.js');
 
 module.exports = [
     {
@@ -40,18 +41,7 @@ module.exports = [
     {
         code: constants.exe_codes.sql, // sql crack
         execute: (user, server, message, args) => {
-            if (!args[0]) return message.channel.send(embedUtils.sendError("Needs port number to run"));
-            const ports = server.ports.portList.filter(port => port.portNumber == args[0]);
-            if (ports.length === 0) return message.channel.send(embedUtils.sendError("Port not available"));
-            if (ports[0].portType !== "sql") return message.channel.send(embedUtils.sendError("Port doesnt have SQL database attached"));
-            
-            // open port
-            let openedPorts = stateMachine.getState(message.author.id, 'openedPorts');
-            if (!openedPorts) openedPorts = [];
-            openedPorts.push(ports[0]);
-            stateMachine.setState(message.author.id, 'openedPorts', openedPorts);
-            // TODO add timeout until its opened.
-            return message.channel.send(embedUtils.sendSuccess(`Port ${ports[0].portNumber} has been opened`));
+            return utils.openPort(args, server, message.channel, message.author.id, "sql", "SQL database");
         }
     },
     {
@@ -81,35 +71,13 @@ module.exports = [
     {
         code: constants.exe_codes.ssh, // ssh crack
         execute: (user, server, message, args) => {
-            if (!args[0]) return message.channel.send(embedUtils.sendError("Needs port number to run"));
-            const ports = server.ports.portList.filter(port => port.portNumber == args[0]);
-            if (ports.length === 0) return message.channel.send(embedUtils.sendError("Port not available"));
-            if (ports[0].portType !== "ssh") return message.channel.send(embedUtils.sendError("Port doesnt have SSH attached"));
-            
-            // open port
-            let openedPorts = stateMachine.getState(message.author.id, 'openedPorts');
-            if (!openedPorts) openedPorts = [];
-            openedPorts.push(ports[0]);
-            stateMachine.setState(message.author.id, 'openedPorts', openedPorts);
-            // TODO add timeout until its opened.
-            return message.channel.send(embedUtils.sendSuccess(`Port ${ports[0].portNumber} has been opened`));
+            return utils.openPort(args, server, message.channel, message.author.id, "ssh", "SSH");
         }
     },
     {
         code: constants.exe_codes.web, // web scraper hack
         execute: (user, server, message, args) => {
-            if (!args[0]) return message.channel.send(embedUtils.sendError("Needs port number to run"));
-            const ports = server.ports.portList.filter(port => port.portNumber == args[0]);
-            if (ports.length === 0) return message.channel.send(embedUtils.sendError("Port not available"));
-            if (ports[0].portType !== "web") return message.channel.send(embedUtils.sendError("Port doesnt have WEB attached"));
-            
-            // open port
-            let openedPorts = stateMachine.getState(message.author.id, 'openedPorts');
-            if (!openedPorts) openedPorts = [];
-            openedPorts.push(ports[0]);
-            stateMachine.setState(message.author.id, 'openedPorts', openedPorts);
-            // TODO add timeout until its opened.
-            return message.channel.send(embedUtils.sendSuccess(`Port ${ports[0].portNumber} has been opened`));
+            return utils.openPort(args, server, message.channel, message.author.id, "web", "Web Server"); 
         }
     }
 ];

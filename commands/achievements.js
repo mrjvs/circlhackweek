@@ -23,6 +23,7 @@ module.exports = {
             embed: {
                 color: constants.embed_colors.info,
                 title: message.author.username + "'s achievements",
+                description: user.achievements.length === 0 ? "No achievements to display" : undefined,
                 fields
             }
         });

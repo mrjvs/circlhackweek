@@ -153,5 +153,7 @@ webview.get(['/:servertoken', '/:servertoken*'] , async (req, res) => {
     return res.send(file.contents);
 });
 
+webview.use(express.static("public"));
+
 webview.listen(config.port || 8080, () => console.log(`Circl web-view running on port ${config.port || 8080}`))
 client.login(config.token);
