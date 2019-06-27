@@ -54,8 +54,8 @@ module.exports = {
 function buildUsage(command) {
   let usage = "";
   if (typeof command.usage === "object") {
-    for (usageItem in command.usage) {
-      usage += `\`${command.name} ${usageItem}\`\n`;
+    for (usageIndex in command.usage) {
+      usage += `\`${command.name} ${command.usage[usageIndex]}\`\n`;
     }
   } else {
     usage = `\`$${command.name} ${command.usage ? command.usage : ""}\``;
