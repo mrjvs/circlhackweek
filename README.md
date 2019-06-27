@@ -1,3 +1,5 @@
+<img width="100" alt="Circl Branding src="https://raw.githubusercontent.com/mrjvs/circlhackweek/master/branding/banner.png">
+
 # CirclHackweek 
 A Discord bot for circl (a game-bot similar to Hacknet, concept by [@taydev](https://github.com/taydev/circl)) in [Node.js](https://nodejs.org/en/). This is our entry into the Discord Community Hack Week competition.
 
