@@ -63,8 +63,8 @@ module.exports = {
                         console.log(error);
                         return message.channel.send(utils.sendError("Could not save the server! ☹"));
                     }
-                    achievements.unlockAchievement(message, "rm-all");
-                    return message.channel.send(utils.sendSuccess(newPath + ": Files in directory removed"));
+                    achievements.unlockAchievement(message, "rm-all");  
+                    return message.channel.send(utils.sendSuccess(newPath + " : Files in directory removed"));
                 });
             } else {
                 if (file.type !== "file") {

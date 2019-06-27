@@ -31,5 +31,6 @@ async function unlockAchievement(message, id) {
 
 module.exports = {
     unlockAchievement,
-    getAchievementEmbed
+    getAchievementEmbed,
+    achievements
 }
