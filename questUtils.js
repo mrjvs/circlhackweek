@@ -1,6 +1,7 @@
 const quests = require('./quests.js');
 const db = require('./db.js');
 const utils = require('./utils.js');
+const constants = require('./constants.js');
 
 async function startQuest(userId, questId, channel) {
     const user = (await db.userModel.find({userId}))[0];
@@ -14,14 +15,26 @@ async function startQuest(userId, questId, channel) {
     await user.save();
 
     // send info
-    return channel.send(utils.sendInfo(`**QUEST ${questId}:**\n\n${startText}\n\n**attached server:**\n${attachedServer}`));
+    return channel.send({
+        embed: {
+            color: constants.embed_colors.info,
+            title: "Quest " + questId,
+            description: startText,
+            fields: [
+                {
+                    name: "Attached server",
+                    value: attachedServer
+                }
+            ] 
+        }
+    });
 }
 
 async function checkQuestGoal(userId, channel) {
     const user = (await db.userModel.find({userId}))[0];
 
     // see if a quest is active
-    if (typeof user.activeQuest !== "number") return channel.send(utils.sendError("No quest active."));
+    if (typeof user.activeQuest !== "number") return channel.send(utils.sendError("No quest active"));
     const endCondition = quests.questList[user.activeQuest].end.condition;
 
     if (endCondition.type === "progress") {
@@ -34,13 +47,19 @@ async function checkQuestGoal(userId, channel) {
     }
 
     // quest not yet completed
-    return channel.send(utils.sendError("Quest not completed."));
+    return channel.send(utils.sendError("Quest not completed"));
 }
 
 async function endQuest(userId, quest, channel) {
     // send text
     const endText = quest.end.text;
-    channel.send(`**COMPLETED QUEST:**\n\n${endText}`);
+    channel.send({
+        embed: {
+            color: constants.embed_colors.success,
+            title: "Quest completed",
+            description: endText,
+        }
+    });
 
     // give reward
     if (quest.end.next) {

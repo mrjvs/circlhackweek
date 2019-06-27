@@ -14,7 +14,7 @@ module.exports = {
     needsConnection: false,
     execute: async (message, args) => {
         if (args.length != 1) {
-            return message.channel.send(utils.sendError("Please enter the IP of the server you would like to connect to!"));
+            return message.channel.send(utils.sendError("You need to enter ip adress"));
         }
 
         let ipToFind = args[0];
@@ -26,12 +26,12 @@ module.exports = {
         }
         
         if (!ipToFind.match("[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}")) {
-            return message.channel.send(utils.sendError("Please enter a valid IP address!"));
+            return message.channel.send(utils.sendError(`Could not resolve hostname ${ipToFind}: Name or service not known`));
         }
 
         const foundServers = await db.serverModel.find({ip: ipToFind}); 
         if (foundServers.length === 0) {
-            return message.channel.send(utils.sendError(`We could not find the server with the IP: ${ipToFind}!`))
+            return message.channel.send(utils.sendError(`Could not resolve hostname ${ipToFind}: Name or service not known`))
         }
         const server = foundServers[0];
 
@@ -66,7 +66,8 @@ module.exports = {
 
         message.channel.send({
             embed: {
-                title: "You have successfully connected to the server! Please login using `$login`!",
+                title: "You have successfully connected to the server",
+                description: "Please login using `$login`",
                 fields,
                 color: constants.embed_colors.success
             }

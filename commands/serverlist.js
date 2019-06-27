@@ -1,4 +1,5 @@
 const db = require("../db.js");
+const constants = require("../constants.js");
 
 module.exports = {
     name: "serverlist",
@@ -10,14 +11,21 @@ module.exports = {
     needsAdmin: false,
     needsConnection: false,
     execute: async (message, args) => {
-        const user = (await db.userModel.find({userId: message.author.id}))[0];
+        const user = (await db.userModel.find({ userId: message.author.id }))[0];
         const serverList = user.serverList;
 
         // reply with servers
-        let out = "Server list:\n";
+        let out = "";
         for (let i = 0; i < serverList.length; i++) {
-            out += `**${serverList[i].ip}** - ${serverList[i].name}\n`;
+            out += `\`${serverList[i].ip}\` - ${serverList[i].name}\n`;
         }
-        message.channel.send(out);
+
+        message.channel.send({
+            embed: {
+                title: "Server list",
+                description: out,
+                color: constants.embed_colors.info
+            }
+        });
     }
 }

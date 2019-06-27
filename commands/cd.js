@@ -2,6 +2,7 @@ const utils = require("../utils.js");
 const path = require('path');
 const stateMachine = require('../statemachine.js');
 const db = require("../db.js");
+const constants = require("../constants.js");
 
 module.exports = {
     name: "cd",
@@ -26,12 +27,19 @@ module.exports = {
         // check if valid path
         const file = utils.explorePath(server.files, utils.splitPath(newPath), "files");
         if (file === false) {
-            return message.channel.send(utils.sendError("Invalid path!"));
+            return message.channel.send(utils.sendError("No such file or directory"));
+        } else if (file.type !== "dir") {
+            return message.channel.send(utils.sendError(file.name + ": Not a directory"))
         }
 
         // set new path
         stateMachine.setState(message.author.id, "path", newPath);
-        message.channel.send("cd: " + newPath);
+        message.channel.send({
+            embed: {
+                color: constants.embed_colors.info,
+                description: `Changed directory to: \`${newPath}\``
+            }
+        });
     }
 }
 

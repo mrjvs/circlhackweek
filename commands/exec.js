@@ -2,6 +2,7 @@ const db = require("../db.js");
 const utils = require("../utils.js");
 const stateMachine = require('../statemachine.js');
 const path = require('path');
+const constants = require('../constants.js');
 
 module.exports = {
     name: "exec",
@@ -27,20 +28,21 @@ module.exports = {
         // get file
         const file = utils.explorePath(server.files, pathParts);
         if (file === false) {
-            return message.channel.send(utils.sendError("Invalid path!"));
+            return message.channel.send(utils.sendError(constants.response_text.invalid_path));
         }
         if (file.type === "dir") {
-            return message.channel.send(utils.sendError("You cannot execute directories!"));
+            return message.channel.send(utils.sendError(finalPath + constants.response_text.not_file));
         }
 
         const exe = utils.getFileExecutable(file);
         if (!exe) {
-            return message.channel.send(utils.sendError("File is not an executable!"));
+            return message.channel.send(utils.sendError(`${finalPath}: cannot execute binary file`));
         }
         
         const user = (await db.serverModel.find({userId: message.author.id}))[0];
 
         // run code from file
+        args.shift();
         exe.execute(utils, user, server, message, args);
     }
 }

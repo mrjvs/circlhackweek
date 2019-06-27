@@ -4,6 +4,7 @@ const constants = require("../constants.js");
 const quests = require('../quests.js');
 const randomString = require("randomstring");
 const questUtils = require('../questUtils.js');
+const config = require("../config.json");
 
 module.exports = {
     name: "signup",
@@ -95,7 +96,7 @@ module.exports = {
         try {
             await newUser.save();
         } catch (err) {
-            channel.send(utils.sendError("We failed to save your user data! ;("));
+            channel.send(utils.sendError("We failed to save your user data! ☹"));
         }
 
         // Display information about the user: username + password
@@ -114,27 +115,15 @@ module.exports = {
         channel.send({
             embed: {
                 title: "Welcome to Circl!",
-                description: "Put a description of Circl here.",
-                color: constants.embed_colors.info, //change this colour please @jvs
-                footer: {
-                    icon_url: "https://cdn.discordapp.com/embed/avatars/0.png",
-                    text: "Circl"
-                },
+                description: "Circl is a hacking simulator with tons of stuff to do.",
                 thumbnail: {
-                    url: "https://cdn.discordapp.com/embed/avatars/0.png"
+                    url: config.avatar
                 },
-                author: {
-                    name: "Circl",
-                    icon_url: "https://cdn.discordapp.com/embed/avatars/0.png"
-                },
-                fields: [{
-                    name: "What is Circl?",
-                    value: "I honestly don't know."
-                },
-                {
-                    name: "Your User Information",
-                    value: `Username: \`${username}\`\n Password: \`${password}\`\n Your IP: \`${newUser.serverIp}\``
-                }
+                fields: [
+                    {
+                        name: "User information",
+                        value: `Username: \`${username}\`\n Password: \`${password}\`\n Your IP: \`${newUser.serverIp}\``
+                    }
                 ]
             }
         });

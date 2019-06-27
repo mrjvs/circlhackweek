@@ -2,12 +2,13 @@ const utils = require("../utils.js");
 const path = require('path');
 const stateMachine = require('../statemachine.js');
 const db = require("../db.js");
+const constants = require("../constants.js");
 
 module.exports = {
     name: "ls",
     aliases: [],
     description: "Lists the files inside any directory",
-    usage: "[target_directory]",
+    usage: ["", "<target_directory>"],
     showInHelp: true,
     dmOnly: true,
     signedUpOnly: true,
@@ -27,20 +28,27 @@ module.exports = {
         // get file
         const file = utils.explorePath(server.files, pathParts, "files");
         if (file === false) {
-            return message.channel.send(utils.sendError("Invalid path!"));
+            return message.channel.send(utils.sendError(constants.response_text.invalid_path));
         }
         if (file.type === "file") {
-            return message.channel.send(utils.sendError("Can only be run on directories!"));
+            return message.channel.send(utils.sendError(file.name + constants.response_text.not_dir));
         }
 
         // reply with dir contents
-        let out = "";
+        let out = "```\n";
         out += "* .\n"
         out += "* ..\n";
         for (let i = 0; i < file.contents.length; i++) {
             out += "* " + file.contents[i].name + "\n";
         }
-        message.channel.send(out);
+        out += "```";
+        message.channel.send({
+            embed: {
+                color: constants.embed_colors.info,
+                title: finalPath === path.sep ? "root" : finalPath,
+                description: out
+            }
+        });
 
     }
 }

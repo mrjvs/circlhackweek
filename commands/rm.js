@@ -2,12 +2,13 @@ const db = require("../db.js");
 const utils = require("../utils.js");
 const stateMachine = require('../statemachine.js');
 const path = require('path');
+const constants = require('../constants.js');
 
 module.exports = {
     name: "rm",
     aliases: ["remove"],
     description: "Removes a file",
-    usage: "[target_file]"
+    usage: "<target_file>",
     showInHelp: true,
     dmOnly: true,
     signUpOnly: true,
@@ -18,7 +19,7 @@ module.exports = {
         const pathState = stateMachine.getState(message.author.id, "path");
 
         if (args.length !== 1) {
-            return message.channel.send(utils.sendError("You need to enter the file name!"));
+            return message.channel.send(utils.sendError("You need to enter the file name"));
         }
 
         const server = (await db.serverModel.find({ ip: connectedServer }))[0];
@@ -34,12 +35,12 @@ module.exports = {
 
         const file = utils.explorePath(server.files, utils.splitPath(newPath), "files");
         if (!file) {
-            return message.channel.send(utils.sendError("Invalid path!"));
+            return message.channel.send(utils.sendError(constants.response_text.invalid_path));
         } else {
             if (hasWildcard) {
                 if (file.type == "file") {
                     // if wildcard and is file, path is invalid.
-                    return message.channel.send(utils.sendError("Invalid path!"));
+                    return message.channel.send(utils.sendError(constants.response_text.invalid_path));
                 }
 
                 let pathToContents = (file.path + ".contents");
@@ -58,14 +59,14 @@ module.exports = {
                 newServer.save((err, server) => {
                     if (err) {
                         console.log(error);
-                        return message.channel.send(utils.sendError("Could not save the server ☹"));
+                        return message.channel.send(utils.sendError("Could not save the server! ☹"));
                     }
-                    return message.channel.send(utils.sendSuccess("Deleted files in directory!"));
+                    return message.channel.send(utils.sendSuccess(newPath + ": Files in directory removed"));
                 });
             } else {
                 if (file.type !== "file") {
                     // only delete a single file, dir's cant be removed.
-                    return message.channel.send(utils.sendError("Can only be run on files!"));
+                    return message.channel.send(utils.sendError(constants.response_text.not_file));
                 }
 
                 /*
@@ -84,7 +85,7 @@ module.exports = {
                 newServer.set(pathToContents, obj);
                 delete file.path;
                 newServer.save().then((updatedstuff) => {
-                    return message.channel.send(utils.sendInfo("Opertion done successfully!"));
+                    return message.channel.send(utils.sendInfo(newPath + ": File removed"));
                 });
             }
         }

@@ -1,12 +1,13 @@
 const utils = require("../utils.js");
 const db = require("../db.js");
 const stateMachine = require('../statemachine.js');
+const constants = require('../constants.js');
 
 module.exports = {
     name: "login",
     aliases: [],
-    description: "Logs you in a server",
-    usage: "[username] [password]",
+    description: "Logs you into a server",
+    usage: ["", "<username> <password>"],
     showInHelp: true,
     dmOnly: true,
     signedUpOnly: true,
@@ -17,7 +18,7 @@ module.exports = {
         const loginState = stateMachine.getState(message.author.id, "loginState");
 
         if (loginState && loginState.server === connectedServer) {
-            return message.channel.send(utils.sendInfo("You are already logged into this server!"));
+            return message.channel.send(utils.sendInfo("You are already logged into this server"));
         }
 
         const server = (await db.serverModel.find({ ip: connectedServer }))[0];
@@ -32,13 +33,23 @@ module.exports = {
                         user: cred.user,
                         pass: cred.pass
                     });
-                    return message.channel.send(utils.sendSuccess(
-                        `Signed in using keychain!
-                    Username: \`${cred.user}\`
-                    Password: \`${"*".repeat(cred.user.length)}\``));
+                    return message.channel.send({
+                        embed: {
+                            title: "Signed in using keychain",
+                            color: constants.embed_colors.success,
+                            description: `Username: \`${cred.user}\`
+                            Password: \`${"*".repeat(cred.user.length)}\``
+                        }
+                    });
                 }
             }
-            message.channel.send(utils.sendError("Could not login using keychain! Use `$login <user> <pass>` instead!"))
+            message.channel.send({
+                embed: {
+                    title: "Could not login using keychain",
+                    description: "Use `$login <user> <pass>` instead!",
+                    color: constants.embed_colors.error
+                }
+            });
         } else if (args.length == 2) {
             const username = args[0]; 
             const password = args[1];
@@ -49,10 +60,14 @@ module.exports = {
                         user: username,
                         pass: password
                     });
-                    return message.channel.send(utils.sendSuccess(
-                        `Signed in using Keychain!
-                    Username: ${username}
-                    Password: ${"\\*".repeat(username.length)}`));
+                    return message.channel.send({
+                        embed: {
+                            title: "Signed in using keychain",
+                            color: constants.embed_colors.success,
+                            description: `Username: \`${username}\`
+                            Password: \`${"*".repeat(username.length)}\``
+                        }
+                    });
                 }
                 user.keychain.push({
                     ip: server.ip,
@@ -62,7 +77,7 @@ module.exports = {
                 user.save((err, user) => {
                     if (err) {
                         console.error(err);
-                        return message.channel.send(utils.sendError("Could not save your user data! :("));
+                        return message.channel.send(utils.sendError("Could not save your user data! ☹"));
                     }
                 });
                 stateMachine.setState(message.author.id, "loginState", {
@@ -70,11 +85,15 @@ module.exports = {
                     user: username,
                     pass: password
                 });
-                message.channel.send(utils.sendSuccess(
-                    `Logged in using username and password!
-                The password has been saved to your keychain for future access!`));
+                message.channel.send({
+                    embed: {
+                        title: "Logged in using username and password",
+                        description: "The password has been saved to your keychain for future access",
+                        color: constants.embed_colors.success
+                    }
+                });
             } else {
-                message.channel.send(utils.sendError("Incorrect username and password!"))
+                message.channel.send(utils.sendError("Incorrect username and password"));
             }
         }
     }

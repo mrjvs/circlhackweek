@@ -15,6 +15,7 @@ db.init(config.connectionString);
 const utils = require('./utils.js');
 const runBin = require('./runbin.js');
 const stateMachine = require('./statemachine.js');
+const constants = require('./constants.js');
 
 // dynamic command loading
 const commands = [];
@@ -55,22 +56,45 @@ client.on('message', async (message) => {
     if (command) {
         const isSignedUp = await utils.isSignedUp(message.author.id);
         if (!isSignedUp && command.signedUpOnly) {
-            return message.channel.send(utils.sendError("You need to be signed up to run this command!"));
+            return message.channel.send({
+                embed: {
+                    title: "You need to be signed up to run this command",
+                    description: "Sign up using `$signup`",
+                    color: constants.embed_colors.error
+                }
+            });
         }
 
         const isConnected = stateMachine.getState(message.author.id, "connectedServer");
         if (!isConnected && command.needsConnection) {
-            return message.channel.send(utils.sendError("You need to be connected to a server to run this command! \n To connect to a server, type `$connect <ip>`"));
+            return message.channel.send({
+                embed: {
+                    title: "You need to connected to a server to run this command",
+                    description: "Connect to a server using `$connect <ip>`",
+                    color: constants.embed_colors.error
+                }
+            });
         }
 
         const hasAdminAccess = utils.hasAdminAccess(message.author.id);
         if (!hasAdminAccess && command.needsAdmin) {
-            return message.channel.send(utils.sendError("You need to be logged in to run this command!"));
+            return message.channel.send({
+                embed: {
+                    title: "You need to have admin permissions to run this command",
+                    description: "Log in using `$login`",
+                    color: constants.embed_colors.error
+                }
+            });
         }
 
-        // check if command is only for dm's
         /*if (message.channel.type !== 'dm' && command.dmOnly) {
-            return message.channel.send(utils.sendError("This command can only be ran in DMs!"));
+            return message.channel.send({
+                embed: {
+                    title: "This command can only be run in a DM channel",
+                    description: "This is to ensure our users safety, security and privacy ❤",
+                    color: constants.embed_colors.error
+                }
+            });
         }*/ // dev purposes
         console.log(`User ${message.author.username}#${message.author.discriminator} executed command ${messageCommand} with args ${args}`);
 
@@ -91,7 +115,7 @@ webview.get(['/:servertoken', '/:servertoken*'] , async (req, res) => {
     const server = await db.serverModel.find({ token: req.params.servertoken, serverType: "web" });
     if (server.length === 0) {
         // server token doesnt exist or is not a web server
-        return res.status(404).send("<h1>404</h1><br>Cannot locate server.");
+        return res.status(404).send("<h1>404</h1><br>Cannot locate server");
     }
 
     let webPath = req.params[0];
@@ -113,12 +137,15 @@ webview.get(['/:servertoken', '/:servertoken*'] , async (req, res) => {
 
         // list files in dir
         let html = `<h1>${file.name}</h1><br>`;
-        for (let i = 0; i < file.contents.length; i++) {
-            let loopFile = file.contents[i];
-            if (loopFile.type === "dir") {
-                html += "- DIR " + loopFile.name + "<br>";
-            } else {
-                html += "- " + loopFile.name + "<br>";
+        if (file.contents.length === 0) html += "Directory is empty";
+        else {
+            for (let i = 0; i < file.contents.length; i++) {
+                let loopFile = file.contents[i];
+                if (loopFile.type === "dir") {
+                    html += "- DIR " + loopFile.name + "<br>";
+                } else {
+                    html += "- " + loopFile.name + "<br>";
+                }
             }
         }
         return res.send(html);

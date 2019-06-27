@@ -13,6 +13,6 @@ module.exports = {
     execute: (message, args) => {
         const connectedServer = stateMachine.getState(message.author.id, "connectedServer");
         stateMachine.clearState(message.author.id, "connectedServer");
-        message.channel.send(utils.sendInfo(`You have disconnected from the server with IP ${connectedServer}!`));
+        message.channel.send(utils.sendInfo(`Disconnected: ${connectedServer}`));
     }
 }

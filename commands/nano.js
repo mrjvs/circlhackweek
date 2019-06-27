@@ -1,4 +1,5 @@
 const utils = require("../utils.js");
+const constants = require("../constants.js");
 const path = require('path');
 const stateMachine = require('../statemachine.js');
 const db = require("../db.js");
@@ -17,8 +18,10 @@ module.exports = {
         const connectedServer = stateMachine.getState(message.author.id, "connectedServer");
         const pathState = stateMachine.getState(message.author.id, "path");
 
-        if (args.length < 2) {
-            return message.channel.send(utils.sendError("description: `$nano <filename> <contents>`!"))
+        if (args.length === 0) {
+            return message.channel.send(utils.sendError("You need to enter the file name"));
+        } else if (args.length === 1) {
+            return message.channel.send(utils.sendError("You need to enter new file contents"));
         }
 
         const server = (await db.serverModel.find({ ip: connectedServer }))[0];
@@ -29,22 +32,28 @@ module.exports = {
         const file = utils.explorePath(server.files, utils.splitPath(newPath), "files");
 
         if (file === false) {
-            return message.channel.send(utils.sendError("Cannot find that file!"));
+            return message.channel.send(utils.sendError(constants.response_text.invalid_path));
         } else if (file.type !== "file") {
-            return message.channel.send(utils.sendError("Can only be run on files!"));
+            return message.channel.send(utils.sendError(file.name + constants.response_text.not_file));
         }
 
         let newContents = args;
         newContents.shift();
-        server.set(file.path + ".contents", newContents.join(" "))
+        newContents = newContents.join(" ");
+        server.set(file.path + ".contents", newContents)
         server.save((err, server) => {
             if (err) {
                 console.log(error);
-                return message.channel.send(utils.sendError("Could not save the server ☹"));
+                return message.channel.send(utils.sendError("Could not save the server! ☹"));
             }
         });
 
-        message.channel.send(utils.sendSuccess(`Changed the contents of file \`${newPath}\``));
-
+        message.channel.send({
+            embed: {
+                title: "Saved new contents of file " + file.name,
+                color: constants.embed_colors.info,
+                description: "```" + newContents + "```"
+            }
+        });
     }
 }

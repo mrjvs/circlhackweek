@@ -11,5 +11,10 @@ module.exports = {
         sql: "RUN3",
         clock: "RUN2",
         randomhack: "RUN4"
+    },
+    response_text: {
+        invalid_path: "No such file or directory",
+        not_dir: ": Not a directory",
+        not_file: ": Not a file"
     }
 }

@@ -1,4 +1,5 @@
 const utils = require("../utils.js");
+const constants = require("../constants.js");
 const path = require('path');
 const stateMachine = require('../statemachine.js');
 const db = require("../db.js");
@@ -7,7 +8,7 @@ module.exports = {
     name: "scp",
     aliases: [],
     description: "Download files to local server",
-    usage: "<source_file> [destination_dir]",
+    usage: ["<source_file>", "<source_file> <destination_dir>"],
     showInHelp: true,
     dmOnly: true,
     signedUpOnly: true,
@@ -23,7 +24,7 @@ module.exports = {
 
         // parse source path
         if (!args[0]) {
-            return message.channel.send(utils.sendError("Please specify the file to download."));
+            return message.channel.send(utils.sendError("You need to enter the file name"));
         }
         const sourcePathInput = args[0];
         const sourcePath = path.join(pathState, sourcePathInput);
@@ -32,10 +33,10 @@ module.exports = {
         // get file
         const sourceFile = utils.explorePath(server.files, sourcePathParts, "files");
         if (sourceFile === false) {
-            return message.channel.send(utils.sendError("Invalid source path!"));
+            return message.channel.send(utils.sendError(constants.response_text.invalid_path));
         }
         if (sourceFile.type === "dir") {
-            return message.channel.send(utils.sendError("Can only be run on files!"));
+            return message.channel.send(utils.sendError(sourceFile.name + constants.response_text.not_file));
         }
 
         // parse destination path
@@ -57,16 +58,16 @@ module.exports = {
         // get destination dir
         const destinationFile = utils.explorePath(userServer.files, destinationPathParts, "files");
         if (destinationFile === false) {
-            return message.channel.send(utils.sendError("Invalid destination path!"));
+            return message.channel.send(utils.sendError(constants.response_text.invalid_path));
         }
         if (destinationFile.type === "file") {
-            return message.channel.send(utils.sendError("Destination needs to be a folder!"));
+            return message.channel.send(utils.sendError(destinationFile.name + constants.response_text.not_dir));
         }
 
         // check duplicate name
         const filteredDestinationFile = destinationFile.contents.filter(file => file.name === sourceFile.name);
         if (filteredDestinationFile.length !== 0) {
-            return message.channel.send(utils.sendError("File already exists in destination."));
+            return message.channel.send(utils.sendError("File already exists in destination"));
         }
 
         // copy source into destination
