@@ -60,20 +60,20 @@ client.on('message', async (message) => {
 
         const isConnected = stateMachine.getState(message.author.id, "connectedServer");
         if (!isConnected && command.needsConnection) {
-            return message.channel.send(utils.sendError("You need to be connected to a server to run this command! \n To connect to a server, type `$connect (address)`"));
+            return message.channel.send(utils.sendError("You need to be connected to a server to run this command! \n To connect to a server, type `$connect <ip>`"));
         }
-        
+
         const hasAdminAccess = utils.hasAdminAccess(message.author.id);
         if (!hasAdminAccess && command.needsAdmin) {
-            return message.channel.send(utils.sendError("You need to have admin permissions on the server to run this command!"));
+            return message.channel.send(utils.sendError("You need to be logged in to run this command!"));
         }
-        
+
         // check if command is only for dm's
         /*if (message.channel.type !== 'dm' && command.dmOnly) {
             return message.channel.send(utils.sendError("This command can only be ran in DMs!"));
         }*/ // dev purposes
         console.log(`User ${message.author.username}#${message.author.discriminator} executed command ${messageCommand} with args ${args}`);
-        
+
         // hardcoded help command so it has the command list
         if (command.name === "help") command.execute(message, args, commands);
         else command.execute(message, args);
@@ -99,7 +99,7 @@ webview.get(['/:servertoken', '/:servertoken*'] , async (req, res) => {
 
     let pathParts = utils.filterPath(webPath.split("/"));
     pathParts.unshift("public");
-    
+
     // get file
     const file = utils.explorePath(server[0].files, pathParts, "files");
 
