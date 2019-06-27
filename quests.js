@@ -348,6 +348,14 @@ const questList = [
             "for a hacking network called Circl; it should be your cup of tea!",
             linkedServerKey: "teamtest"
         },
+        end: {
+            text: "TODO",
+            condition: {
+                type: "download",
+                value: questServers.teamtestfinal.fileSystem["/home/downloadthis.txt"],
+                server: "teamtestfinal"
+            }
+        }
     }
 ];
 
