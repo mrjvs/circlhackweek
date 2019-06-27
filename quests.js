@@ -82,8 +82,9 @@ const questList = [
         end: {
             text: "Thanks again!",
             condition: {
-                type: "download",
-                server: "tutorial3"
+                type: "present",
+                value: constants.exe_codes.ssh,
+                server: "LOCAL"
             },
             next: {
                 type: "quest",
@@ -91,20 +92,25 @@ const questList = [
             }
         }
     },
-    {
+    { // quest 2
         name: "Networking",
         start: {
             text: "I'm sending you the IP for a guy who was looking for hackers like you. Good luck!",
             linkedServerKey: "p1pc"
         },
         end: {
+            text: "TODO",
+            condition: {
+                type: "download",
+                server: "p1pc"
+            },
             next: {
                 type: "quest",
                 value: 3
             }
         }
     },
-    {
+    { // quest 3
         name: "Privacy protection",
         start: {
             text: "So you managed to find my contact detail eh? Well I need a task doing... I need you to take down a website hosted " +
@@ -124,7 +130,7 @@ const questList = [
             }
         }
     },
-    {
+    { // quest 4
         name: "Privacy protection v2",
         start: {
             text: "While you were wiping the leaks, those good-for-nothing data sellers sold my buddies data to a doxxer down in Cambridge! " +
@@ -144,7 +150,7 @@ const questList = [
             }
         }
     },
-    {
+    { // quest 5
         name: "Team up",
         start: {
             text: "You seem quite good at hacking! Why don't you join up for a team? I've attached the IP for a initiation test " +

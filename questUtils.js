@@ -42,6 +42,11 @@ async function checkQuestGoal(userId, channel) {
         if (!utils.hasFileContent(endCondition.value, server.files)) {
             return await endQuest(user, quests.questList[user.activeQuest], channel);
         }
+    } else if (endCondition.type === "present") {
+        const server = (await db.serverModel.find({ip: user.questServerList[endCondition.server]}))[0];
+        if (utils.hasFileContent(endCondition.value, server.files)) {
+            return await endQuest(user, quests.questList[user.activeQuest], channel);
+        }
     }
 
     // quest not yet completed

@@ -1,4 +1,6 @@
 const utils = require("../utils.js");
+const quests = require('./quests.js');
+const questUtils = require('./questUtils.js');
 const constants = require("../constants.js");
 const path = require('path');
 const stateMachine = require('../statemachine.js');
@@ -18,9 +20,9 @@ module.exports = {
         const connectedServer = stateMachine.getState(message.author.id, "connectedServer");
         const pathState = stateMachine.getState(message.author.id, "path");
 
-        const user = (await db.userModel.find({userId: message.author.id}))[0];
-        const server = (await db.serverModel.find({ip: connectedServer}))[0];
-        const userServer = (await db.serverModel.find({ip: user.serverIp}))[0];
+        const user = (await db.userModel.find({ userId: message.author.id }))[0];
+        const server = (await db.serverModel.find({ ip: connectedServer }))[0];
+        const userServer = (await db.serverModel.find({ ip: user.serverIp }))[0];
 
         // parse source path
         if (!args[0]) {
@@ -71,13 +73,24 @@ module.exports = {
         }
 
         // copy source into destination
-        const newUserServer = (await db.serverModel.find({ip: user.serverIp}))[0];
+        const newUserServer = (await db.serverModel.find({ ip: user.serverIp }))[0];
         delete sourceFile.path;
         destinationFile.contents.push(sourceFile);
         const savePath = destinationPathParts.length === 0 ? destinationFile.path : destinationFile.path + ".contents";
         newUserServer.set(savePath, destinationFile.contents);
         delete destinationFile.path;
         await newUserServer.save();
+
+        // If current quest has download condition, finish the quest
+
+        // see if a quest is active
+        if (typeof user.activeQuest === "number") {
+            const endCondition = quests.questList[user.activeQuest].end.condition;
+
+            if (endCondition.type === "download") {
+                await questUtils.endQuest(user, quests.questList[user.activeQuest], channel);
+            }
+        }
 
         // success
         return message.channel.send(utils.sendSuccess(`File copied to ${destinationPath}`));
