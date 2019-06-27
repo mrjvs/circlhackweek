@@ -4,7 +4,7 @@ const constants = require("../constants.js");
 module.exports = {
     name: "serverlist",
     aliases: ["servers"],
-    description: "Lists all server you connected to",
+    description: "Lists all server you've connected to",
     showInHelp: true,
     dmOnly: true,
     signedUpOnly: true,

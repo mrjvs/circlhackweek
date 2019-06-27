@@ -9,7 +9,7 @@ const config = require("../config.json");
 module.exports = {
     name: "signup",
     aliases: [],
-    description: "Signs you up",
+    description: "Signs you up for circl",
     showInHelp: false,
     dmOnly: false,
     needsAdmin: false,
