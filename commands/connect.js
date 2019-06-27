@@ -1,4 +1,4 @@
-const embedutils = require("../utils/embedutils.js");
+const embedUtils = require("../utils/embedutils.js");
 const utils = require("../utils/utils.js");
 const db = require("../db.js");
 const stateMachine = require('../statemachine.js');
@@ -15,7 +15,7 @@ module.exports = {
     needsConnection: false,
     execute: async (message, args) => {
         if (args.length != 1) {
-            return message.channel.send(embedutils.sendError("You need to enter ip adress"));
+            return message.channel.send(embedUtils.sendError("You need to enter ip adress"));
         }
 
         let ipToFind = args[0];
@@ -27,12 +27,12 @@ module.exports = {
         }
         
         if (!ipToFind.match("[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}")) {
-            return message.channel.send(embedutils.sendError(`Could not resolve hostname ${ipToFind}: Name or service not known`));
+            return message.channel.send(embedUtils.sendError(`Could not resolve hostname ${ipToFind}: Name or service not known`));
         }
 
         const foundServers = await db.serverModel.find({ip: ipToFind}); 
         if (foundServers.length === 0) {
-            return message.channel.send(embedutils.sendError(`Could not resolve hostname ${ipToFind}: Name or service not known`))
+            return message.channel.send(embedUtils.sendError(`Could not resolve hostname ${ipToFind}: Name or service not known`))
         }
         const server = foundServers[0];
 

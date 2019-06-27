@@ -1,5 +1,29 @@
 const constants = require('./constants.js');
 
+const teams = {
+    nice: {
+        name: "Nice people",
+        description: "this is a description of a team nice",
+        quests: [
+            6,
+            7
+        ]
+    },
+    bad: {
+        name: "Bad hackers",
+        description: "this is a description of a team bad",
+        quests: [
+            8,
+            9
+        ]
+    },
+    prank: {
+        name: "Pranksters",
+        description: "this is a description of a team prank",
+        quests: []
+    }
+}
+
 const newUserFS = [
     {
         type: "dir",
@@ -354,6 +378,72 @@ const questList = [
                 type: "download",
                 value: questServers.teamtestfinal.fileSystem["/home/downloadthis.txt"],
                 server: "teamtestfinal"
+            },
+            next: {
+                type: "team",
+                value: [
+                    "nice",
+                    "bad",
+                    "prank"
+                ]
+            }
+        }
+    },
+    { // quest 6 - team nice
+        name: "old lady",
+        description: "Try your hand at helping an old lady.",
+        start: {
+            text: "Welcome to team nice"
+        },
+        end: {
+            text: "nice",
+            condition: {
+                type: "progress"
+            }
+        }
+    },
+    { // quest 7 - team nice
+        name: "old lady 2",
+        description: "you need old lady experience",
+        required: [
+            6
+        ],
+        start: {
+            text: "wow, another old lady"
+        },
+        end: {
+            text: "nice v2",
+            condition: {
+                type: "progress"
+            }
+        }
+    },
+    { // quest 8 - team bad
+        name: "kill old lady",
+        description: "Try your hand at killing an old lady.",
+        start: {
+            text: "Welcome to team bad"
+        },
+        end: {
+            text: "lmao",
+            condition: {
+                type: "progress"
+            }
+        }
+    },
+    { // quest 9 - team nice
+        name: "kill two old ladies",
+        description: "you need old lady bloodlust experience",
+        required: [
+            8
+        ],
+        start: {
+            text: "yay, another old lady to kill"
+        },
+        end: {
+            text: "lmao v2",
+            condition: {
+                type: "progress"
             }
         }
     }
@@ -362,5 +452,6 @@ const questList = [
 module.exports = {
     newUserFS,
     questList,
-    questServers
+    questServers,
+    teams
 }

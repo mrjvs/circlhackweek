@@ -81,6 +81,7 @@ const userSchema = new Mongoose.Schema({
         unique: true,
         type: String
     },
+    team: String,
     serverList: Array,
     serverIp: String,
     questServerList: Object,

@@ -3,6 +3,7 @@ const db = require('../db.js');
 const fileUtils = require('./fileutils.js');
 const embedUtils = require('./embedutils.js');
 const constants = require('../constants.js');
+const randomString = require('randomstring');
 
 async function startQuest(userId, questId, channel) {
     const user = (await db.userModel.find({userId}))[0];

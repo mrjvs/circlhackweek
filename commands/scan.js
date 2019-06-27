@@ -2,6 +2,7 @@ const stateMachine = require('../statemachine.js');
 const db = require("../db.js");
 const constants = require("../constants.js");
 const embedUtils = require("../utils/embedutils.js");
+const quests = require("../quests")
 
 module.exports = {
     name: "scan",
@@ -22,7 +23,7 @@ module.exports = {
         if (!server.linked || server.linked.length === 0) return message.channel.send(embedUtils.sendInfo("No linked servers"));
         let out = ""
         for (let i = 0; i < server.linked.length; i++) {
-            out += "- " + user.questServerList[server.linked[i]] + "\n"; // TODO show server name
+            out += "`" + user.questServerList[server.linked[i]] + "` - " + quests.questServers[server.linked[i]].name + "\n";
         }
         message.channel.send({
             embed: {

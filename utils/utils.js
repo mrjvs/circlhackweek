@@ -1,5 +1,7 @@
 const db = require('../db.js');
 const stateMachine = require('../statemachine.js');
+const embedUtils = require('./embedutils.js');
+const config = require('../config.json');
 
 async function isSignedUp(userId) {
     const foundUsers = await db.userModel.find({ userId });

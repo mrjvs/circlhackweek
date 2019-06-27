@@ -1,3 +1,4 @@
+const constants = require("../constants.js");
 
 function sendError(errorText) {
     return {
