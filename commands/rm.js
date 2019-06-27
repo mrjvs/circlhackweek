@@ -7,6 +7,7 @@ module.exports = {
     name: "rm",
     aliases: ["remove"],
     description: "Removes a file",
+    usage: "[target_file]"
     showInHelp: true,
     dmOnly: true,
     signUpOnly: true,
@@ -50,7 +51,7 @@ module.exports = {
                         obj.splice(i, 1);
                     }
                 }
-                
+
                 const newServer = (await db.serverModel.find({ ip: connectedServer }))[0];
                 newServer.set(pathToContents, obj);
                 delete file.path;
@@ -76,7 +77,7 @@ module.exports = {
 
                 let pathToContents = file.path.substring(0, file.path.lastIndexOf("."));
                 const fileIndex = file.path.slice(-1);
-                
+
                 let obj = server.get(pathToContents);
                 obj.splice(fileIndex, 1);
                 const newServer = (await db.serverModel.find({ ip: connectedServer }))[0];

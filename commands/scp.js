@@ -7,6 +7,7 @@ module.exports = {
     name: "scp",
     aliases: [],
     description: "Download files to local server",
+    usage: "<source_file> [destination_dir]",
     showInHelp: true,
     dmOnly: true,
     signedUpOnly: true,
@@ -80,4 +81,3 @@ module.exports = {
         return message.channel.send(utils.sendSuccess(`File copied to ${destinationPath}`));
     }
 }
-

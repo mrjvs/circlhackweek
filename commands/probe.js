@@ -4,7 +4,7 @@ const db = require("../db.js");
 module.exports = {
     name: "probe",
     aliases: ["nmap"],
-    description: "Looks up ports on a server   ",
+    description: "Scans for open ports on the current server",
     showInHelp: true,
     dmOnly: true,
     signedUpOnly: true,
@@ -16,6 +16,7 @@ module.exports = {
         if (!openedPorts) openedPorts = [];
 
         const server = (await db.serverModel.find({ ip: connectedServer }))[0];
+        // TODO make this able to scan other servers?
         const ports = server.ports.portList;
 
         let out = `**PORTS**\nOpen ports required to hack: ${server.ports.requiredAmount}\n\n`;

@@ -7,6 +7,7 @@ module.exports = {
     name: "ls",
     aliases: [],
     description: "Lists the files inside any directory",
+    usage: "[target_directory]",
     showInHelp: true,
     dmOnly: true,
     signedUpOnly: true,
@@ -40,7 +41,6 @@ module.exports = {
             out += "* " + file.contents[i].name + "\n";
         }
         message.channel.send(out);
-        
+
     }
 }
-

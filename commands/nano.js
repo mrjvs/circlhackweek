@@ -7,6 +7,7 @@ module.exports = {
     name: "nano",
     aliases: [],
     description: "Edits the contents of a file",
+    usage: "<file_name> <new_contents>",
     showInHelp: true,
     dmOnly: true,
     signedUpOnly: true,
@@ -47,4 +48,3 @@ module.exports = {
 
     }
 }
-

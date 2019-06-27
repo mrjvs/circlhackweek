@@ -26,6 +26,7 @@ module.exports = {
                 const command = commandsFound[0];
                 let aliases = command.aliases.map(alias => `\`${alias}\``).join(", ");
                 if (aliases === "") aliases = "No aliases!";
+                let usage = buildUsage(command);
                 return message.channel.send({
                     embed: {
                         color: constants.embed_colors.info,
@@ -33,7 +34,7 @@ module.exports = {
                         fields: [
                             {
                                 name: "Usage",
-                                value: `\`$${command.name} ${command.usage ? command.usage : ""}\``
+                                value: usage
                             },
                             {
                                 name: "Aliases",
@@ -48,4 +49,16 @@ module.exports = {
         }
 
     }
+}
+
+function buildUsage(command) {
+  let usage = "";
+  if (typeof command.usage === "object") {
+    for (usageItem in command.usage) {
+      usage += `\`${command.name} ${usageItem}\`\n`;
+    }
+  } else {
+    usage = `\`$${command.name} ${command.usage ? command.usage : ""}\``;
+  }
+  return usage;
 }

@@ -6,6 +6,7 @@ module.exports = {
     name: "quest",
     aliases: [],
     description: "Command to manage quests",
+    usage: ["", "submit"], // $quest and $quest submit
     showInHelp: true,
     dmOnly: true,
     signedUpOnly: true,
