@@ -38,7 +38,7 @@ module.exports = {
             embed: {
                 title: file.name,
                 color: constants.embed_colors.info,
-                description: "```" + file.contents + "```"
+                description: file.contents === "" ? "File is empty" : "```" + file.contents + "```"
             }
         });
     }

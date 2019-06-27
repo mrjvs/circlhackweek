@@ -8,7 +8,7 @@ module.exports = {
     name: "rm",
     aliases: ["remove"],
     description: "Removes a file",
-    usage: "<target_file>",
+    usage: "<target_file|*>",
     showInHelp: true,
     dmOnly: true,
     signUpOnly: true,
@@ -32,8 +32,9 @@ module.exports = {
             hasWildcard = true;
         }
         const newPath = path.join(pathState, pathInput);
+        const pathParts = utils.splitPath(newPath);
 
-        const file = utils.explorePath(server.files, utils.splitPath(newPath), "files");
+        const file = utils.explorePath(server.files, pathParts, "files");
         if (!file) {
             return message.channel.send(utils.sendError(constants.response_text.invalid_path));
         } else {
@@ -43,7 +44,7 @@ module.exports = {
                     return message.channel.send(utils.sendError(constants.response_text.invalid_path));
                 }
 
-                let pathToContents = (file.path + ".contents");
+                let pathToContents = (pathParts.length == 0) ? file.path : (file.path + ".contents");
                 let obj = server.get(pathToContents);
                 // remove everything in dir
                 for (let i = file.contents.length - 1; i >= 0; i--) {

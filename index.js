@@ -108,9 +108,6 @@ client.on('message', async (message) => {
 });
 
 webview.get(['/:servertoken', '/:servertoken*'] , async (req, res) => {
-    console.log("url: " + req.path);
-    console.log("servertoken: " + req.params.servertoken);
-    console.log(req.params);
 
     const server = await db.serverModel.find({ token: req.params.servertoken, serverType: "web" });
     if (server.length === 0) {

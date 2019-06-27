@@ -74,7 +74,8 @@ module.exports = {
         const newUserServer = (await db.serverModel.find({ip: user.serverIp}))[0];
         delete sourceFile.path;
         destinationFile.contents.push(sourceFile);
-        newUserServer.set(destinationFile.path + ".contents", destinationFile.contents);
+        const savePath = destinationPathParts.length === 0 ? destinationFile.path : destinationFile.path + ".contents";
+        newUserServer.set(savePath, destinationFile.contents);
         delete destinationFile.path;
         await newUserServer.save();
 
