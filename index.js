@@ -12,7 +12,8 @@ const config = require('./config.json');
 // local imports
 const db = require('./db.js');
 db.init(config.connectionString);
-const utils = require('./utils.js');
+const fileUtils = require('./utils/fileutils.js');
+const utils = require('./utils/utils.js');
 const runBin = require('./runbin.js');
 const stateMachine = require('./statemachine.js');
 const constants = require('./constants.js');
@@ -118,11 +119,11 @@ webview.get(['/:servertoken', '/:servertoken*'] , async (req, res) => {
     let webPath = req.params[0];
     if (!webPath) webPath = "/";
 
-    let pathParts = utils.filterPath(webPath.split("/"));
+    let pathParts = fileUtils.filterPath(webPath.split("/"));
     pathParts.unshift("public");
 
     // get file
-    const file = utils.explorePath(server[0].files, pathParts, "files");
+    const file = fileUtils.explorePath(server[0].files, pathParts, "files");
 
     // 404
     if (file === false) return res.status(404).send(`<h1>404</h1><br>Cannot locate file ${webPath}.`);

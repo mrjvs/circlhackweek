@@ -1,4 +1,4 @@
-const utils = require("../utils.js");
+const embedUtils = require("../utils/embedutils.js");
 const stateMachine = require('../statemachine.js');
 
 module.exports = {
@@ -13,6 +13,6 @@ module.exports = {
     execute: (message, args) => {
         const connectedServer = stateMachine.getState(message.author.id, "connectedServer");
         stateMachine.clearState(message.author.id, "connectedServer");
-        message.channel.send(utils.sendInfo(`Disconnected: ${connectedServer}`));
+        message.channel.send(embedUtils.sendInfo(`Disconnected: ${connectedServer}`));
     }
 }

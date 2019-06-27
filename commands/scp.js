@@ -1,6 +1,7 @@
-const utils = require("../utils.js");
+const embedUtils = require("../utils/embedutils.js");
+const fileUtils = require("../utils/fileutils.js");
 const quests = require('../quests.js');
-const questUtils = require('../questUtils.js');
+const questUtils = require('../utils/questutils.js');
 const constants = require("../constants.js");
 const path = require('path');
 const stateMachine = require('../statemachine.js');
@@ -26,19 +27,19 @@ module.exports = {
 
         // parse source path
         if (!args[0]) {
-            return message.channel.send(utils.sendError("You need to enter the file name"));
+            return message.channel.send(embedUtils.sendError("You need to enter the file name"));
         }
         const sourcePathInput = args[0];
         const sourcePath = path.join(pathState, sourcePathInput);
-        const sourcePathParts = utils.splitPath(sourcePath);
+        const sourcePathParts = fileUtils.splitPath(sourcePath);
 
         // get file
-        const sourceFile = utils.explorePath(server.files, sourcePathParts, "files");
+        const sourceFile = fileUtils.explorePath(server.files, sourcePathParts, "files");
         if (sourceFile === false) {
-            return message.channel.send(utils.sendError(constants.response_text.invalid_path));
+            return message.channel.send(embedUtils.sendError(constants.response_text.invalid_path));
         }
         if (sourceFile.type === "dir") {
-            return message.channel.send(utils.sendError(sourceFile.name + constants.response_text.not_file));
+            return message.channel.send(embedUtils.sendError(sourceFile.name + constants.response_text.not_file));
         }
 
         // parse destination path
@@ -55,21 +56,21 @@ module.exports = {
             destinationPathInput = args[1];
         }
         const destinationPath = path.join(destinationPathInput);
-        const destinationPathParts = utils.splitPath(destinationPath);
+        const destinationPathParts = fileUtils.splitPath(destinationPath);
 
         // get destination dir
-        const destinationFile = utils.explorePath(userServer.files, destinationPathParts, "files");
+        const destinationFile = fileUtils.explorePath(userServer.files, destinationPathParts, "files");
         if (destinationFile === false) {
-            return message.channel.send(utils.sendError(constants.response_text.invalid_path));
+            return message.channel.send(embedUtils.sendError(constants.response_text.invalid_path));
         }
         if (destinationFile.type === "file") {
-            return message.channel.send(utils.sendError(destinationFile.name + constants.response_text.not_dir));
+            return message.channel.send(embedUtils.sendError(destinationFile.name + constants.response_text.not_dir));
         }
 
         // check duplicate name
         const filteredDestinationFile = destinationFile.contents.filter(file => file.name === sourceFile.name);
         if (filteredDestinationFile.length !== 0) {
-            return message.channel.send(utils.sendError("File already exists in destination"));
+            return message.channel.send(embedUtils.sendError("File already exists in destination"));
         }
 
         // copy source into destination
@@ -93,6 +94,6 @@ module.exports = {
         }
 
         // success
-        return message.channel.send(utils.sendSuccess(`File copied to ${destinationPath}`));
+        return message.channel.send(embedUtils.sendSuccess(`File copied to ${destinationPath}`));
     }
 }

@@ -1,5 +1,4 @@
-const questUtils = require('../questUtils.js');
-const utils = require('../utils.js');
+const embedUtils = require('../utils/embedutils.js');
 const constants = require('../constants.js');
 const db = require('../db.js')
 
@@ -50,7 +49,7 @@ module.exports = {
                     }
                 })
             } else {
-                return message.channel.send(utils.sendError(`Cannot find command \`${args[0]}\``));
+                return message.channel.send(embedUtils.sendError(`Cannot find command \`${args[0]}\``));
             }
         }
 

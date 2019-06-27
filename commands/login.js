@@ -1,4 +1,4 @@
-const utils = require("../utils.js");
+const embedUtils = require("../utils/embedutils.js");
 const db = require("../db.js");
 const stateMachine = require('../statemachine.js');
 const constants = require('../constants.js');
@@ -18,7 +18,7 @@ module.exports = {
         const loginState = stateMachine.getState(message.author.id, "loginState");
 
         if (loginState && loginState.server === connectedServer) {
-            return message.channel.send(utils.sendInfo("You are already logged into this server"));
+            return message.channel.send(embedUtils.sendInfo("You are already logged into this server"));
         }
 
         const server = (await db.serverModel.find({ ip: connectedServer }))[0];
@@ -77,7 +77,7 @@ module.exports = {
                 user.save((err, user) => {
                     if (err) {
                         console.error(err);
-                        return message.channel.send(utils.sendError("Could not save your user data! ☹"));
+                        return message.channel.send(embedUtils.sendError("Could not save your user data! ☹"));
                     }
                 });
                 stateMachine.setState(message.author.id, "loginState", {
@@ -93,7 +93,7 @@ module.exports = {
                     }
                 });
             } else {
-                message.channel.send(utils.sendError("Incorrect username and password"));
+                message.channel.send(embedUtils.sendError("Incorrect username and password"));
             }
         }
     }

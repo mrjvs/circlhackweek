@@ -1,6 +1,6 @@
 const stateMachine = require('../statemachine.js');
 const db = require("../db.js");
-const utils = require("../utils.js");
+const embedUtils = require("../utils/embedUtils.js");
 const constants = require("../constants.js");
 
 module.exports = {
@@ -21,7 +21,7 @@ module.exports = {
 
         const server = (await db.serverModel.find({ ip: serverToConnect }))[0];
         if (!server) {
-            return message.channel.send(utils.sendError(`Could not resolve hostname ${serverToConnect}: Name or service not known`))
+            return message.channel.send(embedUtils.sendError(`Could not resolve hostname ${serverToConnect}: Name or service not known`))
         }
         
         const ports = server.ports.portList;

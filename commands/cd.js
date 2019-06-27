@@ -1,4 +1,5 @@
-const utils = require("../utils.js");
+const embedUtils = require("../utils/embedutils.js");
+const fileUtils = require("../utils/fileutils.js");
 const path = require('path');
 const stateMachine = require('../statemachine.js');
 const db = require("../db.js");
@@ -25,11 +26,11 @@ module.exports = {
         const newPath = path.join(pathState, pathInput);
 
         // check if valid path
-        const file = utils.explorePath(server.files, utils.splitPath(newPath), "files");
+        const file = fileUtils.explorePath(server.files, fileUtils.splitPath(newPath), "files");
         if (file === false) {
-            return message.channel.send(utils.sendError("No such file or directory"));
+            return message.channel.send(embedUtils.sendError("No such file or directory"));
         } else if (file.type !== "dir") {
-            return message.channel.send(utils.sendError(file.name + ": Not a directory"))
+            return message.channel.send(embedUtils.sendError(file.name + ": Not a directory"))
         }
 
         // set new path

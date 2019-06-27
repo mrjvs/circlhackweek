@@ -1,9 +1,9 @@
 const db = require("../db.js");
-const utils = require("../utils.js");
+const embedUtils = require("../utils/embedutils.js");
 const constants = require("../constants.js");
 const quests = require('../quests.js');
 const randomString = require("randomstring");
-const questUtils = require('../questUtils.js');
+const questUtils = require('../utils/questUtils.js');
 const config = require("../config.json");
 
 module.exports = {
@@ -24,7 +24,7 @@ module.exports = {
         // account check
         let foundUsers = await db.userModel.find({ userId: userId });
         if (foundUsers.length !== 0) {
-            message.channel.send(utils.sendError("You already have an account, you cannot create another one."));
+            message.channel.send(embedUtils.sendError("You already have an account, you cannot create another one."));
             return;
         }
 
@@ -68,7 +68,7 @@ module.exports = {
         const questServers = quests.questServers;
         let questIps = {};
         for (let key in questServers) {
-            const questServerStructure = await utils.createQuestServer(questServers[key]);
+            const questServerStructure = await questUtils.createQuestServer(questServers[key]);
             const questServer = new db.serverModel(questServerStructure);
             await questServer.save();
             questIps[key] = questServer.ip;
@@ -97,7 +97,7 @@ module.exports = {
         try {
             await newUser.save();
         } catch (err) {
-            channel.send(utils.sendError("We failed to save your user data! ☹"));
+            channel.send(embedUtils.sendError("We failed to save your user data! ☹"));
         }
 
         // Display information about the user: username + password

@@ -1,7 +1,7 @@
-const questUtils = require('../questUtils.js');
+const questutils = require('../utils/questutils.js');
 const quests = require("../quests.js");
 const constants = require("../constants.js");
-const utils = require('../utils.js');
+const embedutils = require('../utils/embedutils.js');
 const db = require('../db.js')
 
 module.exports = {
@@ -18,7 +18,7 @@ module.exports = {
         if (!args[0]) {
             const user = (await db.userModel.find({ userId: message.author.id }))[0];
             if (typeof user.activeQuest === "undefined") {
-                return message.channel.send(utils.sendInfo("No active quest!"));
+                return message.channel.send(embedutils.sendInfo("No active quest!"));
             } else {
                 const attachedServer = user.questServerList[quests.questList[user.activeQuest].start.linkedServerKey];
                 const fields = attachedServer ? [{name: "Attached server", value: attachedServer}] : undefined;
@@ -34,7 +34,7 @@ module.exports = {
             // TODO $quest <num> + $quest list
         }
         if (args[0] === "submit") {
-            return questUtils.checkQuestGoal(message.author.id, message.channel);
+            return questutils.checkQuestGoal(message.author.id, message.channel);
         }
         if (args[0] === "list") {
             const user = (await db.userModel.find({ userId: message.author.id }))[0];
@@ -56,6 +56,6 @@ module.exports = {
                 }
             });
         }
-        return message.channel.send(utils.sendError("Invalid usage!"));
+        return message.channel.send(embedutils.sendError("Invalid usage!"));
     }
 }

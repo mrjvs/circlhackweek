@@ -1,4 +1,5 @@
-const utils = require("../utils.js");
+const fileUtils = require("../utils/fileutils.js");
+const embedUtils = require("../utils/embedutils.js");
 const path = require('path');
 const stateMachine = require('../statemachine.js');
 const db = require("../db.js");
@@ -23,15 +24,15 @@ module.exports = {
         // parse inputted path
         const pathInput = args[0] ? args[0] : ".";
         const finalPath = path.join(pathState, pathInput);
-        const pathParts = utils.splitPath(finalPath);
+        const pathParts = fileUtils.splitPath(finalPath);
 
         // get file
-        const file = utils.explorePath(server.files, pathParts, "files");
+        const file = fileUtils.explorePath(server.files, pathParts, "files");
         if (file === false) {
-            return message.channel.send(utils.sendError(constants.response_text.invalid_path));
+            return message.channel.send(embedUtils.sendError(constants.response_text.invalid_path));
         }
         if (file.type === "file") {
-            return message.channel.send(utils.sendError(file.name + constants.response_text.not_dir));
+            return message.channel.send(embedUtils.sendError(file.name + constants.response_text.not_dir));
         }
 
         // reply with dir contents

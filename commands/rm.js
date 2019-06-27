@@ -1,5 +1,6 @@
 const db = require("../db.js");
-const utils = require("../utils.js");
+const embedUtils = require("../utils/embedutils.js");
+const fileUtils = require("../utils/fileutils.js");
 const achievements = require("../achievements.js");
 const stateMachine = require('../statemachine.js');
 const path = require('path');
@@ -20,7 +21,7 @@ module.exports = {
         const pathState = stateMachine.getState(message.author.id, "path");
 
         if (args.length !== 1) {
-            return message.channel.send(utils.sendError("You need to enter the file name"));
+            return message.channel.send(embedUtils.sendError("You need to enter the file name"));
         }
 
         const server = (await db.serverModel.find({ ip: connectedServer }))[0];
@@ -33,16 +34,16 @@ module.exports = {
             hasWildcard = true;
         }
         const newPath = path.join(pathState, pathInput);
-        const pathParts = utils.splitPath(newPath);
+        const pathParts = fileUtils.splitPath(newPath);
 
-        const file = utils.explorePath(server.files, pathParts, "files");
+        const file = fileUtils.explorePath(server.files, pathParts, "files");
         if (!file) {
-            return message.channel.send(utils.sendError(constants.response_text.invalid_path));
+            return message.channel.send(embedUtils.sendError(constants.response_text.invalid_path));
         } else {
             if (hasWildcard) {
                 if (file.type == "file") {
                     // if wildcard and is file, path is invalid.
-                    return message.channel.send(utils.sendError(constants.response_text.invalid_path));
+                    return message.channel.send(embedUtils.sendError(constants.response_text.invalid_path));
                 }
 
                 let pathToContents = (pathParts.length == 0) ? file.path : (file.path + ".contents");
@@ -61,15 +62,15 @@ module.exports = {
                 newServer.save((err, server) => {
                     if (err) {
                         console.log(error);
-                        return message.channel.send(utils.sendError("Could not save the server! ☹"));
+                        return message.channel.send(embedUtils.sendError("Could not save the server! ☹"));
                     }
                     achievements.unlockAchievement(message, "rm-all");  
-                    return message.channel.send(utils.sendSuccess(newPath + " : Files in directory removed"));
+                    return message.channel.send(embedUtils.sendSuccess(newPath + " : Files in directory removed"));
                 });
             } else {
                 if (file.type !== "file") {
                     // only delete a single file, dir's cant be removed.
-                    return message.channel.send(utils.sendError(constants.response_text.not_file));
+                    return message.channel.send(embedUtils.sendError(constants.response_text.not_file));
                 }
 
                 /*
@@ -88,7 +89,7 @@ module.exports = {
                 newServer.set(pathToContents, obj);
                 delete file.path;
                 newServer.save().then((updatedstuff) => {
-                    return message.channel.send(utils.sendInfo(newPath + ": File removed"));
+                    return message.channel.send(embedUtils.sendInfo(newPath + ": File removed"));
                 });
             }
         }

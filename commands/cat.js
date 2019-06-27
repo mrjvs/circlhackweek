@@ -1,4 +1,5 @@
-const utils = require("../utils.js");
+const embedUtils = require("../utils/embedutils.js");
+const fileUtils = require("../utils/fileutils.js");
 const path = require('path');
 const stateMachine = require('../statemachine.js');
 const db = require("../db.js");
@@ -19,7 +20,7 @@ module.exports = {
         const pathState = stateMachine.getState(message.author.id, "path");
 
         if (args.length !== 1) {
-            return message.channel.send(utils.sendError("You need to enter the file name"));
+            return message.channel.send(embedUtils.sendError("You need to enter the file name"));
         }
 
         const server = (await db.serverModel.find({ ip: connectedServer }))[0];
@@ -27,11 +28,11 @@ module.exports = {
         const pathInput = args[0];
         const newPath = path.join(pathState, pathInput);
 
-        const file = utils.explorePath(server.files, utils.splitPath(newPath), "files");
+        const file = fileUtils.explorePath(server.files, fileUtils.splitPath(newPath), "files");
         if (!file) {
-            return message.channel.send(utils.sendError(constants.response_text.invalid_path));
+            return message.channel.send(embedUtils.sendError(constants.response_text.invalid_path));
         } else if (file.type !== "file") {
-            return message.channel.send(utils.sendError(file.name + constants.response_text.not_file));
+            return message.channel.send(embedUtils.sendError(file.name + constants.response_text.not_file));
         }
 
         return message.channel.send({

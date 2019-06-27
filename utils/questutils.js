@@ -1,7 +1,8 @@
-const quests = require('./quests.js');
-const db = require('./db.js');
-const utils = require('./utils.js');
-const constants = require('./constants.js');
+const quests = require('../quests.js');
+const db = require('../db.js');
+const fileUtils = require('./fileutils.js');
+const embedUtils = require('./embedutils.js');
+const constants = require('../constants.js');
 
 async function startQuest(userId, questId, channel) {
     const user = (await db.userModel.find({userId}))[0];
@@ -31,7 +32,7 @@ async function checkQuestGoal(userId, channel) {
     const user = (await db.userModel.find({userId}))[0];
 
     // see if a quest is active
-    if (typeof user.activeQuest !== "number") return channel.send(utils.sendError("No quest active"));
+    if (typeof user.activeQuest !== "number") return channel.send(embedUtils.sendError("No quest active"));
     const endCondition = quests.questList[user.activeQuest].end.condition;
 
     let serverIp;
@@ -42,18 +43,18 @@ async function checkQuestGoal(userId, channel) {
         return await endQuest(user, quests.questList[user.activeQuest], channel);
     } else if (endCondition.type === "delete") {
         const server = (await db.serverModel.find({ip: serverIp }))[0];
-        if (!utils.hasFileContent(endCondition.value, server.files)) {
+        if (!fileUtils.hasFileContent(endCondition.value, server.files)) {
             return await endQuest(user, quests.questList[user.activeQuest], channel);
         }
     } else if (endCondition.type === "present") {
         const server = (await db.serverModel.find({ip: serverIp }))[0];
-        if (utils.hasFileContent(endCondition.value, server.files)) {
+        if (fileUtils.hasFileContent(endCondition.value, server.files)) {
             return await endQuest(user, quests.questList[user.activeQuest], channel);
         }
     }
 
     // quest not yet completed
-    return channel.send(utils.sendError("Quest not completed"));
+    return channel.send(embedUtils.sendError("Quest not completed"));
 }
 
 async function endQuest(user, quest, channel) {
@@ -83,8 +84,28 @@ async function endQuest(user, quest, channel) {
     }
 }
 
+async function createQuestServer(questServer) {
+    const ip = await db.serverSchema.statics.generateUniqueIp();
+    return {
+        ip,
+        name: questServer.name,
+        files: parseShortenedFileSystem(questServer.fileSystem),
+        ports: questServer.ports,
+        serverType: questServer.type,
+        linked: questServer.linked ? questServer.linked : [], // <-- ip
+        credentials: {
+            user: questServer.user ? questServer.user : "root",
+            pass: randomString.generate({
+                length: 7,
+                charset: "alphanumeric"
+            })
+        }
+    }
+}
+
 module.exports = {
     startQuest,
     endQuest,
-    checkQuestGoal
+    checkQuestGoal,
+    createQuestServer
 }

@@ -1,5 +1,5 @@
 const db = require("../db.js");
-const utils = require("../utils.js");
+const embedutils = require("../utils/embedutils.js");
 
 module.exports = {
     name: "unsignup",
@@ -15,18 +15,25 @@ module.exports = {
 
         let foundUsers = await db.userModel.find({ userId: userId });
         if (foundUsers.length === 0) {
-            message.channel.send(utils.sendError("You don't have an account to delete"));
+            message.channel.send(embedutils.sendError("You don't have an account to delete"));
             return;
         }
 
         try {
+            let questServers = foundUsers[0].questServerList;
+            let questServerIps = Object.values(questServers);
+
+            let connectedServerIps = foundUsers[0].serverList.map(server => server.ip);
+            let allServerIps = questServerIps.concat(connectedServerIps);
+
             let userResult = await db.userModel.deleteOne({ userId: userId });
-            let serverResult = await db.serverModel.deleteMany(); // TODO :D
-            if (userResult.deletedCount > 0) {
-                return message.channel.send(utils.sendSuccess("Your account has been deleted"));
+            let serverResult = await db.serverModel.deleteMany({ip: {$in: allServerIps}});
+
+            if (userResult.deletedCount > 0 && serverResult.deletedCount > 0) {
+                return message.channel.send(embedutils.sendSuccess("Your account has been deleted"));
             }
         } catch (err) {
-            message.channel.send(utils.sendError("Could not delete your user! :("));
+            message.channel.send(embedutils.sendError("Could not delete your user! :("));
             console.error(err);
         }
     }

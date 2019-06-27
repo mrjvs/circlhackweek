@@ -1,4 +1,5 @@
-const utils = require("../utils.js");
+const fileUtils = require("../utils/fileutils.js");
+const embedUtils = require("../utils/embedutils.js");
 const constants = require("../constants.js");
 const path = require('path');
 const stateMachine = require('../statemachine.js');
@@ -21,24 +22,24 @@ module.exports = {
 
         // parse path
         if (!args[0]) {
-            return message.channel.send(utils.sendError("You need to enter the file name"));
+            return message.channel.send(embedUtils.sendError("You need to enter the file name"));
         }
         const pathInput = args[0];
         const finalPath = path.join(pathState, pathInput);
-        const pathParts = utils.splitPath(finalPath);
+        const pathParts = fileUtils.splitPath(finalPath);
         const fileName = pathParts.pop();
         console.log(pathParts);
 
         // get file
-        const fileDirectory = utils.explorePath(server.files, pathParts, "files");
+        const fileDirectory = fileUtils.explorePath(server.files, pathParts, "files");
         if (fileDirectory === false || fileDirectory.type === "file") {
-            return message.channel.send(utils.sendError(constants.response_text.invalid_path));
+            return message.channel.send(embedUtils.sendError(constants.response_text.invalid_path));
         }
 
         // check duplicate name
         const filteredFileDirectory = fileDirectory.contents.filter(file => file.name === fileName);
         if (filteredFileDirectory.length !== 0) {
-            return message.channel.send(utils.sendError(finalPath + ": File already exists"));
+            return message.channel.send(embedUtils.sendError(finalPath + ": File already exists"));
         }
 
         // put new file in folder
@@ -57,6 +58,6 @@ module.exports = {
         await newServer.save();
 
         // success
-        return message.channel.send(utils.sendSuccess(`File saved to ${finalPath}`));
+        return message.channel.send(embedUtils.sendSuccess(`File saved to ${finalPath}`));
     }
 }

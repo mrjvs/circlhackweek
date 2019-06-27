@@ -1,4 +1,4 @@
-const utils = require("../utils.js");
+const embedUtils = require("../utils/embedutils.js");
 const stateMachine = require('../statemachine.js');
 
 module.exports = {
@@ -12,6 +12,6 @@ module.exports = {
     needsAdmin: true,
     execute: (message, args) => {
         stateMachine.clearState(message.author.id, "loginState")
-        message.channel.send(utils.sendInfo(`Logged out: ${connectedServer}`));
+        message.channel.send(embedUtils.sendInfo(`Logged out: ${connectedServer}`));
     }
 }
