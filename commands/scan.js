@@ -1,7 +1,7 @@
 const stateMachine = require('../statemachine.js');
 const db = require("../db.js");
 const constants = require("../constants.js");
-const embedUtils = require("../util/embedutils.js");
+const embedUtils = require("../utils/embedutils.js");
 
 module.exports = {
     name: "scan",
