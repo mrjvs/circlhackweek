@@ -7,7 +7,7 @@ module.exports = [
         code: constants.exe_codes.porthack, // porthack
         execute: (utils, user, server, message, args) => {
             const openedPorts = stateMachine.getState(message.author.id, 'openedPorts');
-            if (openedPorts && openedPorts.length < server.ports.requiredAmount || !openedPorts) return message.channel.send(utils.sendError("Not enough ports are open to run porthack"));
+            if ((openedPorts && openedPorts.length < server.ports.requiredAmount) || (!openedPorts && server.ports.requiredAmount !== 0)) return message.channel.send(utils.sendError("Not enough ports are open to run porthack"));
             stateMachine.setState(message.author.id, "loginState", {
                 serverIp: server.ip,
                 user: server.credentials.user,
@@ -100,7 +100,7 @@ module.exports = [
             if (!args[0]) return message.channel.send(utils.sendError("Needs port number to run"));
             const ports = server.ports.portList.filter(port => port.portNumber == args[0]);
             if (ports.length === 0) return message.channel.send(utils.sendError("Port not available"));
-            if (ports[0].portType !== "ssh") return message.channel.send(utils.sendError("Port doesnt have WEB attached"));
+            if (ports[0].portType !== "web") return message.channel.send(utils.sendError("Port doesnt have WEB attached"));
             
             // open port
             let openedPorts = stateMachine.getState(message.author.id, 'openedPorts');

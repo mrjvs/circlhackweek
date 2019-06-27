@@ -51,115 +51,6 @@ const newUserFS = [
 * }
 */
 
-const questList = [
-    { // quest 0
-        name: "First steps",
-        start: {
-            text: "Hey welcome to the hacking mailing group on geezmail! My name's Kathy! I was told you would be able to " + 
-            "help me? Could you please wipe the logs of the attached server, I *really* don't" + 
-            "want my boss to find out I deleted records from his private server...",
-            linkedServerKey: "tutorial1",
-        },
-        end: {
-            text: 'Hey thanks, I left that there by accident! I was sloppy...', // change "on" to "by"
-            condition: {
-                type: "delete",
-                value: questServers.tutorial1.fileSystem["/logs/removed_file.txt"],
-                server: "tutorial1"
-            },
-            next: {
-                type: "quest",
-                value: 1
-            }
-        }
-    },
-    { // quest 1
-        name: "Tool up",
-        start: {
-            text: "Since you're new to the system, as a thank you for deleting my logs, why don't you go ahead" +
-            "and grab all the tools you need from the attached server!" // file has "tutorial2" ip
-        },
-        end: {
-            text: "Thanks again!",
-            condition: {
-                type: "present",
-                value: constants.exe_codes.ssh,
-                server: "LOCAL"
-            },
-            next: {
-                type: "quest",
-                value: 2
-            }
-        }
-    },
-    { // quest 2
-        name: "Networking",
-        start: {
-            text: "I'm sending you the IP for a guy who was looking for hackers like you. Good luck!",
-            linkedServerKey: "p1pc"
-        },
-        end: {
-            text: "TODO",
-            condition: {
-                type: "download",
-                server: "p1pc"
-            },
-            next: {
-                type: "quest",
-                value: 3
-            }
-        }
-    },
-    { // quest 3
-        name: "Privacy protection",
-        start: {
-            text: "So you managed to find my contact detail eh? Well I need a task doing... I need you to take down a website hosted " +
-            "on the server I am providing. Knock yourself out and do whatever you want with it as long as the `leaks.html` file gets deleted",
-            linkedServerKey: "datasell"
-        }, 
-        end: {
-            text: "Like it or not, you've done a good deed! Those people would've handed those emails out to god knows who!",
-            condition: {
-                type: "delete",
-                value: questServers.datasell.fileSystem["/public/leaks.html"],
-                server: "datasell"
-            },
-            next: {
-                type: "quest",
-                value: 4
-            }
-        }
-    },
-    { // quest 4
-        name: "Privacy protection v2",
-        start: {
-            text: "While you were wiping the leaks, those good-for-nothing data sellers sold my buddies data to a doxxer down in Cambridge! " +
-            "I managed to grab his IP, could you connect and make sure the leak is dealt with?",
-            linkedServerKey: "datasold"
-        },
-        end: {
-            text: "Thanks for that!",
-            condition: {
-                type: "delete",
-                value: questServers.datasell.fileSystem["/home/leaked.txt"],
-                server: "datasold"
-            },
-            next: {
-                type: "quest",
-                value: 5
-            }
-        }
-    },
-    { // quest 5
-        name: "Team up",
-        start: {
-            text: "You seem quite good at hacking! Why don't you join up for a team? I've attached the IP for a initiation test " +
-            "for a hacking network called Circl; it should be your cup of tea!",
-            linkedServerKey: "teamtest"
-        },
-    }
-];
-
 const questServers = {
     "p0server": {
         name: "Node-006",
@@ -347,6 +238,118 @@ const questServers = {
         ]
     }
 }
+
+const questList = [
+    { // quest 0
+        name: "First steps",
+        start: {
+            text: "Hey welcome to the hacking mailing group on geezmail! My name's Kathy! I was told you would be able to " + 
+            "help me? Could you please wipe the logs of the attached server, I *really* don't" + 
+            "want my boss to find out I deleted records from his private server...",
+            linkedServerKey: "tutorial1",
+            // TODO teach hacking, file system navigation, rm files
+        },
+        end: {
+            text: 'Hey thanks, I left that there by accident! I was sloppy...', // change "on" to "by"
+            condition: {
+                type: "delete",
+                value: questServers.tutorial1.fileSystem["/logs/removed_file.txt"],
+                server: "tutorial1"
+            },
+            next: {
+                type: "quest",
+                value: 1
+            }
+        }
+    },
+    { // quest 1
+        name: "Tool up",
+        start: {
+            text: "Since you're new to the system, as a thank you for deleting my logs, why don't you go ahead" +
+            "and grab all the tools you need from the attached server!", // TODO file has "tutorial2" ip
+            // TODO teach local server. scanning downloading.
+            linkedServerKey: "tutorial2"
+        },
+        end: {
+            text: "Thanks again!",
+            condition: {
+                type: "present",
+                value: constants.exe_codes.ssh,
+                server: "LOCAL"
+            },
+            next: {
+                type: "quest",
+                value: 2
+            }
+        }
+    },
+    { // quest 2
+        name: "Networking",
+        start: {
+            text: "I'm sending you the IP for a guy who was looking for hackers like you. Good luck!",
+            linkedServerKey: "p1pc"
+        },
+        end: {
+            text: "TODO",
+            condition: {
+                type: "download",
+                server: "p1pc"
+            },
+            next: {
+                type: "quest",
+                value: 3
+            }
+        }
+    },
+    { // quest 3
+        name: "Privacy protection",
+        start: {
+            text: "So you managed to find my contact detail eh? Well I need a task doing... I need you to take down a website hosted " +
+            "on the server I am providing. Knock yourself out and do whatever you want with it as long as the `leaks.html` file gets deleted",
+            linkedServerKey: "datasell"
+        }, 
+        end: {
+            text: "Like it or not, you've done a good deed! Those people would've handed those emails out to god knows who!",
+            condition: {
+                type: "delete",
+                value: questServers.datasell.fileSystem["/public/leaks.html"],
+                server: "datasell"
+            },
+            next: {
+                type: "quest",
+                value: 4
+            }
+        }
+    },
+    { // quest 4
+        name: "Privacy protection v2",
+        start: {
+            text: "While you were wiping the leaks, those good-for-nothing data sellers sold my buddies data to a doxxer down in Cambridge! " +
+            "I managed to grab his IP, could you connect and make sure the leak is dealt with?",
+            linkedServerKey: "datasold"
+        },
+        end: {
+            text: "Thanks for that!",
+            condition: {
+                type: "delete",
+                value: questServers.datasold.fileSystem["/home/leaked.txt"],
+                server: "datasold"
+            },
+            next: {
+                type: "quest",
+                value: 5
+            }
+        }
+    },
+    { // quest 5
+        name: "Team up",
+        start: {
+            text: "You seem quite good at hacking! Why don't you join up for a team? I've attached the IP for a initiation test " +
+            "for a hacking network called Circl; it should be your cup of tea!",
+            linkedServerKey: "teamtest"
+        },
+    }
+];
 
 module.exports = {
     newUserFS,

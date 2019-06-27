@@ -22,7 +22,7 @@ module.exports = {
         if (!server.linked || server.linked.length === 0) return message.channel.send(utils.sendInfo("No linked servers"));
         let out = ""
         for (let i = 0; i < server.linked.length; i++) {
-            out += "- " + user.questServerList[server.linked[i]] + "\n";
+            out += "- " + user.questServerList[server.linked[i]] + "\n"; // TODO show server name
         }
         message.channel.send({
             embed: {

@@ -20,8 +20,9 @@ module.exports = {
         }
 
         try {
-            let result = await db.userModel.deleteOne({ userId: userId });
-            if (result.deletedCount > 0) {
+            let userResult = await db.userModel.deleteOne({ userId: userId });
+            let serverResult = await db.serverModel.deleteMany(); // TODO :D
+            if (userResult.deletedCount > 0) {
                 return message.channel.send(utils.sendSuccess("Your account has been deleted"));
             }
         } catch (err) {

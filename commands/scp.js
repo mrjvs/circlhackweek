@@ -1,6 +1,6 @@
 const utils = require("../utils.js");
-const quests = require('./quests.js');
-const questUtils = require('./questUtils.js');
+const quests = require('../quests.js');
+const questUtils = require('../questUtils.js');
 const constants = require("../constants.js");
 const path = require('path');
 const stateMachine = require('../statemachine.js');
@@ -44,9 +44,9 @@ module.exports = {
         // parse destination path
         let destinationPathInput;
         if (!args[1]) {
-            if (sourceFile.type.endsWith(".exe")) {
+            if (sourceFile.name.endsWith(".exe")) {
                 destinationPathInput = 'bin';
-            } else if (sourceFile.type.endsWith(".sys")) {
+            } else if (sourceFile.name.endsWith(".sys")) {
                 destinationPathInput = 'sys';
             } else {
                 destinationPathInput = 'home';
@@ -87,8 +87,8 @@ module.exports = {
         if (typeof user.activeQuest === "number") {
             const endCondition = quests.questList[user.activeQuest].end.condition;
 
-            if (endCondition.type === "download") {
-                await questUtils.endQuest(user, quests.questList[user.activeQuest], channel);
+            if (endCondition || endCondition.type === "download") {
+                await questUtils.endQuest(user, quests.questList[user.activeQuest], message.channel);
             }
         }
 

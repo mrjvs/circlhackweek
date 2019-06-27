@@ -17,7 +17,6 @@ async function startQuest(userId, questId, channel) {
     // send info
 
     const fields = attachedServer ? [{name: "Attached server", value: attachedServer}] : undefined;
-    if (attachedServer)
     return channel.send({
         embed: {
             color: constants.embed_colors.info,
@@ -35,15 +34,19 @@ async function checkQuestGoal(userId, channel) {
     if (typeof user.activeQuest !== "number") return channel.send(utils.sendError("No quest active"));
     const endCondition = quests.questList[user.activeQuest].end.condition;
 
+    let serverIp;
+    if (endCondition.server === "LOCAL") serverIp = user.serverIp;
+    else serverIp = user.questServerList[endCondition.server];
+
     if (endCondition.type === "progress") {
         return await endQuest(user, quests.questList[user.activeQuest], channel);
     } else if (endCondition.type === "delete") {
-        const server = (await db.serverModel.find({ip: user.questServerList[endCondition.server]}))[0];
+        const server = (await db.serverModel.find({ip: serverIp }))[0];
         if (!utils.hasFileContent(endCondition.value, server.files)) {
             return await endQuest(user, quests.questList[user.activeQuest], channel);
         }
     } else if (endCondition.type === "present") {
-        const server = (await db.serverModel.find({ip: user.questServerList[endCondition.server]}))[0];
+        const server = (await db.serverModel.find({ip: serverIp }))[0];
         if (utils.hasFileContent(endCondition.value, server.files)) {
             return await endQuest(user, quests.questList[user.activeQuest], channel);
         }
