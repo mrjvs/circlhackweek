@@ -14,5 +14,4 @@ Check out the official [Discord Hackweek server](https://discord.gg/hackweek) to
  - [DeadlyFirex](https://github.com/DeadlyFirex)
  - [taydev](https://github.com/taydev)
 
-<img width="75" alt="hack_pirate_white" src="https://user-images.githubusercontent.com/40138757/60046101-6c832f00-96be-11e9-9306-4ee307fde1b2.png"> <img width="15"><img width="75" alt="hack_wumpus" src="https://user-images.githubusercontent.com/40138757/60046017-3940a000-96be-11e9-9031-3fbf186a7130.png">
-<img width="1280" alt="Circl Branding src="https://raw.githubusercontent.com/mrjvs/circlhackweek/master/branding/banner.png">
+<img width="75" alt="hack_pirate_white" src="https://user-images.githubusercontent.com/40138757/60046101-6c832f00-96be-11e9-9306-4ee307fde1b2.png"> <img width="15"><img width="75" alt="hack_wumpus" src="https://user-images.githubusercontent.com/40138757/60046017-3940a000-96be-11e9-9031-3fbf186a7130.png"><img width="1280" alt="Circl Branding src="https://raw.githubusercontent.com/mrjvs/circlhackweek/master/branding/banner.png">
