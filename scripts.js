@@ -60,9 +60,21 @@ module.exports = [
         }
     },
     {
-        code: constants.exe_codes.randomhack, // illegal hack
+        code: constants.exe_codes.java, // java
         execute: (utils, user, server, message, args) => {
-            return message.channel.send(utils.sendInfo("Permission denied: `ip not in whitelist`"));
+            return message.channel.send(utils.sendInfo("Added Java to env variables"));
+        }
+    },
+    {
+        code: constants.exe_codes.runescape, // runescape
+        execute: (utils, user, server, message, args) => {
+            return message.channel.send(utils.sendError("ERROR: Missing GPU, Missing CPU, Missing PSU"));
+        }
+    },
+    {
+        code: constants.exe_codes.sticky, // sticky notes
+        execute: (utils, user, server, message, args) => {
+            return message.channel.send(utils.sendError("ERROR: Program was too sticky to open. Please install `superglueremover.exe`"));
         }
     },
     {
@@ -72,6 +84,23 @@ module.exports = [
             const ports = server.ports.portList.filter(port => port.portNumber == args[0]);
             if (ports.length === 0) return message.channel.send(utils.sendError("Port not available"));
             if (ports[0].portType !== "ssh") return message.channel.send(utils.sendError("Port doesnt have SSH attached"));
+            
+            // open port
+            let openedPorts = stateMachine.getState(message.author.id, 'openedPorts');
+            if (!openedPorts) openedPorts = [];
+            openedPorts.push(ports[0]);
+            stateMachine.setState(message.author.id, 'openedPorts', openedPorts);
+            // TODO add timeout until its opened.
+            return message.channel.send(utils.sendSuccess(`Port ${ports[0].portNumber} has been opened`));
+        }
+    },
+    {
+        code: constants.exe_codes.web, // web scraper hack
+        execute: (utils, user, server, message, args) => {
+            if (!args[0]) return message.channel.send(utils.sendError("Needs port number to run"));
+            const ports = server.ports.portList.filter(port => port.portNumber == args[0]);
+            if (ports.length === 0) return message.channel.send(utils.sendError("Port not available"));
+            if (ports[0].portType !== "ssh") return message.channel.send(utils.sendError("Port doesnt have WEB attached"));
             
             // open port
             let openedPorts = stateMachine.getState(message.author.id, 'openedPorts');

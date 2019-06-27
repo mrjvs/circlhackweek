@@ -10,7 +10,10 @@ module.exports = {
         porthack: "RUN1",
         sql: "RUN3",
         clock: "RUN2",
-        randomhack: "RUN4"
+        runescape: "RUN4",
+        java: "RUN6",
+        web: "RUN7",
+        sticky: "RUN8"
     },
     response_text: {
         invalid_path: "No such file or directory",

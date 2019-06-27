@@ -55,7 +55,7 @@ const questList = [
     { // quest 0
         name: "First steps",
         start: {
-            text: "Hey welcome to Circl server system! My name's Kathy! I was told you would be able to " + 
+            text: "Hey welcome to the hacking mailing group on geezmail! My name's Kathy! I was told you would be able to " + 
             "help me? Could you please wipe the logs of the attached server, I *really* don't" + 
             "want my boss to find out I deleted records from his private server...",
             linkedServerKey: "tutorial1",
@@ -82,9 +82,8 @@ const questList = [
         end: {
             text: "Thanks again!",
             condition: {
-                type: "present",
-                value: constants.exe_codes.ssh,
-                server: "LOCAL"
+                type: "download",
+                server: "tutorial3"
             },
             next: {
                 type: "quest",
@@ -149,8 +148,9 @@ const questList = [
         name: "Team up",
         start: {
             text: "You seem quite good at hacking! Why don't you join up for a team? I've attached the IP for a initiation test " +
-            "for a hacking network called Circl"
-        }
+            "for a hacking network called Circl; it should be your cup of tea!",
+            linkedServerKey: "teamtest"
+        },
     }
 ];
 
