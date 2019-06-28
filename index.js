@@ -13,6 +13,7 @@ const config = require('./config.json');
 const db = require('./db.js');
 db.init(config.connectionString);
 const fileUtils = require('./utils/fileutils.js');
+const embedUtils = require('./utils/embedutils.js');
 const utils = require('./utils/utils.js');
 const runBin = require('./runbin.js');
 const stateMachine = require('./statemachine.js');
@@ -55,6 +56,9 @@ client.on('message', async (message) => {
     }
 
     if (command) {
+
+        let user = (await db.userModel.find({ userId: message.author.id }))[0];
+
         const isSignedUp = await utils.isSignedUp(message.author.id);
         if (!isSignedUp && command.signedUpOnly) {
             return message.channel.send({
@@ -103,6 +107,9 @@ client.on('message', async (message) => {
         if (command.name === "help") command.execute(message, args, commands);
         else command.execute(message, args);
     } else {
+        if (user && user.blocked && command.name !== "unsignup") return message.channel.send(embedUtils.sendError("Looks like you're blocked! To start over, type `$unsignup`!"));
+        if (user && user.deleted && command.name !== "unsignup") return;
+        
         await runBin(messageCommand, message, args);
     }
 

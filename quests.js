@@ -482,7 +482,7 @@ const questServers = {
         }
     },
     "hospitalsecurity": {
-        name: "Hospital Florida - Files",
+        name: "Hospital Florida - Security",
         fileSystem: {
             "/home/moved.txt": "Server unused, It's been moved to a 3rd party",
             "/logs/recordings.bin": "0101010001101000011010010111001100100000011100110110010101100011011101010111001001101001011101000111100100100000011100110110010101110010011101100110010101110010001000000110100101110011011011100010011101110100001000000111011001100101011100100111100100100000011100110110010101100011011101010111001001100101001000000011101000101111",
@@ -623,7 +623,8 @@ const questServers = {
     "circlmain": {
         name: "Circl - Main Server",
         fileSystem: {
-            "/circl_controls.exe": constants.exe_codes.end,
+            "/circl_selfdestruct.exe": constants.exe_codes.enddelete,
+            "/circl_change_ownership.exe": constants.exe_codes.endowner,
         },
         ports: {
             requiredAmount: 99,
@@ -636,10 +637,19 @@ const questServers = {
             ]
         }
     },
-    "bankwebsite": { // TODO add file system stuff
+    "bankwebsite": {
         name: "Bank of England - Website",
         type: "web",
-        fileSystem: {},
+        fileSystem: {
+            "/bin/clock.exe": constants.exe_codes.clock,
+            "/bin/sticky_notes.exe": constants.exe_codes.sticky,
+            "/home/question.txt": "Are we corrupt?",
+            "/home/RE-question.txt": "yes",
+            "/logs": false,
+            "/sys/windows.bin": "01001101011000010110001100100000011010010111001100100000011000100110010101110100011101000110010101110010",
+            "/sys/desktop.ini": "[desktop]\nbin: false",
+            "/public/index.html": "<h1>Bank of england</h1><p>We print money</p>"
+        },
         ports: {
             requiredAmount: 2,
             portList: [
@@ -651,10 +661,16 @@ const questServers = {
             "bank"
         ]
     },
-    "bank": { // TODO add file system stuff
+    "bank": {
         name: "Back of England - Vault",
         fileSystem: {
-            "/home/money.csv": "...",
+            "/bin/generatemoney.exe": constants.exe_codes.money,
+            "/home/money.csv": "money, value\n52334,1.00\n87652,2,42",
+            "/home/security.txt": "Have you guys thought about improving the security? This is really bad.",
+            "/home/RE-security.txt": "No, its fine. Nobody will try to get in.",
+            "/logs/changed_money.txt": "52334 = 1.00",
+            "/sys/windows.bin": "01001101011000010110001100100000011010010111001100100000011000100110010101110100011101000110010101110010",
+            "/sys/desktop.ini": "[desktop]\nbin: false"
         },
         ports: {
             requiredAmount: 0,
@@ -664,11 +680,15 @@ const questServers = {
             ]
         },
     },
-    "foodcompany": { // TODO add file system stuff
+    "foodcompany": {
         name: "FoodForU",
         type: "web",
         fileSystem: {
+            "/bin/clock.exe": constants.exe_codes.clock,
+            "/home/recipes.txt": "Good sushi roll:\nhttps://makemysushi.com/Recipes/how-to-make-spicy-tuna-roll",
+            "/logs": false,
             "/public/index.html": "<h1>food</h1>",
+            "/sys/debian.bin": "011100110111100101101110011101000110000101111000001000000110010101110010011100100110111101110010001110100010000001110011011110010111001101110100011001010110110101100100001000000110111001101111011101000010000001100100011001010110011001101001011011100110010101100100"
         },
         ports: {
             requiredAmount: 2,
@@ -678,10 +698,13 @@ const questServers = {
             ]
         },
     },
-    "nsamain": { // TODO add file system stuff
+    "nsamain": {
         name: "NSA - Mainframe",
         fileSystem: {
             "/bin/sqlbreak.exe": constants.exe_codes.sql,
+            "/home/whototrack.txt": "who to track:\n - Criminals\n - Illegal games downloaders\n - People who use light theme on Discord",
+            "/logs": false,
+            "/sys/debian.bin": "011100110111100101101110011101000110000101111000001000000110010101110010011100100110111101110010001110100010000001110011011110010111001101110100011001010110110101100100001000000110111001101111011101000010000001100100011001010110011001101001011011100110010101100100"
         },
         ports: {
             requiredAmount: 2,
@@ -694,10 +717,11 @@ const questServers = {
             "nsadata"
         ]
     },
-    "nsadata": { // TODO add file system stuff
+    "nsadata": {
         name: "NSA - Data Storage",
         fileSystem: {
             "/home/tracked_people.bin": "0100011101101111011011110110010000100000011101000111001001111001001011000010000001110100011010000110010101110010011001010010000001101001011100110010000001101110011011110111010001101000011010010110111001100111001000000110100001100101011100100110010100100000011101000110100001101111",
+            "/home/directors.txt": "Osama Bin Laden\nmrjvs\nWilliam Oldham\nDeadlyFire\nJamesHawkinsss\nults"
         },
         ports: {
             requiredAmount: 1,
@@ -708,7 +732,12 @@ const questServers = {
     },
     "facebooknode": { // TODO add file system stuff
         name: "Facebook - Node 001",
-        fileSystem: {},
+        fileSystem: {
+            "/home": false,
+            "/bin/clock.exe": constants.exe_codes.clock,
+            "/logs": false,
+            "/sys/debian.bin": "011100110111100101101110011101000110000101111000001000000110010101110010011100100110111101110010001110100010000001110011011110010111001101110100011001010110110101100100001000000110111001101111011101000010000001100100011001010110011001101001011011100110010101100100"
+        },
         ports: {
             requiredAmount: 3,
             portList: [
@@ -724,7 +753,10 @@ const questServers = {
     "facebookrouter": { // TODO add file system stuff
         name: "Facebook - Main Router",
         fileSystem: {
-            "/bin/ftpoverload.exe": constants.exe_codes.ftp
+            "/bin/ftpoverload.exe": constants.exe_codes.ftp,
+            "/logs": false,
+            "/home/communities.txt": "communities we need to watch:\nFlat earthers\nAnti-vaxxers\nBinaryOverload fan club",
+            "/sys/routeros.bin": "011101000111001001100001011000110110101101101001011011100110011100100000011010010111000001110011001000000110111101100110001000000110010101110110011001010111001001111001011011110110111001100101001000000110000101101110011001000010000001110011011101000110111101110010011010010110111001100111001000000111000001100001011100110111001101110111011011110111001001100100011100110010000001101001011011100010000001110000011011000110000101101001011011100010000001110100011001010111100001110100"
         },
         ports: {
             requiredAmount: 3,
@@ -738,10 +770,13 @@ const questServers = {
             "facebookaccounts"
         ]
     },
-    "facebookaccounts": { // TODO add file system stuff
+    "facebookaccounts": {
         name: "Facebook - Account Storage",
         fileSystem: {
-            "/home/user_accounts.db": "0111010001101000011010010111001100100000011010010111001100100000011011100110111101110100001000000111000001101100011000010110100101101110011101000110010101111000011101000010110000100000011000100110010101110100011101000110010101110010001000000111010001101000011000010110111000100000011100100110010101100001011011000010000001100110011000010110001101100101011000100110111101101111011010110010000001001001001000000110011101110101011001010111001101110011"
+            "/bin/facebook.exe": constants.exe_codes.facebook,
+            "/home": false,
+            "/logs": false,
+            "/storage/user_accounts.db": "0111010001101000011010010111001100100000011010010111001100100000011011100110111101110100001000000111000001101100011000010110100101101110011101000110010101111000011101000010110000100000011000100110010101110100011101000110010101110010001000000111010001101000011000010110111000100000011100100110010101100001011011000010000001100110011000010110001101100101011000100110111101101111011010110010000001001001001000000110011101110101011001010111001101110011"
         },
         ports: {
             requiredAmount: 2,
@@ -751,10 +786,16 @@ const questServers = {
             ]
         },
     },
-    "fbiwebsite": { // TODO add file system stuff
+    "fbiwebsite": {
         name: "FBI - Website",
         type: "web",
         fileSystem: {
+            "/bin/tracker.exe": constants.exe_codes.tracker,
+            "/bin/chess.exe": constants.exe_codes.chess,
+            "/home/mentalhealth.txt": "How do we deal with people that are planning suicide?",
+            "/home/RE-mentalhealth.txt": "We can't let them find them out that we are watching them so we can't stop them from suicide. Its like the Reichenbach fall episode in Sherlock.",
+            "/logs": false,
+            "/sys/raspbianjessie.bin": "010001100100001001001001001000000110111101101110001000000111001001100001011100110111000001100010011010010110000101101110001111110011111100100000010101110100100001000001010101000011111100111111",
             "/public/index.html": "<h1>FBI</h1><p>Open up!</p>",
         },
         ports: {
@@ -771,12 +812,15 @@ const questServers = {
             "fbimain"
         ]
     },
-    "fbimain": { // TODO add file system stuff
+    "fbimain": {
         name: "FBI - Main Server",
         fileSystem: {
             "/bin/startserver.exe": constants.exe_codes.fbistart,
             "/bin/rebootserver.exe": constants.exe_codes.fbireboot,
             "/bin/killserver.exe": constants.exe_codes.fbikill,
+            "/home": false,
+            "/logs/Your_package_arrived.txt": "Delivered to coords: 37°14′06″N 115°48′40″W",
+            "/sys/raspbianjessie.bin": "010001100100001001001001001000000110111101101110001000000111001001100001011100110111000001100010011010010110000101101110001111110011111100100000010101110100100001000001010101000011111100111111",
         },
         ports: {
             requiredAmount: 3,
@@ -993,7 +1037,7 @@ const questList = [
         description: "There’s been an exploited vulnerability on important hospital servers! Find and remove the worm from the server to stop information from being extracted and sold.",
         start: {
             text: "Hey, I have a friend in the hospital at the moment so I was really worried when I heard there was a worm on the hospitals servers! I really don't want anything to happen to her data so could you stop this before it goes too far?",
-            linkedServerKey: "hospitalwebsite"
+            linkedServerKey: "hospital"
         },
         required: [
             9
@@ -1060,7 +1104,7 @@ const questList = [
     },
     { // quest 14 - team bad
         name: "Employee information",
-        description: "TODO",
+        description: "Background checking an employee",
         start: {
             text: "My client wants a background check on an employee. Could you download the facebook account database so I can have more information on them? Their profile is set to private...",
             linkedServerKey: "facebooknode"

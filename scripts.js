@@ -143,6 +143,27 @@ module.exports = [
         }
     },
     {
+        code: constants.exe_codes.chess, // chess
+        execute: (user, server, message, args) => {
+            return message.channel.send(embedUtils.sendError("ERROR: Failed to make move"));
+        }
+    },
+    {
+        code: constants.exe_codes.facebook, // facebook
+        execute: (user, server, message, args) => {
+            return message.channel.send(embedUtils.sendError("ERROR: Needs valid passport to be linked to your account to continue"));
+        }
+    },
+    {
+        code: constants.exe_codes.money, // make money
+        execute: (user, server, message, args) => {
+            const money = stateMachine.getState(user.userId, "money");
+            money = money ? money : 0;
+            stateMachine.getState(user.userId, "money", money+1);
+            return message.channel.send(embedUtils.sendInfo("Added money. total: " + (money+1)));
+        }
+    },
+    {
         code: constants.exe_codes.ssh, // ssh crack
         execute: (user, server, message, args) => {
             return utils.openPort(args, server, message.channel, message.author.id, "ssh", "SSH");
@@ -155,7 +176,7 @@ module.exports = [
         }
     },
     {
-        code: constants.exe_codes.tracker, // tracker crack
+        code: constants.exe_codes.tracker, // tracker
         execute: (user, server, message, args) => {
             return message.channel.send(embedUtils.sendInfo("Tracker planted!"));
         }
@@ -218,9 +239,47 @@ module.exports = [
         }
     },
     {
-        code: constants.exe_codes.end, // triggers circl endings
-        execute: (user, server, message, args) => {
-            return message.channel.send(embedUtils.sendSuccess("didnt write it yet"));
+        code: constants.exe_codes.endowner, // triggers circl ending: owner
+        execute: async (user, server, message, args) => {
+            let sentMessage = await message.channel.send("```\nAttempting to change ownership...\n```");
+
+            let messages = [
+                "Attempting to change ownership... Denied\nERROR 403: Unauthorised",
+                "Attempting to change ownership... Denied\nERROR 403: Unauthorised\nBlocking ownership change attempt...",
+                "Attempting to change ownership... Denied\nERROR 403: Unauthorised\nBlocking ownership change attempt... Blocked"
+            ]
+
+            for (let i = 0; i < messages.length; i++) {
+                setTimeout(() => {
+                    sentMessage.edit(`\`\`\`\n${messages[i]}\n\`\`\``);
+                }, 2000 * (i + 1));
+            }
+
+            user.blocked = true;
+            await user.save();
+        }
+    },
+    {
+        code: constants.exe_codes.enddelete, // triggers circl ending: delete
+        execute: async (user, server, message, args) => {
+            let sentMessage = await message.channel.send("```\nAttempting to delete circl...\n```");
+
+            let messages = [
+                "Attempting to delete circl...\n  -  Deleting users...\n  -  Deleting servers...\n  -  Deleting infrastructure...",
+                "Attempting to delete circl...\n  -  Deleting users: Succeeded!\n  -  Deleting servers...\n  -  Deleting infrastructure...",
+                "Attempting to delete circl...\n  -  Deleting users: Succeeded!\n  -  Deleting servers: Succeeded!\n  -  Deleting infrastructure...",
+                "Attempting to delete circl...\n  -  Deleting users: Succeeded!\n  -  Deleting servers: Succeeded!\n  -  Deleting infrastructure: Succeeded!",
+                "Attempting to delete circl: Succeeded!!",
+            ]
+
+            for (let i = 0; i < messages.length; i++) {
+                setTimeout(() => {
+                    sentMessage.edit(`\`\`\`\n${messages[i]}\n\`\`\``);
+                }, 2000 * (i + 1));
+            }
+
+            user.deleted = true;
+            await user.save();
         }
     }
 ];

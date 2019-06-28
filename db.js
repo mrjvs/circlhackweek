@@ -82,6 +82,14 @@ const userSchema = new Mongoose.Schema({
         type: String
     },
     team: String,
+    blocked: {
+        type: Boolean,
+        default: false
+    },
+    deleted: {
+        type: Boolean,
+        default: false
+    },
     teamInvites: [String],
     serverList: Array,
     serverIp: String,

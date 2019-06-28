@@ -13,7 +13,7 @@ const achievements = [
         "description": "Achieved when you use the scan command to find a nearby machine."
     },
     {
-        "id": "walkthrough-quest",
+        "id": "walkthrough-quests",
         "name": "Got the hang of this!",
         "description": "Achieved when you complete the walkthrough quests."
     },
@@ -45,13 +45,13 @@ function getAchievementEmbed(id) {
     }
 }
 
-async function unlockAchievement(message, id) {
-    const user = (await db.userModel.find({ userId: message.author.id }))[0];
+async function unlockAchievement(channel, userId, id) {
+    const user = (await db.userModel.find({ userId }))[0];
     if (!user || achievements.filter(achievement => achievement.id === id).length === 0) return console.error("Someone screwed up 😭");
     if (user.achievements.includes(id)) return;
     user.achievements.push(achievements.filter(achievement => achievement.id === id)[0].id);
     await user.save();
-    message.channel.send(getAchievementEmbed(id));
+    channel.send(getAchievementEmbed(id));
 }
 
 module.exports = {

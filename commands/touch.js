@@ -28,7 +28,6 @@ module.exports = {
         const finalPath = path.join(pathState, pathInput);
         const pathParts = fileUtils.splitPath(finalPath);
         const fileName = pathParts.pop();
-        console.log(pathParts);
 
         // get file
         const fileDirectory = fileUtils.explorePath(server.files, pathParts, "files");

@@ -3,6 +3,7 @@ const utils = require("../utils/utils.js");
 const db = require("../db.js");
 const stateMachine = require('../statemachine.js');
 const constants = require('../constants.js');
+const achievements = require('../achievements.js');
 
 module.exports = {
     name: "connect",
@@ -63,6 +64,10 @@ module.exports = {
                 name: "WebServer",
                 value: utils.convertTokenToUrl(server.token)
             });
+        }
+
+        if (user.questServerList["circlmain"] === server.ip) {
+            achievements.unlockAchievement(message.channel, message.author.id, "into-mainframe");
         }
 
         message.channel.send({

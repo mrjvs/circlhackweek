@@ -64,7 +64,7 @@ module.exports = {
                         console.log(error);
                         return message.channel.send(embedUtils.sendError("Could not save the server! ☹"));
                     }
-                    achievements.unlockAchievement(message, "rm-all");  
+                    achievements.unlockAchievement(message.channel, message.author.id, "rm-all");  
                     return message.channel.send(embedUtils.sendSuccess(newPath + " : Files in directory removed"));
                 });
             } else {

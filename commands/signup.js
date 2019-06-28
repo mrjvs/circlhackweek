@@ -129,6 +129,14 @@ module.exports = {
             }
         });
 
+        channel.send({
+            embed: {
+                title: "Disclaimer",
+                description: "Using the bot `Circl` is **not actually hacking**. You are playing on virtual systems and programs. Passwords and usernames are randomly generated and *not* based on real passwords or usernames.",
+                color: constants.embed_colors.pink
+            }
+        });
+
         // start quest 0
         await questUtils.startQuest(userId, 0, channel);
     }

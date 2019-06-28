@@ -26,7 +26,7 @@ module.exports = {
         for (let i = 0; i < server.linked.length; i++) {
             out += "`" + user.questServerList[server.linked[i]] + "` - " + quests.questServers[server.linked[i]].name + "\n";
         }
-        achievements.unlockAchievement(message, "scan");
+        achievements.unlockAchievement(message.channel, message.author.id, "scan");
         message.channel.send({
             embed: {
                 color: constants.embed_colors.info,

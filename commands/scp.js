@@ -86,11 +86,13 @@ module.exports = {
 
         // see if a quest is active
         if (typeof user.activeQuest === "number") {
-            const endCondition = quests.questList[user.activeQuest].end.condition;
+            if (quests.questList[user.activeQuest].end) {
+                const endCondition = quests.questList[user.activeQuest].end.condition;
 
-            if (endCondition && endCondition.type === "download") {
-                if (user.questServerList[endCondition.server] === connectedServer) {
-                    await questUtils.endQuest(user, quests.questList[user.activeQuest], message.channel);
+                if (endCondition && endCondition.type === "download") {
+                    if (user.questServerList[endCondition.server] === connectedServer) {
+                        await questUtils.endQuest(user, quests.questList[user.activeQuest], message.channel);
+                    }
                 }
             }
         }

@@ -1,8 +1,8 @@
 const quests = require('../quests.js');
 const db = require('../db.js');
-const fileUtils = require('./fileutils.js');
 const embedUtils = require('./embedutils.js');
 const constants = require('../constants.js');
+const achievements = require('../achievements.js');
 const randomString = require('randomstring');
 const path = require('path');
 
@@ -34,10 +34,12 @@ async function startQuest(userId, questId, channel) {
 }
 
 async function checkQuestGoal(userId, channel) {
+    const fileUtils = require("./fileutils.js");
     const user = (await db.userModel.find({userId}))[0];
 
     // see if a quest is active
     if (typeof user.activeQuest !== "number") return channel.send(embedUtils.sendError("No quest active"));
+    if (!quests.questList[user.activeQuest].end) return;
     const endCondition = quests.questList[user.activeQuest].end.condition;
 
     let serverIp;
@@ -92,6 +94,11 @@ async function endQuest(user, quest, channel) {
             // start new quest
             await startQuest(user.userId, quest.end.next.value, channel);
         } else if (quest.end.next.type === "team") {
+
+            if (quest.name === quests.questList[5].name) {
+                achievements.unlockAchievement(channel, user.userId, "walkthrough-quests");
+            }
+
             // overwrite invites in user object
             user.teamInvites = quest.end.next.value;
             await user.save();
@@ -119,6 +126,7 @@ async function endQuest(user, quest, channel) {
 
 async function createQuestServer(questServer) {
     const ip = await db.serverSchema.statics.generateUniqueIp();
+    const fileUtils = require("./fileutils.js");
     return {
         ip,
         name: questServer.name,
