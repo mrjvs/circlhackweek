@@ -730,7 +730,7 @@ const questServers = {
             ]
         },
     },
-    "facebooknode": { // TODO add file system stuff
+    "facebooknode": {
         name: "Facebook - Node 001",
         fileSystem: {
             "/home": false,
@@ -750,7 +750,7 @@ const questServers = {
             "facebookrouter"
         ]
     },
-    "facebookrouter": { // TODO add file system stuff
+    "facebookrouter": {
         name: "Facebook - Main Router",
         fileSystem: {
             "/bin/ftpoverload.exe": constants.exe_codes.ftp,

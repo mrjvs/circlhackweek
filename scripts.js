@@ -29,7 +29,6 @@ module.exports = [
                     return message.channel.send(embedUtils.sendError("Could not save your user data! :("));
                 }
             });
-            // TODO Timeout maybe?
             return message.channel.send({
                 embed: {
                     title: "Admin username and password acquired! They've been added to your keychain.",

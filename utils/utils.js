@@ -30,7 +30,6 @@ function openPort(args, server, channel, userId, portType, portFancyName) {
     if (!openedPorts) openedPorts = [];
     openedPorts.push(ports[0]);
     stateMachine.setState(userId, 'openedPorts', openedPorts);
-    // TODO add timeout until its opened.
     return channel.send(embedUtils.sendSuccess(`Port ${ports[0].portNumber} has been opened`));
 }
 

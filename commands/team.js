@@ -66,7 +66,6 @@ module.exports = {
                     return message.channel.send(embedUtils.sendError("Could not save your user! ☹"));
                 }
                 return message.channel.send(embedUtils.sendSuccess("You have chosen team: " + quests.teams[user.team].name));
-                // TODO add team command tutorial
             })
         } else if (args[0] === "listquests") {
             const user = (await db.userModel.find({ userId: message.author.id }))[0];
