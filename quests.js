@@ -636,7 +636,6 @@ const questList = [
             "help me? Could you please wipe the logs of the attached server, I *really* don't" + 
             "want my boss to find out I deleted records from his private server...",
             linkedServerKey: "tutorial1",
-            // TODO teach hacking, file system navigation, rm files
             tutorial: embedUtils.sendTutorialBasics
         },
         end: {
@@ -883,7 +882,16 @@ const questList = [
     },
     { // quest 21 - team circl - explaination
         name: "Why Circl has to go",
-        description: "It's b"
+        description: "It's best if you read this...",
+        start: {
+            text: ""
+        },
+        end: {
+            text: "Time to go make some trouble!",
+            condition: {
+                type: "progress"
+            }
+        }
     },
     { // quest 22 - team circl - Circl media proxy
         name: "Media disruption",
