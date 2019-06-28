@@ -15,6 +15,12 @@ If you want to see this in action, join [this discord server](https://discord.gg
  - Tons of files to explore
  - run `$signup` in any channel/dm to start
 
+## screenshots
+<img width="200" alt="screenshot1" src="https://i.imgur.com/1NOwpMd.png">
+<img width="200" alt="screenshot2" src="https://i.imgur.com/ZAvJjo5.png">
+<img width="200" alt="screenshot3" src="https://i.imgur.com/PTM3QFm.png">
+
+
 ## technical
 The bot consists of four main parts. The statemachine, the filesystem, the quests and the scripts.
 
