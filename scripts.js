@@ -159,7 +159,7 @@ module.exports = [
     {
         code: constants.exe_codes.money, // make money
         execute: (user, server, message, args) => {
-            const money = stateMachine.getState(user.userId, "money");
+            let money = stateMachine.getState(user.userId, "money");
             money = money ? money : 0;
             stateMachine.getState(user.userId, "money", money+1);
             return message.channel.send(embedUtils.sendInfo("Added money. total: " + (money+1)));

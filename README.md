@@ -4,7 +4,7 @@
 A Discord bot for circl (a game-bot similar to Hacknet, concept by [@taydev](https://github.com/taydev/circl)) in [Node.js](https://nodejs.org/en/). This is our entry into the Discord Community Hack Week competition.
 
 ## Demo
-If you want to see this in action, join [here](https://discord.gg/tA6Tq9v);
+If you want to see this in action, join [this discord server](https://discord.gg/tA6Tq9v);
 
 ## Collaboration
 We've made everything in vscode live share. Every commit from @mrjvs is actually from all of us. We don't like merge conflicts so the live share thing was the best option.

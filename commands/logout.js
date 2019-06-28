@@ -11,7 +11,8 @@ module.exports = {
     needsConnection: true,
     needsAdmin: true,
     execute: (message, args) => {
-        stateMachine.clearState(message.author.id, "loginState")
+        const connectedServer = stateMachine.getState(message.author.id, "connectedServer");
+        stateMachine.clearState(message.author.id, "loginState");
         message.channel.send(embedUtils.sendInfo(`Logged out: ${connectedServer}`));
     }
 }

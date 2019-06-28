@@ -43,6 +43,7 @@ async function checkQuestGoal(userId, channel) {
     const endCondition = quests.questList[user.activeQuest].end.condition;
 
     let serverIp;
+    if (!endCondition) return channel.send(embedUtils.sendError("Quest not completed"));
     if (endCondition.server === "LOCAL") serverIp = user.serverIp;
     else serverIp = user.questServerList[endCondition.server];
 
