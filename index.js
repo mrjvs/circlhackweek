@@ -95,7 +95,7 @@ client.on('message', async (message) => {
             });
         }
 
-        /*if (message.channel.type !== 'dm' && command.dmOnly) {
+        if (message.channel.type !== 'dm' && command.dmOnly) {
             return message.channel.send({
                 embed: {
                     title: "This command can only be run in a DM channel",
@@ -103,7 +103,7 @@ client.on('message', async (message) => {
                     color: constants.embed_colors.error
                 }
             });
-        }*/ // dev purposes
+        }
         console.log(`User ${message.author.username}#${message.author.discriminator} executed command $${messageCommand} with args ${args.toString()}`);
 
         // hardcoded help command so it has the command list

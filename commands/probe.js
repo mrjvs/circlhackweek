@@ -1,6 +1,6 @@
 const stateMachine = require('../statemachine.js');
 const db = require("../db.js");
-const embedUtils = require("../utils/embedUtils.js");
+const embedUtils = require("../utils/embedutils.js");
 const constants = require("../constants.js");
 
 module.exports = {
