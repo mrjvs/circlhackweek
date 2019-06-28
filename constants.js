@@ -3,7 +3,8 @@ module.exports = {
         error: 16741492,
         warning: 16759647,
         success: 8705698,
-        info: 10002431
+        info: 10002431,
+        pink: 16728193
     },
     exe_codes: { // TODO change to binary
         ssh: "RUN5",
@@ -13,7 +14,17 @@ module.exports = {
         runescape: "RUN4",
         java: "RUN6",
         web: "RUN7",
-        sticky: "RUN8"
+        sticky: "RUN8",
+        electron: "RUN9",
+        mc: "RUN10",
+        media: "RUN11",
+        bukkit: "RUN12",
+        deluge: "RUN13",
+        ftp: "RUN14",
+        scan: "RUN15",
+        worm: "RUN16",
+        drugs: "RUN17",
+        devporthack: "DEV1"
     },
     response_text: {
         invalid_path: "No such file or directory",

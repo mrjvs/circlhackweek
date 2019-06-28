@@ -82,6 +82,7 @@ const userSchema = new Mongoose.Schema({
         type: String
     },
     team: String,
+    teamInvites: [String],
     serverList: Array,
     serverIp: String,
     questServerList: Object,

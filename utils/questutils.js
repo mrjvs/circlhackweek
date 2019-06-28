@@ -81,6 +81,25 @@ async function endQuest(user, quest, channel) {
         if (quest.end.next.type === "quest") {
             // start new quest
             return await startQuest(user.userId, quest.end.next.value, channel);
+        } else if (quest.end.next.type === "team") {
+            // overwrite invites in user object
+            user.teamInvites = quest.end.next.value;
+            await user.save();
+
+            let fields = [];
+            for (let i = 0; i < quest.end.next.value.length; i++) {
+                fields.push({
+                    name: quest.end.next.value[i],
+                    value: quests.teams[quest.end.next.value[i]].description
+                });
+            }
+            return channel.send({
+                embed: {
+                    title: "You've been given team invites",
+                    description: "Choose your team using `$team choose <team>`",
+                    fields
+                }
+            });
         }
     }
 }
