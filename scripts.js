@@ -34,7 +34,7 @@ module.exports = [
             return message.channel.send({
                 embed: {
                     title: "Admin username and password acquired! They've been added to your keychain.",
-                    description: `Username: \`${server.credentials.user}\`
+                    description: `You've been automatically logged in.\n\nUsername: \`${server.credentials.user}\`
                     Password: \`${"*".repeat(server.credentials.user.length)}\``,
                     color: constants.embed_colors.success
                 }
@@ -213,7 +213,7 @@ module.exports = [
             return message.channel.send({
                 embed: {
                     title: "Admin username and password acquired! They've been added to your keychain.",
-                    description: `Username: \`${server.credentials.user}\`
+                    description: `You've been automatically logged in.\n\nUsername: \`${server.credentials.user}\`
                     Password: \`${"*".repeat(server.credentials.user.length)}\``,
                     color: constants.embed_colors.success
                 }
