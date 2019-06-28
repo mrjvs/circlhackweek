@@ -1,4 +1,5 @@
 const constants = require('./constants.js');
+const embedUtils = require('./utils/embedutils.js');
 
 const teams = {
     nice: {
@@ -63,7 +64,7 @@ const newUserFS = [
             {
                 type: "file",
                 name: "newtools.txt",
-                contents: "get it here: IP"
+                contents: "get it here: ^tutorial2^"
             }
         ]
     },
@@ -382,17 +383,14 @@ const questServers = {
             "/home": false,
             "/sys/windows.bin": "01001101011000010110001100100000011010010111001100100000011000100110010101110100011101000110010101110010",
             "/sys/desktop.ini": "[desktop]\nbin: false",
-            "/logs/connection_logs.txt": "> connection 35 registered\n> connection 35 disconnected\n> connection 23 registered\n> connection 74 registered\n> NETWORK ABUSE DETECTED: IP\n> NETWORK ABUSE DETECTED: IP\n> NETWORK ABUSE DETECTED: IP" 
+            "/logs/connection_logs.txt": "> connection 35 registered\n> connection 35 disconnected\n> connection 23 registered\n> connection 74 registered\n> NETWORK ABUSE DETECTED: ^networkabuser^\n> NETWORK ABUSE DETECTED: ^networkabuser^\n> NETWORK ABUSE DETECTED: ^networkabuser^" 
         },
         ports: {
             requiredAmount: 1,
             portList: [
                 { portNumber: 80, portType: "web" }
             ]
-        },
-        linked: [
-            "networkabuser"
-        ]
+        }
     },
     "networkabuser": {
         name: "Jason's desktop pc",
@@ -517,6 +515,7 @@ const questList = [
             "want my boss to find out I deleted records from his private server...",
             linkedServerKey: "tutorial1",
             // TODO teach hacking, file system navigation, rm files
+            tutorial: embedUtils.sendTutorialBasics
         },
         end: {
             text: 'Hey thanks, I left that there by accident! I was sloppy...',
@@ -534,10 +533,9 @@ const questList = [
     { // quest 1 - get sshcrack
         name: "Tool up",
         start: {
-            text: "Since you're new to the system, as a thank you for deleting my logs, why don't you go ahead" +
-            "and grab all the tools you need from the attached server!", // TODO file has "tutorial2" ip
-            // TODO teach local server. scanning downloading.
-            linkedServerKey: "tutorial2"
+            text: "Since you're new to the system, as a thank you for deleting my logs, I've dropped an IP to a tools server " +
+            "into your home directory. Connect up to it and grab whatever you need!",
+            tutorial: embedUtils.sendTutorialBasics2
         },
         end: {
             text: "Thanks again!",
@@ -631,7 +629,8 @@ const questList = [
                     "bad",
                     "prank"
                 ]
-            }
+            },
+            tutorial: embedUtils.sendTutorialTeam
         }
     },
     { // quest 6 - TEAM nice

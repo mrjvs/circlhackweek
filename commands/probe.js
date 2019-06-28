@@ -35,7 +35,8 @@ module.exports = {
             else if (ports[i].portType === "sql") portName = "SQL database";
             else if (ports[i].portType === "web") portName = "Http web";
             else if (ports[i].portType === "mongodb") portName = "Mongodb database";
-            else if (ports[i].portType === "ftp") portName = "File Transfer Protocol";
+            else if (ports[i].portType === "ftp") portName = "ftp port";
+            else if (ports[i].portType === "mc") portName = "Minecraft server";
             else portName = "???";
 
             if (filteredOpenedPorts.length !== 0) {

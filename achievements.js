@@ -8,11 +8,6 @@ const achievements = [
         "description": "Achieved when you run the command `$rm *`"
     },
     {
-        "id": "clear-tracks",
-        "name": "Clearing your tracks!",
-        "description": "Achieved when you delete the logs on a remote machine."
-    },
-    {
         "id": "scan",
         "name": "Scanning the surroundings!",
         "description": "Achieved when you use the scan command to find a nearby machine."
@@ -20,7 +15,7 @@ const achievements = [
     {
         "id": "walkthrough-quest",
         "name": "Got the hang of this!",
-        "description": "Achieved when you complete the walkthrough quest."
+        "description": "Achieved when you complete the walkthrough quests."
     },
     {
         "id": "halfway-there",

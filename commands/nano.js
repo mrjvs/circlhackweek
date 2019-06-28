@@ -41,6 +41,9 @@ module.exports = {
         let newContents = args;
         newContents.shift();
         newContents = newContents.join(" ");
+        if (newContents.includes("^")) {
+            return message.channel.send(embedUtils.sendError("The character `^` cannot be used"));
+        }
         server.set(file.path + ".contents", newContents)
         server.save((err, server) => {
             if (err) {

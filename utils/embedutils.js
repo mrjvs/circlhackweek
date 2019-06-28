@@ -51,7 +51,7 @@ function sendTutorialBasics() {
                 {
                     name: "Meta",
                     value: "If you get stuck at any point, you can use `$help` to list the different commands. You can also use `$help <command>` to get more detailed information " +
-                    "about a command. To view your current quest, use `$quest`. \n**Good luck!**"
+                    "about a command. To view your current quest, use `$quest` and to submit a quest use `$quest submit`. \n**Good luck!**"
                 }
             ]            
         }

@@ -67,7 +67,7 @@ module.exports = {
 
         message.channel.send({
             embed: {
-                title: "You have successfully connected to the server",
+                title: "Success: " + server.name,
                 description: "Please login using `$login`",
                 fields,
                 color: constants.embed_colors.success

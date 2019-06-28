@@ -25,6 +25,8 @@ module.exports = {
 
         const server = (await db.serverModel.find({ ip: connectedServer }))[0];
 
+        const user = (await db.userModel.find({ userId: message.author.id }))[0];
+
         const pathInput = args[0];
         const newPath = path.join(pathState, pathInput);
 
@@ -35,11 +37,15 @@ module.exports = {
             return message.channel.send(embedUtils.sendError(file.name + constants.response_text.not_file));
         }
 
+        let contents = file.contents.replace(/\^([a-z0-9]+)\^/g, (match, key, offset, string) => {
+            return user.questServerList[key];
+        });
+
         return message.channel.send({
             embed: {
                 title: file.name,
                 color: constants.embed_colors.info,
-                description: file.contents === "" ? "File is empty" : "```" + file.contents + "```"
+                description: file.contents === "" ? "File is empty" : "```" + contents + "```"
             }
         });
     }

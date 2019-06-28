@@ -4,6 +4,7 @@ const fileUtils = require('./fileutils.js');
 const embedUtils = require('./embedutils.js');
 const constants = require('../constants.js');
 const randomString = require('randomstring');
+const path = require('path');
 
 async function startQuest(userId, questId, channel) {
     const user = (await db.userModel.find({userId}))[0];
@@ -19,7 +20,7 @@ async function startQuest(userId, questId, channel) {
     // send info
 
     const fields = attachedServer ? [{name: "Attached server", value: attachedServer}] : undefined;
-    return channel.send({
+    channel.send({
         embed: {
             color: constants.embed_colors.info,
             title: `Quest ${user.activeQuest} - ${quests.questList[user.activeQuest].name}`,
@@ -27,6 +28,9 @@ async function startQuest(userId, questId, channel) {
             fields
         }
     });
+    if (quests.questList[user.activeQuest].start.tutorial) {
+        channel.send(quests.questList[user.activeQuest].start.tutorial());
+    }
 }
 
 async function checkQuestGoal(userId, channel) {
@@ -50,6 +54,12 @@ async function checkQuestGoal(userId, channel) {
     } else if (endCondition.type === "present") {
         const server = (await db.serverModel.find({ip: serverIp }))[0];
         if (fileUtils.hasFileContent(endCondition.value, server.files)) {
+            return await endQuest(user, quests.questList[user.activeQuest], channel);
+        }
+    } else if (endCondition.type === "change") {
+        const server = (await db.serverModel.find({ip: serverIp }))[0];
+        const file = fileUtils.explorePath(server.files, fileUtils.splitPath(path.join(endCondition.file)), "files");
+        if (file !== false && file.contents === endCondition.newvalue) {
             return await endQuest(user, quests.questList[user.activeQuest], channel);
         }
     }
@@ -80,7 +90,7 @@ async function endQuest(user, quest, channel) {
     if (quest.end.next) {
         if (quest.end.next.type === "quest") {
             // start new quest
-            return await startQuest(user.userId, quest.end.next.value, channel);
+            await startQuest(user.userId, quest.end.next.value, channel);
         } else if (quest.end.next.type === "team") {
             // overwrite invites in user object
             user.teamInvites = quest.end.next.value;
@@ -93,7 +103,7 @@ async function endQuest(user, quest, channel) {
                     value: quests.teams[quest.end.next.value[i]].description
                 });
             }
-            return channel.send({
+            channel.send({
                 embed: {
                     title: "You've been given team invites",
                     description: "Choose your team using `$team choose <team>`",
@@ -101,6 +111,9 @@ async function endQuest(user, quest, channel) {
                 }
             });
         }
+    }
+    if (quest.end.tutorial) {
+        channel.send(quest.end.tutorial());
     }
 }
 
@@ -112,7 +125,7 @@ async function createQuestServer(questServer) {
         files: fileUtils.parseShortenedFileSystem(questServer.fileSystem),
         ports: questServer.ports,
         serverType: questServer.type,
-        linked: questServer.linked ? questServer.linked : [], // <-- ip
+        linked: questServer.linked ? questServer.linked : [],
         credentials: {
             user: questServer.user ? questServer.user : "root",
             pass: randomString.generate({
