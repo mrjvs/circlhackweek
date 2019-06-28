@@ -1154,7 +1154,8 @@ const questList = [
         start: {
             text: "Circl started off in 2018 as a social network for hackers. It was great and allowed all of us to earn a bit of money on the side while staying completely anonymous. That was until they started to sell our data. " +
             "And not just to anyone. To the government. One by one, we started getting picked off by any agency you can name: FBI, CIA, MI6, SAS. This has continued to this day. I'm writing this from an internet Café with a VPN to make sure " + 
-            "I don't fall victim either. You have to finish this once and for all. Delete the network that has caused us all our misery. Without you doing this, the hackers of the world will cease to exist in their current form." 
+            "I don't fall victim either. You have to finish this once and for all. Delete the network that has caused us all our misery. Without you doing this, the hackers of the world will cease to exist in their current form." +
+            "\n\nSubmit this quest and start hacking!"
         },
         end: {
             text: "Good luck, we are relying on you!",
