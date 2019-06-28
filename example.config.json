@@ -2,7 +2,7 @@
     "token": "TOKENHERE",
     "connectionString": "mongodb://localhost:27017/circl",
     "prefix": "$",
-    "webviewPort": 80,
+    "port": 80,
     "host": "example.com",
     "avatar": "https://cdn.discordapp.com/avatars/591943845743165469/50283b7b69b2e767afa51f930563ff5d.webp?size=256"
 }
