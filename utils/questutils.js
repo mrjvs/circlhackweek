@@ -59,7 +59,7 @@ async function checkQuestGoal(userId, channel) {
     } else if (endCondition.type === "change") {
         const server = (await db.serverModel.find({ip: serverIp }))[0];
         const file = fileUtils.explorePath(server.files, fileUtils.splitPath(path.join(endCondition.file)), "files");
-        if (file !== false && file.contents === endCondition.newvalue) {
+        if (file !== false && file.contents === endCondition.newValue) {
             return await endQuest(user, quests.questList[user.activeQuest], channel);
         }
     }

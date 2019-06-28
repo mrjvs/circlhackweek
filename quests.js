@@ -503,6 +503,128 @@ const questServers = {
                 { portNumber: 22, portType: "ftp"}
             ]
         }
+    },
+    "circlmediaproxy": {
+        name: "Circl - Media Proxy",
+        fileSystem: {
+            "/bin/runescape.exe": constants.exe_codes.runescape,
+            "/bin/javaw.exe": constants.exe_codes.java,
+            "/logs": false,
+            "/home/collecting_data.txt": "This is the best way to collect data ever :D. Many hackers are on this network trying to become better hackers and they all basically give their data for free xD",
+            "/home/passwords": false,
+            "/sys/debian.bin": "011100110111100101101110011101000110000101111000001000000110010101110010011100100110111101110010001110100010000001110011011110010111001101110100011001010110110101100100001000000110111001101111011101000010000001100100011001010110011001101001011011100110010101100100",
+        },
+        ports: {
+            requiredAmount: 4,
+            portList: [
+                { portNumber: 1433, portType: "sql"},
+                { portNumber: 22, portType: "ftp"},
+                { portNumber: 21, portType: "ssh"},
+                { portNumber: 80, portType: "web"}
+            ]
+        }
+    },
+    "circlbackupweb": {
+        name: "Circl - Backup webserver",
+        type: "web",
+        fileSystem: {
+            "/bin/circl_tracker.exe": constants.exe_codes.tracker,
+            "/bin/javaw.exe": constants.exe_codes.java,
+            "/logs/manual_tracker_placement": "Manually planted tracker on ^networkabuser^",
+            "/home/circl_history.txt": "Circl was orginally made to be a social media for hackers but lowkey turned into a dataseller lol",
+            "/home/RE-circl_history.txt": "Are you planning on posting random facts on every server?? Quit it man.",
+            "/home/RE-RE-circl_history.txt": "fuck off",
+            "/home/other/forgodsake.txt": "You guys are supposed to know the ip to the router. here it is and dont bother me again: ^circlrouter^",
+            "/sys/debian.bin": "011100110111100101101110011101000110000101111000001000000110010101110010011100100110111101110010001110100010000001110011011110010111001101110100011001010110110101100100001000000110111001101111011101000010000001100100011001010110011001101001011011100110010101100100",
+            "/public/index.html": "<h1>Circl hacking network</h1><p>Invite only</p>"
+        },
+        ports: {
+            requiredAmount: 4,
+            portList: [
+                { portNumber: 1433, portType: "sql"},
+                { portNumber: 22, portType: "ftp"},
+                { portNumber: 21, portType: "ssh"},
+                { portNumber: 80, portType: "web"}
+            ]
+        }
+    },
+    "circlrouter": {
+        name: "Circl - Staff Router",
+        fileSystem: {
+            "/bin/run.exe": constants.exe_codes.run,
+            "/log": false,
+            "/sys/firewall.rules": "whitelist:\n    local.*\n\nreverse_proxy: true",
+            "/sys/debian.bin": "011100110111100101101110011101000110000101111000001000000110010101110010011100100110111101110010001110100010000001110011011110010111001101110100011001010110110101100100001000000110111001101111011101000010000001100100011001010110011001101001011011100110010101100100",
+        },
+        ports: {
+            requiredAmount: 2,
+            portList: [
+                { portNumber: 21, portType: "ssh"},
+                { portNumber: 80, portType: "web"}
+            ]
+        }
+    },
+    "circldocs": {
+        name: "Circl - Documentation",
+        fileSystem: {
+            "/bin/sticky_notes.exe": constants.exe_codes.sticky,
+            "/bin/mongodbcorrupt.exe": constants.exe_codes.mongo,
+            "/log/blog.txt": "This server is to document the entirety of the code. but they moved everything to the code itself so this server is now empty. :(",
+            "/sys/boot.sh": "cd *",
+            "/home": false,
+            "/sys/debian.bin": "011100110111100101101110011101000110000101111000001000000110010101110010011100100110111101110010001110100010000001110011011110010111001101110100011001010110110101100100001000000110111001101111011101000010000001100100011001010110011001101001011011100110010101100100",
+        },
+        ports: {
+            requiredAmount: 3,
+            portList: [
+                { portNumber: 21, portType: "ssh"},
+                { portNumber: 1433, portType: "sql"},
+                { portNumber: 22, portType: "ftp"}
+            ]
+        },
+        linked: [
+            "circlstaff"
+        ]
+    },
+    "circlstaff": {
+        name: "Circl - Staff Network",
+        fileSystem: {
+            "/bin/eliteporthack.exe": constants.exe_codes.eliteporthack,
+            "/home/about_eliteporthack.txt": "Elite porthack is a special tool developed for Circl Staff, It can hack any server. Use it with caution.",
+            "/home/slack/introduction.txt": "Hey guys, I'm now a part of your team :). I hope we can become a great cohesive bundle of amazing people xD. Contact me if wanna chat!\n\n    - Tressa",
+            "/home/slack/RE-introduction.txt": "Go fuck yourself",
+            "/home/slack/RE-RE-introduction.txt": "Uhm, I thought this was a nice team? I think I am misinformed\n\n    - tressa",
+            "/home/slack/RE-RE-RE-introduction.txt": "Look, we are a bunch of nerds doing remote jobs for this. Don't expect nice people, We are all introverts anyway. Now bugger off.",
+            "/home/slack/RE-RE-RE-RE-introduction.txt": "oh...",
+            "/logs": false,
+            "/sys/debian.bin": "011100110111100101101110011101000110000101111000001000000110010101110010011100100110111101110010001110100010000001110011011110010111001101110100011001010110110101100100001000000110111001101111011101000010000001100100011001010110011001101001011011100110010101100100"
+        },
+        ports: {
+            requiredAmount: 2,
+            portList: [
+                { portNumber: 21, portType: "ssh"},
+                { portNumber: 27017, portType: "mongodb"}
+            ]
+        },
+        linked: [
+            "circlmain"
+        ]
+    },
+    "circlmain": {
+        name: "Circl - Main Server",
+        fileSystem: {
+            "/circl_controls.exe": constants.exe_codes.end,
+        },
+        ports: {
+            requiredAmount: 99,
+            portList: [
+                { portNumber: 51, portType: "vseg"},
+                { portNumber: 6324, portType: "adg"},
+                { portNumber: 503, portType: "fsg"},
+                { portNumber: 150, portType: "gsdf"},
+                { portNumber: 1, portType: "gbs"}
+            ]
+        }
     }
 }
 
@@ -662,7 +784,7 @@ const questList = [
             condition: {
                 type: "change",
                 file: "/home/speakers.config",
-                newvalue: "volume: 3",
+                newValue: "volume: 3",
                 server: "localcityspeakers"
 
             }
@@ -680,7 +802,7 @@ const questList = [
             condition: {
                 type: "change",
                 file: "/sys/speed.config",
-                newvalue: "speed=10",
+                newValue: "speed=10",
                 server: "networkabuser"
             }
         }
@@ -728,6 +850,112 @@ const questList = [
                 value: ["circl"]
             }
         }
+    },
+    { // quest 11 - team bad
+
+    }, 
+    { // quest 12 - team bad
+
+    },
+    { // quest 13 - team bad
+
+    },
+    { // quest 14 - team bad
+
+    },
+    { // quest 15 - team bad
+
+    },
+    { // quest 16 - team prank
+
+    }, 
+    { // quest 17 - team prank
+
+    },
+    { // quest 18 - team prank
+
+    },
+    { // quest 19 - team prank
+
+    },
+    { // quest 20 - team prank
+
+    },
+    { // quest 21 - team circl - explaination
+        name: "Why Circl has to go",
+        description: "It's b"
+    },
+    { // quest 22 - team circl - Circl media proxy
+        name: "Media disruption",
+        description: "Disable Circl's media proxy",
+        start: {
+            text: "Circl have been disributing dodgy media for years, time to put a stop to that!",
+            linkedServerKey: "circlmediaproxy"
+        },
+        required: [
+            21
+        ],
+        end: {
+            text: "You got them, the server is down!",
+            condition: {
+                type: "delete",
+                value: questServers.circlmediaproxy["/proxy/program.bin"],
+                server: "circlmediaproxy"
+            }
+        }
+    }, 
+    { // quest 23 - team circl - Backup webserver
+        name: "Backups? Who needs backups?",
+        description: "Disable Circl's backup server to make sure Circl cannot recover from an attack",
+        start: {
+            text: "Circl definitely don't! Let's make sure that when they go down, they stay down.",
+            linkedServerKey: "circlbackupweb"
+        },
+        required: [
+            21
+        ],
+        end: {
+            text: "Good job. Now when their servers die, so will Circl!"
+            condition: {
+                type: "delete",
+                value: questServers.circlbackup["/public/index.html"],
+                server: "circlbackupweb"
+            }
+        }
+    },
+    { // quest 24 - team circl - blacklist internal ips
+        name: "\"Accidentally\" locking everyone out",
+        description: "Add the staff to the blacklist to keep them out of our business",
+        start: {
+            text: "Even though most of the staff are on holiday right now, we need to make sure none of them interfer with our fun. Make sure that none of them can connect by editing the firewall config `blacklist: local.*`!"
+        },
+        required: [
+            21,
+            23
+        ],
+        end: {
+            text: "Great; the staff are now permanently locked out of their own system. Looks like they'll have to use their \"hacking skills\" to get back in."
+            condition: {
+                type: "change",
+                file: "/sys/firewall.rules",
+                newValue: "blacklist: local.*",
+                server: "circlrouter"
+            }
+        }
+    },
+    { // quest 25 - team circl
+        name: "The final exe"
+        description: "Destroy Circl once and for all!"
+        start: {
+            text: "Here's the link to the main server, make sure to run `self_destruct.exe` to take them down. Don't run anything else!",
+            linkedServerKey: "circlmain"
+        },
+        required: [
+            21,
+            22,
+            23,
+            24
+        ]
     }
 ];
 
