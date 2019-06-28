@@ -16,9 +16,9 @@ If you want to see this in action, join [this discord server](https://discord.gg
  - run `$signup` in any channel/dm to start
 
 ## screenshots
-<img width="200" alt="screenshot1" src="https://i.imgur.com/1NOwpMd.png">
-<img width="200" alt="screenshot2" src="https://i.imgur.com/ZAvJjo5.png">
-<img width="200" alt="screenshot3" src="https://i.imgur.com/PTM3QFm.png">
+<img width="2000" alt="screenshot1" src="https://i.imgur.com/1NOwpMd.png">
+<img width="2000" alt="screenshot2" src="https://i.imgur.com/ZAvJjo5.png">
+<img width="2000" alt="screenshot3" src="https://i.imgur.com/PTM3QFm.png">
 
 
 ## technical
