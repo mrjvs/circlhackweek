@@ -3,7 +3,7 @@ const embedUtils = require("../utils/embedutils.js");
 const constants = require("../constants.js");
 const quests = require('../quests.js');
 const randomString = require("randomstring");
-const questUtils = require('../utils/questUtils.js');
+const questUtils = require('../utils/questutils.js');
 const config = require("../config.json");
 
 module.exports = {
