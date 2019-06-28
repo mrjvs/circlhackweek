@@ -40,7 +40,7 @@ module.exports = {
             return message.channel.send(embedUtils.sendError(`${finalPath}: cannot execute binary file`));
         }
         
-        const user = (await db.serverModel.find({userId: message.author.id}))[0];
+        const user = (await db.userModel.find({userId: message.author.id}))[0];
 
         // run code from file
         args.shift();

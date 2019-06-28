@@ -17,19 +17,23 @@ const teams = {
         name: "Bad hackers",
         description: "this is a description of a team bad",
         quests: [
-            8,
-            9
+            11,
+            12,
+            13,
+            14,
+            15
         ]
-    },
-    prank: {
-        name: "Pranksters",
-        description: "this is a description of a team prank",
-        quests: []
     },
     circl: {
         name: "Circl Main Team",
         description: "haha yes",
-        quests: []
+        quests: [
+            21,
+            22,
+            23,
+            24,
+            25
+        ]
     }
 }
 
@@ -87,14 +91,19 @@ const newUserFS = [
 const questServers = {
     "p0server": {
         name: "Node-006",
-        fileSystem: {},
+        fileSystem: {
+            "/home/haha.txt": "So in the end you finally still decided to hack me?\nThats quite funny tbh. I knew from the start that you would be able to defeat circl and I really hoped you would. So thanks in advance :)"
+        },
         ports: {
             requiredAmount: 7,
             portList: [
                 { portNumber: 21, portType: "ssh" },
                 { portNumber: 27017, portType: "mongodb" }
             ]
-        }
+        },
+        linked: [
+            "circlstaff"
+        ]
     },
     "tutorial1": {
         name: "SoftwareBytes inc.",
@@ -105,7 +114,7 @@ const questServers = {
             "/home/new_file(2).txt": "cool games: \n - Celeste\n - Hollow knight (Can't wait for the sequel)",
             "/sys/windows.bin": "01001101011000010110001100100000011010010111001100100000011000100110010101110100011101000110010101110010",
             "/sys/desktop.ini": "[desktop]\nbin: false",
-            "/logs/removed_file.txt": "IP has deleted file"
+            "/logs/removed_file.txt": "^p0server^ has deleted file"
         },
         ports: {
             requiredAmount: 0,
@@ -513,6 +522,7 @@ const questServers = {
             "/home/collecting_data.txt": "This is the best way to collect data ever :D. Many hackers are on this network trying to become better hackers and they all basically give their data for free xD",
             "/home/passwords": false,
             "/sys/debian.bin": "011100110111100101101110011101000110000101111000001000000110010101110010011100100110111101110010001110100010000001110011011110010111001101110100011001010110110101100100001000000110111001101111011101000010000001100100011001010110011001101001011011100110010101100100",
+            "/proxy/program.bin": "0100001101001001010100100100001101001100001000000100110101000101010001000100100101000001001000000101000001010010010011110101100001011001001000000010111000101110011001100111001100110100001011100010111001100110010100110011010100110011001011100010111001110011"
         },
         ports: {
             requiredAmount: 4,
@@ -536,7 +546,7 @@ const questServers = {
             "/home/RE-RE-circl_history.txt": "fuck off",
             "/home/other/forgodsake.txt": "You guys are supposed to know the ip to the router. here it is and dont bother me again: ^circlrouter^",
             "/sys/debian.bin": "011100110111100101101110011101000110000101111000001000000110010101110010011100100110111101110010001110100010000001110011011110010111001101110100011001010110110101100100001000000110111001101111011101000010000001100100011001010110011001101001011011100110010101100100",
-            "/public/index.html": "<h1>Circl hacking network</h1><p>Invite only</p>"
+            "/public/index.html": "<h1>Circl hacking network</h1><p>Invite only</p>",
         },
         ports: {
             requiredAmount: 4,
@@ -623,6 +633,158 @@ const questServers = {
                 { portNumber: 503, portType: "fsg"},
                 { portNumber: 150, portType: "gsdf"},
                 { portNumber: 1, portType: "gbs"}
+            ]
+        }
+    },
+    "bankwebsite": { // TODO add file system stuff
+        name: "Bank of England - Website",
+        type: "web",
+        fileSystem: {},
+        ports: {
+            requiredAmount: 2,
+            portList: [
+                { portNumber: 21, portType: "ssh"},
+                { portNumber: 80, portType: "web"},
+            ]
+        },
+        linked: [
+            "bank"
+        ]
+    },
+    "bank": { // TODO add file system stuff
+        name: "Back of England - Vault",
+        fileSystem: {
+            "/home/money.csv": "...",
+        },
+        ports: {
+            requiredAmount: 0,
+            portList: [
+                { portNumber: 21, portType: "ssh"},
+                { portNumber: 99, portType: "backdoor"}
+            ]
+        },
+    },
+    "foodcompany": { // TODO add file system stuff
+        name: "FoodForU",
+        type: "web",
+        fileSystem: {
+            "/public/index.html": "<h1>food</h1>",
+        },
+        ports: {
+            requiredAmount: 2,
+            portList: [
+                { portNumber: 21, portType: "ssh"},
+                { portNumber: 80, portType: "web"},
+            ]
+        },
+    },
+    "nsamain": { // TODO add file system stuff
+        name: "NSA - Mainframe",
+        fileSystem: {
+            "/bin/sqlbreak.exe": constants.exe_codes.sql,
+        },
+        ports: {
+            requiredAmount: 2,
+            portList: [
+                { portNumber: 21, portType: "ssh"},
+                { portNumber: 80, portType: "web"},
+            ]
+        },
+        linked: [
+            "nsadata"
+        ]
+    },
+    "nsadata": { // TODO add file system stuff
+        name: "NSA - Data Storage",
+        fileSystem: {
+            "/home/tracked_people.bin": "0100011101101111011011110110010000100000011101000111001001111001001011000010000001110100011010000110010101110010011001010010000001101001011100110010000001101110011011110111010001101000011010010110111001100111001000000110100001100101011100100110010100100000011101000110100001101111",
+        },
+        ports: {
+            requiredAmount: 1,
+            portList: [
+                { portNumber: 1433, portType: "sql"}
+            ]
+        },
+    },
+    "facebooknode": { // TODO add file system stuff
+        name: "Facebook - Node 001",
+        fileSystem: {},
+        ports: {
+            requiredAmount: 3,
+            portList: [
+                { portNumber: 1433, portType: "sql"},
+                { portNumber: 21, portType: "ssh"},
+                { portNumber: 80, portType: "web"},
+            ]
+        },
+        linked: [
+            "facebookrouter"
+        ]
+    },
+    "facebookrouter": { // TODO add file system stuff
+        name: "Facebook - Main Router",
+        fileSystem: {
+            "/bin/ftpoverload.exe": constants.exe_codes.ftp
+        },
+        ports: {
+            requiredAmount: 3,
+            portList: [
+                { portNumber: 1433, portType: "sql"},
+                { portNumber: 21, portType: "ssh"},
+                { portNumber: 80, portType: "web"},
+            ]
+        },
+        linked: [
+            "facebookaccounts"
+        ]
+    },
+    "facebookaccounts": { // TODO add file system stuff
+        name: "Facebook - Account Storage",
+        fileSystem: {
+            "/home/user_accounts.db": "0111010001101000011010010111001100100000011010010111001100100000011011100110111101110100001000000111000001101100011000010110100101101110011101000110010101111000011101000010110000100000011000100110010101110100011101000110010101110010001000000111010001101000011000010110111000100000011100100110010101100001011011000010000001100110011000010110001101100101011000100110111101101111011010110010000001001001001000000110011101110101011001010111001101110011"
+        },
+        ports: {
+            requiredAmount: 2,
+            portList: [
+                { portNumber: 22, portType: "ftp"},
+                { portNumber: 21, portType: "ssh"}
+            ]
+        },
+    },
+    "fbiwebsite": { // TODO add file system stuff
+        name: "FBI - Website",
+        type: "web",
+        fileSystem: {
+            "/public/index.html": "<h1>FBI</h1><p>Open up!</p>",
+        },
+        ports: {
+            requiredAmount: 4,
+            portList: [
+                { portNumber: 22, portType: "ftp"},
+                { portNumber: 21, portType: "ssh"},
+                { portNumber: 1433, portType: "sql"},
+                { portNumber: 80, portType: "web"},
+                { portNumber: 99, portType: "backdoor"}
+            ]
+        },
+        linked: [
+            "fbimain"
+        ]
+    },
+    "fbimain": { // TODO add file system stuff
+        name: "FBI - Main Server",
+        fileSystem: {
+            "/bin/startserver.exe": constants.exe_codes.fbistart,
+            "/bin/rebootserver.exe": constants.exe_codes.fbireboot,
+            "/bin/killserver.exe": constants.exe_codes.fbikill,
+        },
+        ports: {
+            requiredAmount: 3,
+            portList: [
+                { portNumber: 22, portType: "ftp"},
+                { portNumber: 21, portType: "ssh"},
+                { portNumber: 1433, portType: "sql"},
+                { portNumber: 80, portType: "web"}
             ]
         }
     }
@@ -747,8 +909,7 @@ const questList = [
                 type: "team",
                 value: [
                     "nice",
-                    "bad",
-                    "prank"
+                    "bad"
                 ]
             },
             tutorial: embedUtils.sendTutorialTeam
@@ -851,40 +1012,98 @@ const questList = [
         }
     },
     { // quest 11 - team bad
-
+        name: "Money go bye bye",
+        description: "Excess money removal",
+        start: {
+            text: "I was told you would do anything; not caring about consequences. Are you the right person for the job? The bank has too much money. They take everyone's money and store it for themselves! Delete the banks virtual store of money; that should mess them up!",
+            linkedServerKey: "bank"
+        },
+        end: {
+            text: "Thanks! Now my ex's money will be all gone. Excellent...",
+            condition: {
+                type: "delete",
+                value: questServers.bank.fileSystem["/home/money.csv"],
+                server: "bank"
+            }
+        }
     }, 
     { // quest 12 - team bad
-
+        name: "Food to go?",
+        description: "The client had a fallout with another company, your job is to take down the company's webserver",
+        start: {
+            text: "Right so, I had a *really bad* falling out with my mate so I want to make him take me seriously. Here's his server, get in and take the website offline!",
+            linkedServerKey: "foodcompany"
+        },
+        end: {
+            text: "Thanks for nothing! He's now reported me to the police. Can't believe you hackers sometimes; you never know when to stop!",
+            condition: {
+                type: "delete",
+                value: questServers.foodcompany.fileSystem["/public/index.html"],
+                server: "foodcompany"
+            }
+        }
     },
     { // quest 13 - team bad
-
+        name: "All the data",
+        description: "Retrieving data from the NSA; simple enough?",
+        start: {
+            text: "I need a piece of confidential information from the NSA. I think this is the server you need. ",
+            linkedServerKey: "nsamain"
+        },
+        end: {
+            text: "GODDAMMIT there was a tracker in the file. I'm meant to be texting my lawyer but instead I wanted to let you know how much you sucked!",
+            condition: {
+                type: "download",
+                server: "nsadata"
+            }
+        }
     },
     { // quest 14 - team bad
-
+        name: "Employee information",
+        description: "TODO",
+        start: {
+            text: "My client wants a background check on an employee. Could you download the facebook account database so I can have more information on them? Their profile is set to private...",
+            linkedServerKey: "facebooknode"
+        },
+        required: [
+            11,
+            12,
+            13
+        ],
+        end: {
+            text: "w o a h, it's a good thing you did this. My client will be firing the employee shortly and contacting the police. Good work!",
+            condition: {
+                type: "download",
+                server: "facebookaccounts"
+            }
+        }
     },
     { // quest 15 - team bad
-
+        name: "Innocent destruction",
+        description: "Just shutting down a random server; barely malicious really.",
+        start: {
+            text: "Hey there, I would like to shutdown this server. Permanently. Can you make it happen?",
+            linkedServerKey: "fbiwebsite"
+        },
+        required: [
+            14
+        ],
+        end: {
+            text: "Perfect! Now they won't be able to spy on my basement anymore.",
+            next: {
+                type: "team",
+                value: [
+                    "circl"
+                ]
+            }
+        }
     },
-    { // quest 16 - team prank
-
-    }, 
-    { // quest 17 - team prank
-
-    },
-    { // quest 18 - team prank
-
-    },
-    { // quest 19 - team prank
-
-    },
-    { // quest 20 - team prank
-
-    },
+    {}, {}, {}, {}, {}, // 16-20 - these were pranksters
     { // quest 21 - team circl - explaination
         name: "Why Circl has to go",
         description: "It's best if you read this...",
         start: {
-            text: ""
+            text: "Circl started off in 2018 as a "
         },
         end: {
             text: "Time to go make some trouble!",
@@ -923,10 +1142,10 @@ const questList = [
             21
         ],
         end: {
-            text: "Good job. Now when their servers die, so will Circl!"
+            text: "Good job. Now when their servers die, so will Circl!",
             condition: {
                 type: "delete",
-                value: questServers.circlbackup["/public/index.html"],
+                value: questServers.circlbackupweb["/public/index.html"],
                 server: "circlbackupweb"
             }
         }
@@ -942,7 +1161,7 @@ const questList = [
             23
         ],
         end: {
-            text: "Great; the staff are now permanently locked out of their own system. Looks like they'll have to use their \"hacking skills\" to get back in."
+            text: "Great; the staff are now permanently locked out of their own system. Looks like they'll have to use their \"hacking skills\" to get back in.",
             condition: {
                 type: "change",
                 file: "/sys/firewall.rules",
@@ -952,11 +1171,11 @@ const questList = [
         }
     },
     { // quest 25 - team circl
-        name: "The final exe"
-        description: "Destroy Circl once and for all!"
+        name: "The final exe",
+        description: "Destroy Circl once and for all!",
         start: {
-            text: "Here's the link to the main server, make sure to run `self_destruct.exe` to take them down. Don't run anything else!",
-            linkedServerKey: "circlmain"
+            text: "Here's the link to the documentation server, you should be able to get to the main server from that. Make sure to run `self_destruct.exe` to take them down. Don't run anything else!",
+            linkedServerKey: "circldocs"
         },
         required: [
             21,

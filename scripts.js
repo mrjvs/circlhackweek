@@ -2,7 +2,9 @@
 const stateMachine = require('./statemachine.js');
 const constants = require('./constants.js');
 const embedUtils = require('./utils/embedutils.js');
+const questUtils = require('./utils/questutils.js');
 const utils = require('./utils/utils.js');
+const db = require('./db.js');
 
 module.exports = [
     {
@@ -111,6 +113,24 @@ module.exports = [
         }
     },
     {
+        code: constants.exe_codes.run, // run???
+        execute: (user, server, message, args) => {
+            return message.channel.send(embedUtils.sendInfo("I preffer jogging tbh"));
+        }
+    },
+    {
+        code: constants.exe_codes.fbistart, // fbi start
+        execute: (user, server, message, args) => {
+            return message.channel.send(embedUtils.sendError("Failed to start"));
+        }
+    },
+    {
+        code: constants.exe_codes.fbireboot, // fbi reboot
+        execute: (user, server, message, args) => {
+            return message.channel.send(embedUtils.sendSuccess("Reboot successfull"));
+        }
+    },
+    {
         code: constants.exe_codes.runescape, // runescape
         execute: (user, server, message, args) => {
             return message.channel.send(embedUtils.sendError("ERROR: Missing GPU, Missing CPU, Missing PSU"));
@@ -129,13 +149,25 @@ module.exports = [
         }
     },
     {
+        code: constants.exe_codes.mongo, // mongo crack
+        execute: (user, server, message, args) => {
+            return utils.openPort(args, server, message.channel, message.author.id, "mongodb", "MongoDB Database");
+        }
+    },
+    {
+        code: constants.exe_codes.tracker, // tracker crack
+        execute: (user, server, message, args) => {
+            return message.channel.send(embedUtils.sendInfo("Tracker planted!"));
+        }
+    },
+    {
         code: constants.exe_codes.web, // web scraper hack
         execute: (user, server, message, args) => {
             return utils.openPort(args, server, message.channel, message.author.id, "web", "Web Server"); 
         }
     },
     {
-        code: constants.exe_codes.devporthack, // dev command, hacks everything
+        code: constants.exe_codes.eliteporthack, // elite port hack, hacks everything regardless of open ports
         execute: (user, server, message, args) => {
             const openedPorts = stateMachine.getState(message.author.id, 'openedPorts');
             stateMachine.setState(message.author.id, "loginState", {
@@ -155,7 +187,40 @@ module.exports = [
                     return message.channel.send(embedUtils.sendError("Could not save your user data! :("));
                 }
             });
-            return message.channel.send(embedUtils.sendSuccess("Cheated successfully"));
+            return message.channel.send({
+                embed: {
+                    title: "Admin username and password acquired! They've been added to your keychain.",
+                    description: `Username: \`${server.credentials.user}\`
+                    Password: \`${"*".repeat(server.credentials.user.length)}\``,
+                    color: constants.embed_colors.success
+                }
+            });
+        }
+    },
+    {
+        code: constants.exe_codes.fbikill, // deletes fbi server, disconnects user and completes quest
+        execute: async (user, server, message, args) => {
+            
+            // delete fbi server
+            let result = await db.serverModel.deleteMany({ip: user.questServerList.fbimain});
+
+            if (result.deletedCount === 0) {
+                return message.channel.send(embedUtils.sendError("Server has not been killed"));
+            }
+
+            // disconnect server
+            const connectedServer = stateMachine.getState(message.author.id, "connectedServer");
+            stateMachine.clearState(message.author.id, "connectedServer");
+            message.channel.send(embedUtils.sendInfo(`Disconnected: ${connectedServer}`));
+
+            await questUtils.endQuest(user, user.activeQuest, message.channel);
+            return message.channel.send(embedUtils.sendSuccess("Server killed"));
+        }
+    },
+    {
+        code: constants.exe_codes.end, // triggers circl endings
+        execute: (user, server, message, args) => {
+            return message.channel.send(embedUtils.sendSuccess("didnt write it yet"));
         }
     }
 ];

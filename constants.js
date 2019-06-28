@@ -24,7 +24,13 @@ module.exports = {
         scan: "RUN15",
         worm: "RUN16",
         drugs: "RUN17",
-        devporthack: "DEV1"
+        eliteporthack: "RUN18",
+        fbistart: "RUN19",
+        fbireboot: "RUN20",
+        fbikill: "RUN21",
+        run: "RUN22",
+        tracker: "RUN23",
+        mongo: "RUN24"
     },
     response_text: {
         invalid_path: "No such file or directory",

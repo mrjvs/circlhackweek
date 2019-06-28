@@ -40,7 +40,7 @@ module.exports = {
         out += "* .\n"
         out += "* ..\n";
         for (let i = 0; i < file.contents.length; i++) {
-            out += "* " + file.contents[i].name + "\n";
+            out += "* " + (file.contents[i].type === "dir" ? "/" : "") + file.contents[i].name + "\n";
         }
         out += "```";
         message.channel.send({
