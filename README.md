@@ -17,7 +17,7 @@ Check out the official [Discord Hackweek server](https://discord.gg/hackweek) to
  - [taydev](https://github.com/taydev)
 
 ## Behind the scenes: how it works
-There's alot packed in this bot, but how does all of it actually work? Virtual servers power the concept, they contain all files and executables, have an authentication process and a working filesystem, all of that information gets stored in one big MongoDB, containing over *28 virtual servers* per user*! All changes are made realtime.
+There's alot packed in this bot, but how does all of it actually work? Virtual servers power the concept, they contain all files and executables, have an authentication process and a working filesystem, all of that information gets stored in one big MongoDB, containing over _28 virtual servers* per user_ ! All changes are made realtime.
 We have files that contain all methods imported by our frontend commands. Quests are separated in two sections: team based, and general quests. We have quests for two teams, Good/Bad with their own made quests. We have endings, but we won't spoil those. 
 
 
