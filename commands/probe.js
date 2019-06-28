@@ -33,7 +33,7 @@ module.exports = {
             let portName;
             if (ports[i].portType === "ssh") portName = "SSH protocol";
             else if (ports[i].portType === "sql") portName = "SQL database";
-            else if (ports[i].portType === "web") portName = "Http web";
+            else if (ports[i].portType === "web") portName = "HTTP web";
             else if (ports[i].portType === "mongodb") portName = "Mongodb database";
             else if (ports[i].portType === "ftp") portName = "FTP port";
             else if (ports[i].portType === "mc") portName = "Minecraft server";

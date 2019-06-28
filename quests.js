@@ -3,8 +3,8 @@ const embedUtils = require('./utils/embedutils.js');
 
 const teams = {
     nice: {
-        name: "Nice people",
-        description: "this is a description of a team nice",
+        name: "White hat hackers",
+        description: "The people who do good things for humanity",
         quests: [
             6,
             7,
@@ -14,8 +14,8 @@ const teams = {
         ]
     },
     bad: {
-        name: "Bad hackers",
-        description: "this is a description of a team bad",
+        name: "Black crows",
+        description: "What do think this is?",
         quests: [
             11,
             12,
@@ -26,7 +26,7 @@ const teams = {
     },
     circl: {
         name: "Circl Main Team",
-        description: "haha yes",
+        description: "Time to take down the big guys",
         quests: [
             21,
             22,
@@ -179,7 +179,6 @@ const questServers = {
         type: "web",
         fileSystem: {
             "/bin": false,
-            "/home/hey.txt": "Download this file if you want me to contact you. Cya soon.",
             "/sys": false,
             "/logs": false,
             "/public/index.html": `<h1>Do you need someone doxxed?</h1>
@@ -245,7 +244,6 @@ const questServers = {
             "/bin/javaw.exe": constants.exe_codes.java,
             "/home/comehere/yeshere/no.txt": "Wrong way",
             "/home/comehere/nothere/hahaitshere/empty.txt": "This server was empty so I thought I'd add something.",
-            "/home/RE-scrubs.txt": "Can admins clean this up please?",
             "/sys/ubuntu.bin": "01101000011011110111011100100000011101000110111100100000011001010111100001101001011101000010000001110110011010010110110100111111",
             "/logs": false
         },
@@ -687,7 +685,14 @@ const questServers = {
             "/bin/clock.exe": constants.exe_codes.clock,
             "/home/recipes.txt": "Good sushi roll:\nhttps://makemysushi.com/Recipes/how-to-make-spicy-tuna-roll",
             "/logs": false,
-            "/public/index.html": "<h1>food</h1>",
+            "/public/index.html": 
+            `<h1>FoodForU</h1>
+            <p>We sell lots of good food!</p>
+            <ul>
+                <li>Sushi</li>
+                <li>Sushi rolls</li>
+                <li>Sushi chefs</li>
+            </ul>`,
             "/sys/debian.bin": "011100110111100101101110011101000110000101111000001000000110010101110010011100100110111101110010001110100010000001110011011110010111001101110100011001010110110101100100001000000110111001101111011101000010000001100100011001010110011001101001011011100110010101100100"
         },
         ports: {
@@ -1091,7 +1096,7 @@ const questList = [
         name: "All the data",
         description: "Retrieving data from the NSA; simple enough?",
         start: {
-            text: "I need a piece of confidential information from the NSA. I think this is the server you need. ",
+            text: "I need the list of tracked people from the NSA data servers. I think this is the server you need. ",
             linkedServerKey: "nsamain"
         },
         end: {
@@ -1144,13 +1149,15 @@ const questList = [
     },
     {}, {}, {}, {}, {}, // 16-20 - these were pranksters
     { // quest 21 - team circl - explaination
-        name: "Why Circl has to go",
+        name: "We need your help",
         description: "It's best if you read this...",
         start: {
-            text: "Circl started off in 2018 as a "
+            text: "Circl started off in 2018 as a social network for hackers. It was great and allowed all of us to earn a bit of money on the side while staying completely anonymous. That was until they started to sell our data. " +
+            "And not just to anyone. To the government. One by one, we started getting picked off by any agency you can name: FBI, CIA, MI6, SAS. This has continued to this day. I'm writing this from an internet Café with a VPN to make sure " + 
+            "I don't fall victim either. You have to finish this once and for all. Delete the network that has caused us all our misery. Without you doing this, the hackers of the world will cease to exist in their current form." 
         },
         end: {
-            text: "Time to go make some trouble!",
+            text: "Good luck, we are relying on you!",
             condition: {
                 type: "progress"
             }
@@ -1198,7 +1205,7 @@ const questList = [
         name: "\"Accidentally\" locking everyone out",
         description: "Add the staff to the blacklist to keep them out of our business",
         start: {
-            text: "Even though most of the staff are on holiday right now, we need to make sure none of them interfer with our fun. Make sure that none of them can connect by editing the firewall config `blacklist: local.*`!"
+            text: "Even though most of the staff are on holiday right now, we need to make sure none of them interfer with our fun. Make sure that none of them can connect by editing the firewall config `blacklist: local.*`! You will need to find the IP for the router in another one of Circl's servers. "
         },
         required: [
             21,
@@ -1218,7 +1225,7 @@ const questList = [
         name: "The final exe",
         description: "Destroy Circl once and for all!",
         start: {
-            text: "Here's the link to the documentation server, you should be able to get to the main server from that. Make sure to run `self_destruct.exe` to take them down. Don't run anything else!",
+            text: "Here's the link to the documentation server, you should be able to get to the main server from that. Make sure to run `circl_selfdestruct.exe` to take them down. Don't run anything else!",
             linkedServerKey: "circldocs"
         },
         required: [

@@ -91,7 +91,7 @@ module.exports = {
 
                 if (endCondition && endCondition.type === "download") {
                     if (user.questServerList[endCondition.server] === connectedServer) {
-                        await questUtils.endQuest(user, quests.questList[user.activeQuest], message.channel);
+                        return await questUtils.endQuest(user, quests.questList[user.activeQuest], message.channel);
                     }
                 }
             }

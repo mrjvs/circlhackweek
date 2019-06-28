@@ -1,6 +1,8 @@
 // virtual executable files
 const stateMachine = require('./statemachine.js');
 const constants = require('./constants.js');
+const quests = require('./quests.js');
+const achievements = require('./achievements.js');
 const embedUtils = require('./utils/embedutils.js');
 const questUtils = require('./utils/questutils.js');
 const utils = require('./utils/utils.js');
@@ -54,6 +56,7 @@ module.exports = [
     {
         code: constants.exe_codes.clock, // clock
         execute: (user, server, message, args) => {
+            achievements.unlockAchievement(message.channel, message.author.id, "clock");
             return message.channel.send(embedUtils.sendInfo(`\`${new Date().toUTCString()}\``));
         }
     },
@@ -114,7 +117,7 @@ module.exports = [
     {
         code: constants.exe_codes.run, // run???
         execute: (user, server, message, args) => {
-            return message.channel.send(embedUtils.sendInfo("I preffer jogging tbh"));
+            return message.channel.send(embedUtils.sendInfo("I prefer jogging tbh"));
         }
     },
     {
@@ -233,7 +236,7 @@ module.exports = [
             stateMachine.clearState(message.author.id, "connectedServer");
             message.channel.send(embedUtils.sendInfo(`Disconnected: ${connectedServer}`));
 
-            await questUtils.endQuest(user, user.activeQuest, message.channel);
+            await questUtils.endQuest(user, quests.questList[user.activeQuest], message.channel);
             return message.channel.send(embedUtils.sendSuccess("Server killed"));
         }
     },
@@ -256,6 +259,7 @@ module.exports = [
 
             user.blocked = true;
             await user.save();
+            achievements.unlockAchievement(message.channel, message.author.id, "the-end");
         }
     },
     {
@@ -279,6 +283,7 @@ module.exports = [
 
             user.deleted = true;
             await user.save();
+            achievements.unlockAchievement(message.channel, message.author.id, "the-end");
         }
     }
 ];

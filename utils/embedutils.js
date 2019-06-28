@@ -37,7 +37,7 @@ function sendTutorialBasics() {
                 {
                     name: "File system",
                     value: "Our system emulates a file system on a normal computer. This means that in order to complete tasks, you may have " + 
-                    "to move around and modify the file system. Just like a Linux computer, you can use `$ls` and `$cd` to list the files" +
+                    "to move around and modify the file system. Just like a Linux computer, you can use `$ls` and `$cd` to list the files " +
                     "and change the directory you are currently in. You can also use `$rm` to remove files and `$cat` to view the contents of files."
                 },
                 {

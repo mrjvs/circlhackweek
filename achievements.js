@@ -18,9 +18,9 @@ const achievements = [
         "description": "Achieved when you complete the walkthrough quests."
     },
     {
-        "id": "halfway-there",
-        "name": "Woahhh, we're half-way there!",
-        "description": "Achieved when you complete half of the story."
+        "id": "clock",
+        "name": "Running almighty clock.exe",
+        "description": "Achieved when you run clock.exe"
     },
     {
         "id": "into-mainframe",
@@ -39,7 +39,7 @@ function getAchievementEmbed(id) {
     return {
         embed: {
             color: constants.embed_colors.success,
-            title: "Achieved unlocked: " + achievement.name,
+            title: "Achievement unlocked: " + achievement.name,
             description: achievement.description
         }
     }
